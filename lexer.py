@@ -9,13 +9,55 @@ tokens=[
 ]
 # Definición de las palabras reservadas
 reserved = {
-#TODO
+    #inicio - Enrique Zambrano
+    'if': 'IF', 
+    'else': 'ELSE', 
+    'elseif': 'ELSEIF', 
+    'while': 'WHILE', 
+    'do': 'DO',
+    'for': 'FOR', 
+    'foreach': 'FOREACH', 
+    'switch': 'SWITCH', 
+    'case': 'CASE', 
+    'default': 'DEFAULT',
+    'break': 'BREAK', 
+    'continue': 'CONTINUE', 
+    'return': 'RETURN', 
+    'function': 'FUNCTION',
+    'class': 'CLASS', 
+    'extends': 'EXTENDS', 
+    'implements': 'IMPLEMENTS', 
+    'public': 'PUBLIC',
+    'protected': 'PROTECTED', 
+    'private': 'PRIVATE', 
+    'static': 'STATIC', 
+    'const': 'CONST',
+    'var': 'VAR', 
+    'new': 'NEW', 
+    'try': 'TRY', 
+    'catch': 'CATCH', 
+    'finally': 'FINALLY', 
+    'throw': 'THROW'
+    #Fin - Enrique Zambrano
 }
 tokens += list(reserved.values())
 # Definición de los patrones de los tokens
-#TODO
 
-# Construcción del lexer
+#----------TODO pratt & Alejandro---------
+
+#Inicio - Enrique Zambrano
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    t.type = reserved.get(t.value, 'ID')
+    return t
+
+def t_COMMENT(t):
+    r'//.*|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|#.*'
+    pass  # Ignorar comentarios
+
+t_STRING  = r'\"([^\\\n]|(\\.))*?\"'
+#Fin - Enrique Zambrano
+
 lexer = lex.lex()
 
 # Función para realizar pruebas y generar logs
