@@ -5,8 +5,20 @@ import os
 #Poner aqui los tokens
 # Definición de los tokens
 tokens=[
-#TODO
+    #inicio - Alejandro Barrera
+    'VARIABLE',
+    'INTEGER',
+    'FLOAT',
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIVIDE',
+    'MOD',
+    'EXP'
+    #Fin - Alejandro Barrera
 ]
+
+
 # Definición de las palabras reservadas
 reserved = {
     #inicio - Enrique Zambrano
@@ -44,6 +56,30 @@ tokens += list(reserved.values())
 # Definición de los patrones de los tokens
 
 #----------TODO pratt & Alejandro---------
+
+#Inicio - Alejandro Barrera
+
+t_PLUS    = r'\+'
+t_MINUS   = r'-'
+t_TIMES   = r'\*'
+t_DIVIDE  = r'/'
+t_MOD = r'%'
+
+def t_VARIABLE(t):
+    r'[_a-zA-Z]\w*'
+    t.type = reserved.get(t.value, 'VARIABLE')
+    return t
+
+def t_FLOAT(t):
+    r'\d+\.(\d+)?'
+    t.value = float(t.value)
+    return t
+
+def t_INTEGER(t):
+    r'\d+'
+    t.value = int(t.value)    
+    return t
+#Fin - Alejandro Barrera
 
 #Inicio - Enrique Zambrano
 def t_ID(t):
