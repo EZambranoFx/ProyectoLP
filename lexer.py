@@ -2,10 +2,9 @@ import ply.lex as lex
 import datetime
 import os
 
-#Poner aqui los tokens
 # Definición de los tokens
-tokens=[
-    #inicio - Alejandro Barrera
+tokens = [
+    # inicio - Alejandro Barrera
     'VARIABLE',
     'INTEGER',
     'FLOAT',
@@ -14,14 +13,15 @@ tokens=[
     'TIMES',
     'DIVIDE',
     'MOD',
-    'EXP'
-    #Fin - Alejandro Barrera
+    'EXP',
+    'STRING',
+    'COMMENT'
+    # fin - Alejandro Barrera
 ]
-
 
 # Definición de las palabras reservadas
 reserved = {
-    #inicio - Enrique Zambrano
+    # inicio - Enrique Zambrano
     'if': 'IF', 
     'else': 'ELSE', 
     'elseif': 'ELSEIF', 
@@ -50,14 +50,16 @@ reserved = {
     'catch': 'CATCH', 
     'finally': 'FINALLY', 
     'throw': 'THROW'
-    #Fin - Enrique Zambrano
+    # fin - Enrique Zambrano
 }
+
 tokens += list(reserved.values())
+
 # Definición de los patrones de los tokens
 
-#----------TODO pratt & Alejandro---------
+# ----------TODO pratt & Alejandro---------
 
-#Inicio - Alejandro Barrera
+# Inicio - Alejandro Barrera
 
 t_PLUS    = r'\+'
 t_MINUS   = r'-'
@@ -79,21 +81,32 @@ def t_INTEGER(t):
     r'\d+'
     t.value = int(t.value)    
     return t
-#Fin - Alejandro Barrera
 
-#Inicio - Enrique Zambrano
+# fin - Alejandro Barrera
+
+# Inicio - Enrique Zambrano
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'ID')
     return t
 
 def t_COMMENT(t):
-    r'//.*|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|#.*'
+    r'//.*|/\*[^*]*\*+(?:[^/*][^*]*\*+)*/|\#.*'
     pass  # Ignorar comentarios
 
-t_STRING  = r'\"([^\\\n]|(\\.))*?\"'
-#Fin - Enrique Zambrano
+def t_STRING(t):
+    r'\"([^\\\n]|(\\.))*?\"'
+    t.type = 'STRING'
+    return t
 
+# fin - Enrique Zambrano
+
+# Regla para manejar errores
+def t_error(t):
+    print(f"Illegal character '{t.value[0]}'")
+    t.lexer.skip(1)
+
+# Construir el lexer
 lexer = lex.lex()
 
 # Función para realizar pruebas y generar logs
@@ -112,4 +125,10 @@ def test_lexer(data, username):
                 break
             log_file.write(f"{tok.type}: {tok.value} (line {tok.lineno})\n")
             print(f"{tok.type}: {tok.value} (line {tok.lineno})")
+
+data1 = '''
+$var1 = 10;
+$var2 = $var1 + 20;
+'''
+test_lexer(data1, "EZambranoFx")
 
