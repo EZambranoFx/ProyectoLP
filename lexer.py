@@ -55,6 +55,65 @@ reserved = {
 
 tokens += list(reserved.values())
 
+tokens += [
+    #inicio - Pratt Garcia
+    'NEWLINE',
+    'AND',
+    'OR',
+    'NOT',
+    'EQ',
+    'IDENTICAL',
+    'NE',
+    'NOT_IDENTICAL',
+    'LT',
+    'GT',
+    'LE',
+    'GE',
+    'LPAREN',
+    'RPAREN',
+    'LBRACE',
+    'RBRACE',
+    'LBRACKET',
+    'RBRACKET',
+    'SEMI',
+    'ERROR'
+    #Fin - Pratt Garcia
+]
+
+# Definición de los patrones de los tokens
+
+#----------TODO pratt & Alejandro---------
+
+#Inicio - Pratt Garcia
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_NOT = r'!'
+t_EQ = r'=='
+t_IDENTICAL = r'==='
+t_NE = r'!='
+t_NOT_IDENTICAL = r'!=='
+t_LT = r'<'
+t_GT = r'>'
+t_LE = r'<='
+t_GE = r'>='
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
+t_LBRACKET = r'\['
+t_RBRACKET = r'\]'
+t_SEMI = r';'
+
+
+def t_NEWLINE(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
+    return t
+
+t_ignore = ' \t'
+
+#Fin - Pratt Garcia
+
 # Definición de los patrones de los tokens
 
 # ----------TODO pratt & Alejandro---------
@@ -130,5 +189,11 @@ data1 = '''
 $var1 = 10;
 $var2 = $var1 + 20;
 '''
+
+data2 = '''
+&& || ! == === != !== < > <= >= ( ) { } [ ] ;
+'''
+
 test_lexer(data1, "EZambranoFx")
+test_lexer(data2, "PrattGarcia")
 

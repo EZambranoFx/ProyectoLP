@@ -1,0 +1,14 @@
+NEWLINE: 
+ (line 1)
+VARIABLE: var1 (line 2)
+INTEGER: 10 (line 2)
+SEMI: ; (line 2)
+NEWLINE: 
+ (line 2)
+VARIABLE: var2 (line 3)
+VARIABLE: var1 (line 3)
+PLUS: + (line 3)
+INTEGER: 20 (line 3)
+SEMI: ; (line 3)
+NEWLINE: 
+ (line 3)
