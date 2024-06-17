@@ -1,0 +1,360 @@
+NEWLINE: 
+ (line 1)
+LT: < (line 2)
+VARIABLE: php (line 2)
+NEWLINE: 
+ (line 2)
+NEWLINE: 
+
+ (line 3)
+VARIABLE: entero (line 5)
+INTEGER: 10 (line 5)
+SEMI: ; (line 5)
+NEWLINE: 
+
+ (line 5)
+VARIABLE: flotante (line 7)
+FLOAT: 3.14 (line 7)
+SEMI: ; (line 7)
+NEWLINE: 
+
+ (line 7)
+VARIABLE: cadena (line 9)
+STRING: "Hola" (line 9)
+SEMI: ; (line 9)
+NEWLINE: 
+
+ (line 9)
+VARIABLE: booleano (line 11)
+VARIABLE: true (line 11)
+SEMI: ; (line 11)
+NEWLINE: 
+
+ (line 11)
+NEWLINE: 
+
+ (line 13)
+VARIABLE: arreglo (line 15)
+LBRACKET: [ (line 15)
+INTEGER: 1 (line 15)
+INTEGER: 2 (line 15)
+INTEGER: 3 (line 15)
+RBRACKET: ] (line 15)
+SEMI: ; (line 15)
+NEWLINE: 
+
+ (line 15)
+NEWLINE: 
+
+ (line 17)
+CLASS: class (line 19)
+VARIABLE: MiClase (line 19)
+LBRACE: { (line 19)
+NEWLINE: 
+
+ (line 19)
+PUBLIC: public (line 21)
+VARIABLE: propiedad (line 21)
+STRING: "valor" (line 21)
+SEMI: ; (line 21)
+NEWLINE: 
+
+ (line 21)
+PUBLIC: public (line 23)
+FUNCTION: function (line 23)
+VARIABLE: metodo (line 23)
+LPAREN: ( (line 23)
+VARIABLE: param (line 23)
+RPAREN: ) (line 23)
+LBRACE: { (line 23)
+NEWLINE: 
+
+ (line 23)
+RETURN: return (line 25)
+VARIABLE: param (line 25)
+TIMES: * (line 25)
+INTEGER: 2 (line 25)
+SEMI: ; (line 25)
+NEWLINE: 
+
+ (line 25)
+RBRACE: } (line 27)
+NEWLINE: 
+
+ (line 27)
+RBRACE: } (line 29)
+NEWLINE: 
+
+ (line 29)
+VARIABLE: objeto (line 31)
+NEW: new (line 31)
+VARIABLE: MiClase (line 31)
+LPAREN: ( (line 31)
+RPAREN: ) (line 31)
+SEMI: ; (line 31)
+NEWLINE: 
+
+ (line 31)
+VARIABLE: echo (line 33)
+VARIABLE: objeto (line 33)
+MINUS: - (line 33)
+GT: > (line 33)
+VARIABLE: metodo (line 33)
+LPAREN: ( (line 33)
+INTEGER: 5 (line 33)
+RPAREN: ) (line 33)
+NEWLINE: 
+ (line 33)
+SEMI: ; (line 34)
+NEWLINE: 
+
+ (line 34)
+NEWLINE: 
+
+ (line 36)
+VARIABLE: suma (line 38)
+VARIABLE: entero (line 38)
+PLUS: + (line 38)
+INTEGER: 5 (line 38)
+SEMI: ; (line 38)
+NEWLINE: 
+
+ (line 38)
+VARIABLE: resta (line 40)
+VARIABLE: entero (line 40)
+MINUS: - (line 40)
+INTEGER: 3 (line 40)
+SEMI: ; (line 40)
+NEWLINE: 
+
+ (line 40)
+VARIABLE: multiplicacion (line 42)
+VARIABLE: entero (line 42)
+TIMES: * (line 42)
+INTEGER: 2 (line 42)
+SEMI: ; (line 42)
+NEWLINE: 
+
+ (line 42)
+VARIABLE: division (line 44)
+VARIABLE: entero (line 44)
+DIVIDE: / (line 44)
+INTEGER: 2 (line 44)
+SEMI: ; (line 44)
+NEWLINE: 
+
+ (line 44)
+VARIABLE: modulo (line 46)
+VARIABLE: entero (line 46)
+MOD: % (line 46)
+INTEGER: 3 (line 46)
+SEMI: ; (line 46)
+NEWLINE: 
+
+ (line 46)
+VARIABLE: entero (line 48)
+PLUS: + (line 48)
+INTEGER: 2 (line 48)
+SEMI: ; (line 48)
+NEWLINE: 
+
+ (line 48)
+NEWLINE: 
+
+ (line 50)
+VARIABLE: and (line 52)
+VARIABLE: booleano (line 52)
+AND: && (line 52)
+VARIABLE: false (line 52)
+SEMI: ; (line 52)
+NEWLINE: 
+
+ (line 52)
+VARIABLE: or (line 54)
+VARIABLE: booleano (line 54)
+OR: || (line 54)
+VARIABLE: false (line 54)
+SEMI: ; (line 54)
+NEWLINE: 
+
+ (line 54)
+VARIABLE: not (line 56)
+NOT: ! (line 56)
+VARIABLE: booleano (line 56)
+SEMI: ; (line 56)
+NEWLINE: 
+
+ (line 56)
+NEWLINE: 
+
+ (line 58)
+IF: if (line 60)
+LPAREN: ( (line 60)
+VARIABLE: booleano (line 60)
+RPAREN: ) (line 60)
+LBRACE: { (line 60)
+NEWLINE: 
+
+ (line 60)
+VARIABLE: echo (line 62)
+VARIABLE: Es (line 62)
+VARIABLE: verdadero (line 62)
+NEWLINE: 
+ (line 62)
+SEMI: ; (line 63)
+NEWLINE: 
+
+ (line 63)
+RBRACE: } (line 65)
+ELSE: else (line 65)
+LBRACE: { (line 65)
+NEWLINE: 
+
+ (line 65)
+VARIABLE: echo (line 67)
+VARIABLE: Es (line 67)
+VARIABLE: falso (line 67)
+NEWLINE: 
+ (line 67)
+SEMI: ; (line 68)
+NEWLINE: 
+
+ (line 68)
+RBRACE: } (line 70)
+NEWLINE: 
+
+ (line 70)
+NEWLINE: 
+
+ (line 72)
+FOR: for (line 74)
+LPAREN: ( (line 74)
+VARIABLE: i (line 74)
+INTEGER: 0 (line 74)
+SEMI: ; (line 74)
+VARIABLE: i (line 74)
+LT: < (line 74)
+INTEGER: 3 (line 74)
+SEMI: ; (line 74)
+VARIABLE: i (line 74)
+PLUS: + (line 74)
+PLUS: + (line 74)
+RPAREN: ) (line 74)
+LBRACE: { (line 74)
+NEWLINE: 
+
+ (line 74)
+VARIABLE: echo (line 76)
+VARIABLE: arreglo (line 76)
+LBRACKET: [ (line 76)
+VARIABLE: i (line 76)
+RBRACKET: ] (line 76)
+NEWLINE: 
+ (line 76)
+SEMI: ; (line 77)
+NEWLINE: 
+
+ (line 77)
+RBRACE: } (line 79)
+NEWLINE: 
+
+ (line 79)
+NEWLINE: 
+
+ (line 81)
+FUNCTION: function (line 83)
+VARIABLE: suma (line 83)
+LPAREN: ( (line 83)
+VARIABLE: a (line 83)
+VARIABLE: b (line 83)
+RPAREN: ) (line 83)
+LBRACE: { (line 83)
+NEWLINE: 
+
+ (line 83)
+RETURN: return (line 85)
+VARIABLE: a (line 85)
+PLUS: + (line 85)
+VARIABLE: b (line 85)
+SEMI: ; (line 85)
+NEWLINE: 
+
+ (line 85)
+RBRACE: } (line 87)
+NEWLINE: 
+
+ (line 87)
+VARIABLE: echo (line 89)
+VARIABLE: suma (line 89)
+LPAREN: ( (line 89)
+INTEGER: 2 (line 89)
+INTEGER: 3 (line 89)
+RPAREN: ) (line 89)
+NEWLINE: 
+ (line 89)
+SEMI: ; (line 90)
+NEWLINE: 
+
+ (line 90)
+NEWLINE: 
+
+ (line 92)
+TRY: try (line 94)
+LBRACE: { (line 94)
+NEWLINE: 
+
+ (line 94)
+IF: if (line 96)
+LPAREN: ( (line 96)
+VARIABLE: entero (line 96)
+LT: < (line 96)
+INTEGER: 0 (line 96)
+RPAREN: ) (line 96)
+LBRACE: { (line 96)
+NEWLINE: 
+
+ (line 96)
+THROW: throw (line 98)
+NEW: new (line 98)
+VARIABLE: Exception (line 98)
+LPAREN: ( (line 98)
+STRING: "Número negativo" (line 98)
+RPAREN: ) (line 98)
+SEMI: ; (line 98)
+NEWLINE: 
+
+ (line 98)
+RBRACE: } (line 100)
+NEWLINE: 
+
+ (line 100)
+RBRACE: } (line 102)
+CATCH: catch (line 102)
+LPAREN: ( (line 102)
+VARIABLE: Exception (line 102)
+VARIABLE: e (line 102)
+RPAREN: ) (line 102)
+LBRACE: { (line 102)
+NEWLINE: 
+
+ (line 102)
+VARIABLE: echo (line 104)
+STRING: "Error: " (line 104)
+VARIABLE: e (line 104)
+MINUS: - (line 104)
+GT: > (line 104)
+VARIABLE: getMessage (line 104)
+LPAREN: ( (line 104)
+RPAREN: ) (line 104)
+NEWLINE: 
+ (line 104)
+SEMI: ; (line 105)
+NEWLINE: 
+
+ (line 105)
+RBRACE: } (line 107)
+NEWLINE: 
+ (line 107)
+GT: > (line 108)
+NEWLINE: 
+ (line 108)
