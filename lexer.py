@@ -185,6 +185,8 @@ def test_lexer(data, username):
             log_file.write(f"{tok.type}: {tok.value} (line {tok.lineno})\n")
             print(f"{tok.type}: {tok.value} (line {tok.lineno})")
 
+#Prueba de Lexer con algoritmo de Enrique Zambrano
+#Inicio - Enrique Zambrano
 data1 = '''
 $var1 = 10;
 $var2 = $var1 + 20;
@@ -192,6 +194,22 @@ $var2 = $var1 + 20;
 
 test_lexer(data1, "EZambranoFx")
 
+data2 =    '''
+<?php
+// Factorial function
+function factorial($n) {
+    if ($n == 0) {
+        return 1;
+    }
+    return $n * factorial($n - 1);
+}
+
+$number = 5;
+echo "Factorial of $number is " . factorial($number);
+?>
+'''
+test_lexer(data2, "EZambranoFx")
+#Fin - Enrique Zambrano
 
 #Prueba de Lexer con algoritmo de Pratt Garcia
 #Inicio - Pratt Garcia
