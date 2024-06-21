@@ -17,6 +17,19 @@ def p_while_statement(p):
 def p_function_variable(p):
     '''function_variable : FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE'''
 
+# Impresion
+def p_print_statement(p):
+    '''print_statement : ECHO LPAREN expression_list RPAREN SEMI
+                       | ECHO expression_list SEMI'''
+
+# Solicitud de Datos
+def p_input_statement(p):
+    '''input_statement : VARIABLE EQUALS READLINE LPAREN RPAREN SEMI'''
+
+# Expresiones Aritmeticas
+def p_expression_statement(p):
+    '''expression_statement : expression SEMI'''
+
 #Fin - Enrique Zambrano
 
 #-----------TODO PRATT & ALEJANDRO------------
