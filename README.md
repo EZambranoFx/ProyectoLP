@@ -1,2 +1,3 @@
-# Analizador_Lexico
-Avance 1
+# Analizador_Lexico + Analizador Sintactico
+Avance 1 (✓)
+Avance 2 ()
