@@ -1,6 +1,7 @@
 import ply.lex as lex
 import datetime
 import os
+from ply.ctokens import t_ARROW
 
 # Definición de los tokens
 tokens = [
@@ -15,7 +16,9 @@ tokens = [
     'MOD',
     'EXP',
     'STRING',
-    'COMMENT'
+    'COMMENT',
+    'ARROW',
+    'COMMA'
     # fin - Alejandro Barrera
 ]
 
@@ -23,7 +26,8 @@ tokens = [
 reserved = {
     # inicio - Enrique Zambrano
     'if': 'IF', 
-    'else': 'ELSE', 
+    'else': 'ELSE',
+    'array' : 'ARRAY',
     'elseif': 'ELSEIF', 
     'while': 'WHILE', 
     'do': 'DO',
@@ -82,8 +86,6 @@ tokens += [
 
 # Definición de los patrones de los tokens
 
-#----------TODO pratt & Alejandro---------
-
 #Inicio - Pratt Garcia
 t_AND = r'&&'
 t_OR = r'\|\|'
@@ -116,18 +118,18 @@ t_ignore = ' \t'
 
 # Definición de los patrones de los tokens
 
-# ----------TODO pratt & Alejandro---------
-
 # Inicio - Alejandro Barrera
 
 t_PLUS    = r'\+'
 t_MINUS   = r'-'
 t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
-t_MOD = r'%'
+t_MOD     = r'%'
+t_ARROW   = r'=>'
+t_COMMA   = r','
 
 def t_VARIABLE(t):
-    r'[_a-zA-Z]\w*'
+    r'$[_a-zA-Z][_a-zA-Z0-9]\w*'
     t.type = reserved.get(t.value, 'VARIABLE')
     return t
 

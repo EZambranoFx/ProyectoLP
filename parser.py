@@ -32,7 +32,54 @@ def p_expression_statement(p):
 
 #Fin - Enrique Zambrano
 
-#-----------TODO PRATT & ALEJANDRO------------
+# Inicio - Alejandro Barrera 
+
+# Estructura de Datos: Declaración de arreglos
+def p_array(p):
+    '''array : ARRAY LPAREN arrayArg RPAREN SEMI'''
+    
+def p_arrayArg(p):
+    '''arrayArg : index ARROW value
+                | index ARROW value arrayArg
+                | index ARROW value COMMA arrayArg'''
+    
+def p_index(p):
+    '''index : INTEGER
+            | STRING'''
+
+# Estructura de Control: if y else
+def p_ifStatement(p):
+    '''ifStatement : IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
+                    | IF LPAREN condition RPAREN LBRACE statements RBRACE elseStatement'''
+    
+def p_elseStatement(p):
+    '''elseStatement : ELSE LBRACE statements RBRACE SEMI'''
+    
+def p_condition(p):
+    'condition : value compOperator value'
+    
+def p_compOperator(p):
+    '''compOperator : LT
+                    | GT
+                    | LE
+                    | GE
+                    | EQ
+                    | NE'''
+    
+def p_value(p):
+    '''value : VARIABLE
+            | INT
+            | FLOAT
+            | expression_statement'''
+    
+#Función: Funciones de flecha.
+def p_arrowFunction(p):
+    '''arrowFunction : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+                    | FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction'''
+
+#Fin - Alejandro Barrera
+
+#-----------TODO PRATT------------
 
 parser = yacc.yacc()
 
