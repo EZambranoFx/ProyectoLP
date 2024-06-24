@@ -18,7 +18,8 @@ tokens = [
     'STRING',
     'COMMENT',
     'ARROW',
-    'COMMA'
+    'COMMA',
+    'IDENTIFIER'
     # fin - Alejandro Barrera
 ]
 
@@ -80,7 +81,8 @@ tokens += [
     'LBRACKET',
     'RBRACKET',
     'SEMI',
-    'ERROR'
+    'ERROR',
+    'CONSTRUCT'
     #Fin - Pratt Garcia
 ]
 
@@ -105,6 +107,7 @@ t_RBRACE = r'\}'
 t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
 t_SEMI = r';'
+t_CONSTRUCT = r'__construct'
 
 
 def t_NEWLINE(t):
@@ -145,7 +148,15 @@ def t_INTEGER(t):
 
 # fin - Alejandro Barrera
 
-# Inicio - Enrique Zambrano
+# Inicio - Pratt Garcia
+def t_IDENTIFIER(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    t.type = reserved.get(t.value, 'IDENTIFIER')
+    return t
+
+# Fin - Pratt Garcia
+
+# Inicio - Enrique Zabrano
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'ID')

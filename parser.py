@@ -81,6 +81,48 @@ def p_arrowFunction(p):
 
 #-----------TODO PRATT------------
 
+def p_class_declaration(p):
+    '''class_declaration : CLASS IDENTIFIER LBRACE class_body RBRACE'''
+
+def p_class_body(p):
+    '''class_body : class_member_list'''
+
+def p_class_member_list(p):
+    '''class_member_list : class_member_list class_member
+                         | empty'''
+
+def p_class_member(p):
+    '''class_member : property_declaration
+                    | method_declaration
+                    | constructor_declaration'''
+
+def p_property_declaration(p):
+    '''property_declaration : visibility VARIABLE SEMI'''
+
+def p_method_declaration(p):
+    '''method_declaration : visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'''
+
+def p_constructor_declaration(p):
+    '''constructor_declaration : visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'''
+
+def p_visibility(p):
+    '''visibility : PUBLIC
+                  | PROTECTED
+                  | PRIVATE'''
+
+def p_parameter_list(p):
+    '''parameter_list : parameter_list COMMA parameter
+                      | empty'''
+
+def p_parameter(p):
+    '''parameter : TYPE VARIABLE
+                 | VARIABLE'''
+
+def p_statement_list(p):
+    '''statement_list : statement_list statement
+                      | empty'''
+
+
 parser = yacc.yacc()
 
 
