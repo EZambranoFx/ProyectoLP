@@ -10,6 +10,35 @@ import os
 def p_object_declaration(p):
     '''object_declaration : VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI'''
 
+def p_statement(p):
+    '''statement : print_statement
+                 | input_statement
+                 | expression_statement
+                 | assignment_statement
+                 | condition
+                 | data_structure_statement
+                 | function_statement
+                 | class_statement
+                 | ifStatement
+                 | array'''
+    p[0] = p[1]
+    
+def p_assignment_statement(p):
+    '''assignment_statement : VARIABLE EQ expression SEMI'''
+    p[0] = ('assign', p[1], p[3])
+    
+def p_data_structure_statement(p):
+    '''data_structure_statement : array
+                                | class_statement'''
+    p[0] = p[1]
+    
+def p_class_statement(p):
+    '''class_statement : CLASS IDENTIFIER LBRACE class_body RBRACE'''
+    p[0] = ('class', p[2], p[4])
+
+def p_function_statement(p):
+    '''function_statement : FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'''
+    p[0] = ('function', p[2], p[4], p[7])
 
 # Estructura de Control: While
 def p_while_statement(p):
@@ -53,11 +82,6 @@ def p_arrayArg(p):
                 | index ARROW value COMMA arrayArg'''
 
 
-def p_index(p):
-    '''index : INTEGER
-            | STRING'''
-
-
 # Estructura de Control: if y else
 def p_ifStatement(p):
     '''ifStatement : IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
@@ -69,16 +93,33 @@ def p_elseStatement(p):
 
 
 def p_condition(p):
-    'condition : value compOperator value'
+    '''condition : expression comparison_operator expression
+                 | condition logical_operator condition'''
+    if len(p) == 4:
+        p[0] = (p[2], p[1], p[3])
+    else:
+        p[0] = (p[2], p[1], p[3])
+        
+
+def p_index(p):
+    '''index : INTEGER
+            | STRING'''
 
 
-def p_compOperator(p):
-    '''compOperator : LT
-                    | GT
-                    | LE
-                    | GE
-                    | EQ
-                    | NE'''
+#Función: Funciones de flecha.
+def p_arrowFunction(p):
+    '''arrowFunction : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+                    | FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction'''
+
+
+
+def p_comparison_operator(p):
+    '''comparison_operator : LT
+                            | GT
+                            | LE
+                            | GE
+                            | EQ
+                            | NE'''
 
 
 def p_value(p):
@@ -87,11 +128,6 @@ def p_value(p):
             | FLOAT
             | expression_statement'''
 
-
-# Función: Funciones de flecha.
-def p_arrowFunction(p):
-    '''arrowFunction : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
-                    | FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction'''
 
 
 # Fin - Alejandro Barrera
@@ -119,18 +155,6 @@ def p_statements(p):
     '''statements : statements statement
                   | statement
                   | empty'''
-
-
-def p_statement(p):
-    '''statement : expression_statement
-                 | compound_statement
-                 | ifStatement
-                 | while_statement
-                 | elseif_statement'''
-
-
-def p_expression_statement(p):
-    '''expression_statement : expression SEMI'''
 
 
 def p_compound_statement(p):
@@ -209,12 +233,6 @@ def p_variable_list(p):
                      | VARIABLE'''
 
 
-# Condiciones con uno o más conectores
-def p_condition(p):
-    '''condition : expression compOperator INTEGER
-                 | condition logical_operator condition'''
-
-
 def p_logical_operator(p):
     '''logical_operator : AND
                         | OR'''
@@ -259,14 +277,79 @@ def test_parser(data, username):
     log_folder = "logs"
     os.makedirs(log_folder, exist_ok=True)
     current_time = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
-    log_filename = f"sintactico-{username}-{current_time}.txt"
-    log_path = os.path.join(log_folder, log_filename)
+    filename = f"Sintactico-{username}-{current_time}.txt"
+    with open(os.path.join(log_folder, filename), 'w') as log_file:
+        log_file.write(str(result))
+    return result
 
-    with open(log_path, "w") as log_file:
-        if result:
-            log_file.write(str(result))
-            print(result)
-        else:
-            log_file.write("Syntax errors found")
-            print("Syntax errors found")
+#Inicio - Alejandro Barrera
+AlgoritmoAlejandroBarrera = '''
+<?php 
+
+// Comentario de una línea --- Algoritmo Alejandro Barrera
+
+// Comentario de una línea
+
+/*
+ Comentario de múltiples líneas
+ */
+
+// Declaración de variables
+$entero = 32; // Entero
+$flotante = 6.28; // Flotante
+$cadena = "Hola Mundo"; // Cadena de texto
+$booleano = false; // Booleano
+
+// Arreglo
+$arreglo = [7, “i”, [1, 2]];
+
+// Objeto y Clase
+class Clase {
+    public $propiedad = "valor";
+    public function método($parametro) {
+        echo $parametro;
+        return;
+    }
+}
+$instancia = new Clase ();
+echo $instancia -> método(“Hola”). "\n";
+
+// Operadores aritméticos y de asignación
+$suma = $entero + 5;
+$resta = $entero - 3;
+$multiplicación = $entero * 2;
+$división = $entero / 2;
+$modulo = $entero % 3;
+$entero += 2;
+
+// Operadores lógicos
+$and = $booleano && false;
+$or = $booleano || false;
+$not = !$booleano;
+
+// Estructura de control: if
+if ($entero >= 10) {
+    echo "Mayor que 10\n";
+} else if ($entero < 5) {
+    Echo "Entre 1 y 5\n";  
+} else {
+    echo "Entre 10 y 5\n";
+}
+
+// Bucle while
+$i = 1;
+while ($i <= 10) {
+    echo $i++;
+}
+
+// Función
+function multiplicación($a, $b) {
+    return $a * $b;
+}
+
+echo suma (2, 3). "\n";
+?> 
+'''
+test_parser(AlgoritmoAlejandroBarrera, "AlejandroBarrera")
+#Final - Alejandro Barrera
 
