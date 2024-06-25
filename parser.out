@@ -1,0 +1,1252 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BOOLEAN
+    BREAK
+    CASE
+    CATCH
+    COMMENT
+    CONST
+    CONTINUE
+    DEFAULT
+    DO
+    DOLLAR
+    ELSEIF
+    ERROR
+    EXTENDS
+    FINALLY
+    FOR
+    FOREACH
+    IDENTICAL
+    IMPLEMENTS
+    NEWLINE
+    NOT_IDENTICAL
+    RETURN
+    STATIC
+    SWITCH
+    THROW
+    TRY
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> statement_list
+Rule 2     statement -> print_statement
+Rule 3     statement -> input_statement
+Rule 4     statement -> expression_statement
+Rule 5     statement -> assignment_statement
+Rule 6     statement -> condition_statement
+Rule 7     statement -> data_structure_statement
+Rule 8     statement -> function_statement
+Rule 9     statement -> class_statement
+Rule 10    argument_list -> expression
+Rule 11    argument_list -> argument_list COMMA expression
+Rule 12    assignment_statement -> VARIABLE EQ expression SEMI
+Rule 13    condition_statement -> IF LPAREN condition RPAREN statement
+Rule 14    condition_statement -> IF LPAREN condition RPAREN statement ELSE statement
+Rule 15    data_structure_statement -> array_statement
+Rule 16    data_structure_statement -> class_statement
+Rule 17    array_statement -> VARIABLE EQ LBRACKET argument_list RBRACKET SEMI
+Rule 18    class_statement -> CLASS IDENTIFIER LBRACE class_body RBRACE
+Rule 19    class_body_element -> assignment_statement
+Rule 20    class_body_element -> function_statement
+Rule 21    function_statement -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 22    object_declaration -> VAR VARIABLE EQUALS NEW CLASS LPAREN RPAREN SEMI
+Rule 23    while_statement -> WHILE LPAREN expression RPAREN statements
+Rule 24    function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
+Rule 25    print_statement -> ECHO LPAREN expression_list RPAREN SEMI
+Rule 26    print_statement -> ECHO expression_list SEMI
+Rule 27    input_statement -> VARIABLE EQUALS READLINE LPAREN RPAREN SEMI
+Rule 28    expression_statement -> expression SEMI
+Rule 29    array -> ARRAY LPAREN arrayArg RPAREN SEMI
+Rule 30    arrayArg -> index ARROW value
+Rule 31    arrayArg -> index ARROW value arrayArg
+Rule 32    arrayArg -> index ARROW value COMMA arrayArg
+Rule 33    index -> INTEGER
+Rule 34    index -> STRING
+Rule 35    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
+Rule 36    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE elseStatement
+Rule 37    elseStatement -> ELSE LBRACE statements RBRACE SEMI
+Rule 38    statements -> expression
+Rule 39    statements -> impression
+Rule 40    statements -> array
+Rule 41    statements -> declaration
+Rule 42    declaration -> VARIABLE EQUALS value
+Rule 43    declaration -> VARIABLE EQUALS array
+Rule 44    impression -> ECHO LPAREN value RPAREN
+Rule 45    expression_list -> expression
+Rule 46    expression_list -> expression COMMA expression
+Rule 47    compOperator -> LT
+Rule 48    compOperator -> GT
+Rule 49    compOperator -> LE
+Rule 50    compOperator -> GE
+Rule 51    compOperator -> EQ
+Rule 52    compOperator -> NE
+Rule 53    operator -> PLUS
+Rule 54    operator -> MINUS
+Rule 55    operator -> TIMES
+Rule 56    operator -> DIVIDE
+Rule 57    value -> VARIABLE
+Rule 58    value -> INTEGER
+Rule 59    value -> FLOAT
+Rule 60    value -> expression_statement
+Rule 61    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+Rule 62    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction
+Rule 63    class_declaration -> CLASS IDENTIFIER LBRACE class_body RBRACE
+Rule 64    class_body -> class_member_list
+Rule 65    class_member_list -> class_member_list class_member
+Rule 66    class_member_list -> EMPTY
+Rule 67    class_member -> property_declaration
+Rule 68    class_member -> method_declaration
+Rule 69    class_member -> constructor_declaration
+Rule 70    property_declaration -> visibility VARIABLE SEMI
+Rule 71    method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 72    constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 73    visibility -> PUBLIC
+Rule 74    visibility -> PROTECTED
+Rule 75    visibility -> PRIVATE
+Rule 76    parameter_list -> parameter_list COMMA parameter
+Rule 77    parameter_list -> EMPTY
+Rule 78    parameter -> VARIABLE
+Rule 79    statement_list -> statement_list statements
+Rule 80    statement_list -> EMPTY
+Rule 81    condition -> expression comparison_operator expression
+Rule 82    condition -> condition logical_operator condition
+Rule 83    comparison_operator -> EQ
+Rule 84    comparison_operator -> NE
+Rule 85    comparison_operator -> LT
+Rule 86    comparison_operator -> LE
+Rule 87    comparison_operator -> GT
+Rule 88    comparison_operator -> GE
+Rule 89    logical_operator -> AND
+Rule 90    logical_operator -> OR
+Rule 91    logical_operator -> NOT
+Rule 92    expression -> term
+Rule 93    expression -> expression PLUS term
+Rule 94    expression -> expression MINUS term
+Rule 95    expression -> expression TIMES term
+Rule 96    expression -> expression DIVIDE term
+Rule 97    expression -> expression MOD term
+Rule 98    expression -> expression EXP term
+Rule 99    term -> INTEGER
+Rule 100   term -> FLOAT
+Rule 101   term -> STRING
+Rule 102   term -> VARIABLE
+Rule 103   term -> LPAREN expression RPAREN
+Rule 104   empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 89
+ARRAY                : 29
+ARROW                : 30 31 32 61 62
+BOOLEAN              : 
+BREAK                : 
+CASE                 : 
+CATCH                : 
+CLASS                : 18 22 63
+COMMA                : 11 32 46 76
+COMMENT              : 
+CONST                : 
+CONSTRUCT            : 72
+CONTINUE             : 
+DEFAULT              : 
+DIVIDE               : 56 96
+DO                   : 
+DOLLAR               : 
+ECHO                 : 25 26 44
+ELSE                 : 14 37
+ELSEIF               : 
+EMPTY                : 66 77 80
+EQ                   : 12 17 51 83
+EQUALS               : 22 27 42 43
+ERROR                : 
+EXP                  : 98
+EXTENDS              : 
+FINALLY              : 
+FLOAT                : 59 100
+FOR                  : 
+FOREACH              : 
+FUNCTION             : 21 24 61 62 71 72
+GE                   : 50 88
+GT                   : 48 87
+IDENTICAL            : 
+IDENTIFIER           : 18 21 63 71
+IF                   : 13 14 35 36
+IMPLEMENTS           : 
+INTEGER              : 33 58 99
+LBRACE               : 18 21 24 35 36 37 63 71 72
+LBRACKET             : 17
+LE                   : 49 86
+LPAREN               : 13 14 21 22 23 24 25 27 29 35 36 44 61 62 71 72 103
+LT                   : 47 85
+MINUS                : 54 94
+MOD                  : 97
+NE                   : 52 84
+NEW                  : 22
+NEWLINE              : 
+NOT                  : 91
+NOT_IDENTICAL        : 
+OR                   : 90
+PLUS                 : 53 93
+PRIVATE              : 75
+PROTECTED            : 74
+PUBLIC               : 73
+RBRACE               : 18 21 24 35 36 37 63 71 72
+RBRACKET             : 17
+READLINE             : 27
+RETURN               : 
+RPAREN               : 13 14 21 22 23 24 25 27 29 35 36 44 61 62 71 72 103
+SEMI                 : 12 17 22 25 26 27 28 29 35 37 61 70
+STATIC               : 
+STRING               : 34 101
+SWITCH               : 
+THROW                : 
+TIMES                : 55 95
+TRY                  : 
+VAR                  : 22
+VARIABLE             : 12 17 22 24 27 42 43 57 61 62 70 78 102
+WHILE                : 23
+error                : 
+
+Nonterminals, with rules where they appear
+
+argument_list        : 11 17
+array                : 40 43
+arrayArg             : 29 31 32
+array_statement      : 15
+arrowFunction        : 62
+assignment_statement : 5 19
+class_body           : 18 63
+class_body_element   : 
+class_declaration    : 
+class_member         : 65
+class_member_list    : 64 65
+class_statement      : 9 16
+compOperator         : 
+comparison_operator  : 81
+condition            : 13 14 35 36 82 82
+condition_statement  : 6
+constructor_declaration : 69
+data_structure_statement : 7
+declaration          : 41
+elseStatement        : 36
+empty                : 
+expression           : 10 11 12 23 28 38 45 46 46 61 81 81 93 94 95 96 97 98 103
+expression_list      : 25 26
+expression_statement : 4 60
+function_statement   : 8 20
+function_variable    : 
+ifStatement          : 
+impression           : 39
+index                : 30 31 32
+input_statement      : 3
+logical_operator     : 82
+method_declaration   : 68
+object_declaration   : 
+operator             : 
+parameter            : 76
+parameter_list       : 21 71 72 76
+print_statement      : 2
+program              : 0
+property_declaration : 67
+statement            : 13 14 14
+statement_list       : 1 21 71 72 79
+statements           : 23 24 35 36 37 79
+term                 : 92 93 94 95 96 97 98
+value                : 30 31 32 42 44
+visibility           : 70 71 72
+while_statement      : 
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . statement_list
+    (79) statement_list -> . statement_list statements
+    (80) statement_list -> . EMPTY
+
+    EMPTY           shift and go to state 3
+
+    program                        shift and go to state 1
+    statement_list                 shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> statement_list .
+    (79) statement_list -> statement_list . statements
+    (38) statements -> . expression
+    (39) statements -> . impression
+    (40) statements -> . array
+    (41) statements -> . declaration
+    (92) expression -> . term
+    (93) expression -> . expression PLUS term
+    (94) expression -> . expression MINUS term
+    (95) expression -> . expression TIMES term
+    (96) expression -> . expression DIVIDE term
+    (97) expression -> . expression MOD term
+    (98) expression -> . expression EXP term
+    (44) impression -> . ECHO LPAREN value RPAREN
+    (29) array -> . ARRAY LPAREN arrayArg RPAREN SEMI
+    (42) declaration -> . VARIABLE EQUALS value
+    (43) declaration -> . VARIABLE EQUALS array
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    $end            reduce using rule 1 (program -> statement_list .)
+    ECHO            shift and go to state 10
+    ARRAY           shift and go to state 12
+    VARIABLE        shift and go to state 13
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 11
+
+    statements                     shift and go to state 4
+    expression                     shift and go to state 5
+    impression                     shift and go to state 6
+    array                          shift and go to state 7
+    declaration                    shift and go to state 8
+    term                           shift and go to state 9
+
+state 3
+
+    (80) statement_list -> EMPTY .
+
+    ECHO            reduce using rule 80 (statement_list -> EMPTY .)
+    ARRAY           reduce using rule 80 (statement_list -> EMPTY .)
+    VARIABLE        reduce using rule 80 (statement_list -> EMPTY .)
+    INTEGER         reduce using rule 80 (statement_list -> EMPTY .)
+    FLOAT           reduce using rule 80 (statement_list -> EMPTY .)
+    STRING          reduce using rule 80 (statement_list -> EMPTY .)
+    LPAREN          reduce using rule 80 (statement_list -> EMPTY .)
+    $end            reduce using rule 80 (statement_list -> EMPTY .)
+
+
+state 4
+
+    (79) statement_list -> statement_list statements .
+
+    ECHO            reduce using rule 79 (statement_list -> statement_list statements .)
+    ARRAY           reduce using rule 79 (statement_list -> statement_list statements .)
+    VARIABLE        reduce using rule 79 (statement_list -> statement_list statements .)
+    INTEGER         reduce using rule 79 (statement_list -> statement_list statements .)
+    FLOAT           reduce using rule 79 (statement_list -> statement_list statements .)
+    STRING          reduce using rule 79 (statement_list -> statement_list statements .)
+    LPAREN          reduce using rule 79 (statement_list -> statement_list statements .)
+    $end            reduce using rule 79 (statement_list -> statement_list statements .)
+
+
+state 5
+
+    (38) statements -> expression .
+    (93) expression -> expression . PLUS term
+    (94) expression -> expression . MINUS term
+    (95) expression -> expression . TIMES term
+    (96) expression -> expression . DIVIDE term
+    (97) expression -> expression . MOD term
+    (98) expression -> expression . EXP term
+
+    ECHO            reduce using rule 38 (statements -> expression .)
+    ARRAY           reduce using rule 38 (statements -> expression .)
+    VARIABLE        reduce using rule 38 (statements -> expression .)
+    INTEGER         reduce using rule 38 (statements -> expression .)
+    FLOAT           reduce using rule 38 (statements -> expression .)
+    STRING          reduce using rule 38 (statements -> expression .)
+    LPAREN          reduce using rule 38 (statements -> expression .)
+    $end            reduce using rule 38 (statements -> expression .)
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+    MOD             shift and go to state 21
+    EXP             shift and go to state 22
+
+
+state 6
+
+    (39) statements -> impression .
+
+    ECHO            reduce using rule 39 (statements -> impression .)
+    ARRAY           reduce using rule 39 (statements -> impression .)
+    VARIABLE        reduce using rule 39 (statements -> impression .)
+    INTEGER         reduce using rule 39 (statements -> impression .)
+    FLOAT           reduce using rule 39 (statements -> impression .)
+    STRING          reduce using rule 39 (statements -> impression .)
+    LPAREN          reduce using rule 39 (statements -> impression .)
+    $end            reduce using rule 39 (statements -> impression .)
+
+
+state 7
+
+    (40) statements -> array .
+
+    ECHO            reduce using rule 40 (statements -> array .)
+    ARRAY           reduce using rule 40 (statements -> array .)
+    VARIABLE        reduce using rule 40 (statements -> array .)
+    INTEGER         reduce using rule 40 (statements -> array .)
+    FLOAT           reduce using rule 40 (statements -> array .)
+    STRING          reduce using rule 40 (statements -> array .)
+    LPAREN          reduce using rule 40 (statements -> array .)
+    $end            reduce using rule 40 (statements -> array .)
+
+
+state 8
+
+    (41) statements -> declaration .
+
+    ECHO            reduce using rule 41 (statements -> declaration .)
+    ARRAY           reduce using rule 41 (statements -> declaration .)
+    VARIABLE        reduce using rule 41 (statements -> declaration .)
+    INTEGER         reduce using rule 41 (statements -> declaration .)
+    FLOAT           reduce using rule 41 (statements -> declaration .)
+    STRING          reduce using rule 41 (statements -> declaration .)
+    LPAREN          reduce using rule 41 (statements -> declaration .)
+    $end            reduce using rule 41 (statements -> declaration .)
+
+
+state 9
+
+    (92) expression -> term .
+
+    PLUS            reduce using rule 92 (expression -> term .)
+    MINUS           reduce using rule 92 (expression -> term .)
+    TIMES           reduce using rule 92 (expression -> term .)
+    DIVIDE          reduce using rule 92 (expression -> term .)
+    MOD             reduce using rule 92 (expression -> term .)
+    EXP             reduce using rule 92 (expression -> term .)
+    ECHO            reduce using rule 92 (expression -> term .)
+    ARRAY           reduce using rule 92 (expression -> term .)
+    VARIABLE        reduce using rule 92 (expression -> term .)
+    INTEGER         reduce using rule 92 (expression -> term .)
+    FLOAT           reduce using rule 92 (expression -> term .)
+    STRING          reduce using rule 92 (expression -> term .)
+    LPAREN          reduce using rule 92 (expression -> term .)
+    $end            reduce using rule 92 (expression -> term .)
+    RPAREN          reduce using rule 92 (expression -> term .)
+    SEMI            reduce using rule 92 (expression -> term .)
+
+
+state 10
+
+    (44) impression -> ECHO . LPAREN value RPAREN
+
+    LPAREN          shift and go to state 23
+
+
+state 11
+
+    (103) term -> LPAREN . expression RPAREN
+    (92) expression -> . term
+    (93) expression -> . expression PLUS term
+    (94) expression -> . expression MINUS term
+    (95) expression -> . expression TIMES term
+    (96) expression -> . expression DIVIDE term
+    (97) expression -> . expression MOD term
+    (98) expression -> . expression EXP term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    expression                     shift and go to state 24
+    term                           shift and go to state 9
+
+state 12
+
+    (29) array -> ARRAY . LPAREN arrayArg RPAREN SEMI
+
+    LPAREN          shift and go to state 26
+
+
+state 13
+
+    (42) declaration -> VARIABLE . EQUALS value
+    (43) declaration -> VARIABLE . EQUALS array
+    (102) term -> VARIABLE .
+
+    EQUALS          shift and go to state 27
+    PLUS            reduce using rule 102 (term -> VARIABLE .)
+    MINUS           reduce using rule 102 (term -> VARIABLE .)
+    TIMES           reduce using rule 102 (term -> VARIABLE .)
+    DIVIDE          reduce using rule 102 (term -> VARIABLE .)
+    MOD             reduce using rule 102 (term -> VARIABLE .)
+    EXP             reduce using rule 102 (term -> VARIABLE .)
+    ECHO            reduce using rule 102 (term -> VARIABLE .)
+    ARRAY           reduce using rule 102 (term -> VARIABLE .)
+    VARIABLE        reduce using rule 102 (term -> VARIABLE .)
+    INTEGER         reduce using rule 102 (term -> VARIABLE .)
+    FLOAT           reduce using rule 102 (term -> VARIABLE .)
+    STRING          reduce using rule 102 (term -> VARIABLE .)
+    LPAREN          reduce using rule 102 (term -> VARIABLE .)
+    $end            reduce using rule 102 (term -> VARIABLE .)
+
+
+state 14
+
+    (99) term -> INTEGER .
+
+    PLUS            reduce using rule 99 (term -> INTEGER .)
+    MINUS           reduce using rule 99 (term -> INTEGER .)
+    TIMES           reduce using rule 99 (term -> INTEGER .)
+    DIVIDE          reduce using rule 99 (term -> INTEGER .)
+    MOD             reduce using rule 99 (term -> INTEGER .)
+    EXP             reduce using rule 99 (term -> INTEGER .)
+    ECHO            reduce using rule 99 (term -> INTEGER .)
+    ARRAY           reduce using rule 99 (term -> INTEGER .)
+    VARIABLE        reduce using rule 99 (term -> INTEGER .)
+    INTEGER         reduce using rule 99 (term -> INTEGER .)
+    FLOAT           reduce using rule 99 (term -> INTEGER .)
+    STRING          reduce using rule 99 (term -> INTEGER .)
+    LPAREN          reduce using rule 99 (term -> INTEGER .)
+    $end            reduce using rule 99 (term -> INTEGER .)
+    RPAREN          reduce using rule 99 (term -> INTEGER .)
+    SEMI            reduce using rule 99 (term -> INTEGER .)
+
+
+state 15
+
+    (100) term -> FLOAT .
+
+    PLUS            reduce using rule 100 (term -> FLOAT .)
+    MINUS           reduce using rule 100 (term -> FLOAT .)
+    TIMES           reduce using rule 100 (term -> FLOAT .)
+    DIVIDE          reduce using rule 100 (term -> FLOAT .)
+    MOD             reduce using rule 100 (term -> FLOAT .)
+    EXP             reduce using rule 100 (term -> FLOAT .)
+    ECHO            reduce using rule 100 (term -> FLOAT .)
+    ARRAY           reduce using rule 100 (term -> FLOAT .)
+    VARIABLE        reduce using rule 100 (term -> FLOAT .)
+    INTEGER         reduce using rule 100 (term -> FLOAT .)
+    FLOAT           reduce using rule 100 (term -> FLOAT .)
+    STRING          reduce using rule 100 (term -> FLOAT .)
+    LPAREN          reduce using rule 100 (term -> FLOAT .)
+    $end            reduce using rule 100 (term -> FLOAT .)
+    RPAREN          reduce using rule 100 (term -> FLOAT .)
+    SEMI            reduce using rule 100 (term -> FLOAT .)
+
+
+state 16
+
+    (101) term -> STRING .
+
+    PLUS            reduce using rule 101 (term -> STRING .)
+    MINUS           reduce using rule 101 (term -> STRING .)
+    TIMES           reduce using rule 101 (term -> STRING .)
+    DIVIDE          reduce using rule 101 (term -> STRING .)
+    MOD             reduce using rule 101 (term -> STRING .)
+    EXP             reduce using rule 101 (term -> STRING .)
+    ECHO            reduce using rule 101 (term -> STRING .)
+    ARRAY           reduce using rule 101 (term -> STRING .)
+    VARIABLE        reduce using rule 101 (term -> STRING .)
+    INTEGER         reduce using rule 101 (term -> STRING .)
+    FLOAT           reduce using rule 101 (term -> STRING .)
+    STRING          reduce using rule 101 (term -> STRING .)
+    LPAREN          reduce using rule 101 (term -> STRING .)
+    $end            reduce using rule 101 (term -> STRING .)
+    RPAREN          reduce using rule 101 (term -> STRING .)
+    SEMI            reduce using rule 101 (term -> STRING .)
+
+
+state 17
+
+    (93) expression -> expression PLUS . term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 28
+
+state 18
+
+    (94) expression -> expression MINUS . term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 29
+
+state 19
+
+    (95) expression -> expression TIMES . term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 30
+
+state 20
+
+    (96) expression -> expression DIVIDE . term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 31
+
+state 21
+
+    (97) expression -> expression MOD . term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 32
+
+state 22
+
+    (98) expression -> expression EXP . term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    INTEGER         shift and go to state 14
+    FLOAT           shift and go to state 15
+    STRING          shift and go to state 16
+    VARIABLE        shift and go to state 25
+    LPAREN          shift and go to state 11
+
+    term                           shift and go to state 33
+
+state 23
+
+    (44) impression -> ECHO LPAREN . value RPAREN
+    (57) value -> . VARIABLE
+    (58) value -> . INTEGER
+    (59) value -> . FLOAT
+    (60) value -> . expression_statement
+    (28) expression_statement -> . expression SEMI
+    (92) expression -> . term
+    (93) expression -> . expression PLUS term
+    (94) expression -> . expression MINUS term
+    (95) expression -> . expression TIMES term
+    (96) expression -> . expression DIVIDE term
+    (97) expression -> . expression MOD term
+    (98) expression -> . expression EXP term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    VARIABLE        shift and go to state 35
+    INTEGER         shift and go to state 36
+    FLOAT           shift and go to state 37
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 11
+
+    value                          shift and go to state 34
+    expression_statement           shift and go to state 38
+    expression                     shift and go to state 39
+    term                           shift and go to state 9
+
+state 24
+
+    (103) term -> LPAREN expression . RPAREN
+    (93) expression -> expression . PLUS term
+    (94) expression -> expression . MINUS term
+    (95) expression -> expression . TIMES term
+    (96) expression -> expression . DIVIDE term
+    (97) expression -> expression . MOD term
+    (98) expression -> expression . EXP term
+
+    RPAREN          shift and go to state 40
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+    MOD             shift and go to state 21
+    EXP             shift and go to state 22
+
+
+state 25
+
+    (102) term -> VARIABLE .
+
+    RPAREN          reduce using rule 102 (term -> VARIABLE .)
+    PLUS            reduce using rule 102 (term -> VARIABLE .)
+    MINUS           reduce using rule 102 (term -> VARIABLE .)
+    TIMES           reduce using rule 102 (term -> VARIABLE .)
+    DIVIDE          reduce using rule 102 (term -> VARIABLE .)
+    MOD             reduce using rule 102 (term -> VARIABLE .)
+    EXP             reduce using rule 102 (term -> VARIABLE .)
+    ECHO            reduce using rule 102 (term -> VARIABLE .)
+    ARRAY           reduce using rule 102 (term -> VARIABLE .)
+    VARIABLE        reduce using rule 102 (term -> VARIABLE .)
+    INTEGER         reduce using rule 102 (term -> VARIABLE .)
+    FLOAT           reduce using rule 102 (term -> VARIABLE .)
+    STRING          reduce using rule 102 (term -> VARIABLE .)
+    LPAREN          reduce using rule 102 (term -> VARIABLE .)
+    $end            reduce using rule 102 (term -> VARIABLE .)
+    SEMI            reduce using rule 102 (term -> VARIABLE .)
+
+
+state 26
+
+    (29) array -> ARRAY LPAREN . arrayArg RPAREN SEMI
+    (30) arrayArg -> . index ARROW value
+    (31) arrayArg -> . index ARROW value arrayArg
+    (32) arrayArg -> . index ARROW value COMMA arrayArg
+    (33) index -> . INTEGER
+    (34) index -> . STRING
+
+    INTEGER         shift and go to state 43
+    STRING          shift and go to state 44
+
+    arrayArg                       shift and go to state 41
+    index                          shift and go to state 42
+
+state 27
+
+    (42) declaration -> VARIABLE EQUALS . value
+    (43) declaration -> VARIABLE EQUALS . array
+    (57) value -> . VARIABLE
+    (58) value -> . INTEGER
+    (59) value -> . FLOAT
+    (60) value -> . expression_statement
+    (29) array -> . ARRAY LPAREN arrayArg RPAREN SEMI
+    (28) expression_statement -> . expression SEMI
+    (92) expression -> . term
+    (93) expression -> . expression PLUS term
+    (94) expression -> . expression MINUS term
+    (95) expression -> . expression TIMES term
+    (96) expression -> . expression DIVIDE term
+    (97) expression -> . expression MOD term
+    (98) expression -> . expression EXP term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    VARIABLE        shift and go to state 35
+    INTEGER         shift and go to state 36
+    FLOAT           shift and go to state 37
+    ARRAY           shift and go to state 12
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 11
+
+    value                          shift and go to state 45
+    array                          shift and go to state 46
+    expression_statement           shift and go to state 38
+    expression                     shift and go to state 39
+    term                           shift and go to state 9
+
+state 28
+
+    (93) expression -> expression PLUS term .
+
+    PLUS            reduce using rule 93 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 93 (expression -> expression PLUS term .)
+    TIMES           reduce using rule 93 (expression -> expression PLUS term .)
+    DIVIDE          reduce using rule 93 (expression -> expression PLUS term .)
+    MOD             reduce using rule 93 (expression -> expression PLUS term .)
+    EXP             reduce using rule 93 (expression -> expression PLUS term .)
+    ECHO            reduce using rule 93 (expression -> expression PLUS term .)
+    ARRAY           reduce using rule 93 (expression -> expression PLUS term .)
+    VARIABLE        reduce using rule 93 (expression -> expression PLUS term .)
+    INTEGER         reduce using rule 93 (expression -> expression PLUS term .)
+    FLOAT           reduce using rule 93 (expression -> expression PLUS term .)
+    STRING          reduce using rule 93 (expression -> expression PLUS term .)
+    LPAREN          reduce using rule 93 (expression -> expression PLUS term .)
+    $end            reduce using rule 93 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 93 (expression -> expression PLUS term .)
+    SEMI            reduce using rule 93 (expression -> expression PLUS term .)
+
+
+state 29
+
+    (94) expression -> expression MINUS term .
+
+    PLUS            reduce using rule 94 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 94 (expression -> expression MINUS term .)
+    TIMES           reduce using rule 94 (expression -> expression MINUS term .)
+    DIVIDE          reduce using rule 94 (expression -> expression MINUS term .)
+    MOD             reduce using rule 94 (expression -> expression MINUS term .)
+    EXP             reduce using rule 94 (expression -> expression MINUS term .)
+    ECHO            reduce using rule 94 (expression -> expression MINUS term .)
+    ARRAY           reduce using rule 94 (expression -> expression MINUS term .)
+    VARIABLE        reduce using rule 94 (expression -> expression MINUS term .)
+    INTEGER         reduce using rule 94 (expression -> expression MINUS term .)
+    FLOAT           reduce using rule 94 (expression -> expression MINUS term .)
+    STRING          reduce using rule 94 (expression -> expression MINUS term .)
+    LPAREN          reduce using rule 94 (expression -> expression MINUS term .)
+    $end            reduce using rule 94 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 94 (expression -> expression MINUS term .)
+    SEMI            reduce using rule 94 (expression -> expression MINUS term .)
+
+
+state 30
+
+    (95) expression -> expression TIMES term .
+
+    PLUS            reduce using rule 95 (expression -> expression TIMES term .)
+    MINUS           reduce using rule 95 (expression -> expression TIMES term .)
+    TIMES           reduce using rule 95 (expression -> expression TIMES term .)
+    DIVIDE          reduce using rule 95 (expression -> expression TIMES term .)
+    MOD             reduce using rule 95 (expression -> expression TIMES term .)
+    EXP             reduce using rule 95 (expression -> expression TIMES term .)
+    ECHO            reduce using rule 95 (expression -> expression TIMES term .)
+    ARRAY           reduce using rule 95 (expression -> expression TIMES term .)
+    VARIABLE        reduce using rule 95 (expression -> expression TIMES term .)
+    INTEGER         reduce using rule 95 (expression -> expression TIMES term .)
+    FLOAT           reduce using rule 95 (expression -> expression TIMES term .)
+    STRING          reduce using rule 95 (expression -> expression TIMES term .)
+    LPAREN          reduce using rule 95 (expression -> expression TIMES term .)
+    $end            reduce using rule 95 (expression -> expression TIMES term .)
+    RPAREN          reduce using rule 95 (expression -> expression TIMES term .)
+    SEMI            reduce using rule 95 (expression -> expression TIMES term .)
+
+
+state 31
+
+    (96) expression -> expression DIVIDE term .
+
+    PLUS            reduce using rule 96 (expression -> expression DIVIDE term .)
+    MINUS           reduce using rule 96 (expression -> expression DIVIDE term .)
+    TIMES           reduce using rule 96 (expression -> expression DIVIDE term .)
+    DIVIDE          reduce using rule 96 (expression -> expression DIVIDE term .)
+    MOD             reduce using rule 96 (expression -> expression DIVIDE term .)
+    EXP             reduce using rule 96 (expression -> expression DIVIDE term .)
+    ECHO            reduce using rule 96 (expression -> expression DIVIDE term .)
+    ARRAY           reduce using rule 96 (expression -> expression DIVIDE term .)
+    VARIABLE        reduce using rule 96 (expression -> expression DIVIDE term .)
+    INTEGER         reduce using rule 96 (expression -> expression DIVIDE term .)
+    FLOAT           reduce using rule 96 (expression -> expression DIVIDE term .)
+    STRING          reduce using rule 96 (expression -> expression DIVIDE term .)
+    LPAREN          reduce using rule 96 (expression -> expression DIVIDE term .)
+    $end            reduce using rule 96 (expression -> expression DIVIDE term .)
+    RPAREN          reduce using rule 96 (expression -> expression DIVIDE term .)
+    SEMI            reduce using rule 96 (expression -> expression DIVIDE term .)
+
+
+state 32
+
+    (97) expression -> expression MOD term .
+
+    PLUS            reduce using rule 97 (expression -> expression MOD term .)
+    MINUS           reduce using rule 97 (expression -> expression MOD term .)
+    TIMES           reduce using rule 97 (expression -> expression MOD term .)
+    DIVIDE          reduce using rule 97 (expression -> expression MOD term .)
+    MOD             reduce using rule 97 (expression -> expression MOD term .)
+    EXP             reduce using rule 97 (expression -> expression MOD term .)
+    ECHO            reduce using rule 97 (expression -> expression MOD term .)
+    ARRAY           reduce using rule 97 (expression -> expression MOD term .)
+    VARIABLE        reduce using rule 97 (expression -> expression MOD term .)
+    INTEGER         reduce using rule 97 (expression -> expression MOD term .)
+    FLOAT           reduce using rule 97 (expression -> expression MOD term .)
+    STRING          reduce using rule 97 (expression -> expression MOD term .)
+    LPAREN          reduce using rule 97 (expression -> expression MOD term .)
+    $end            reduce using rule 97 (expression -> expression MOD term .)
+    RPAREN          reduce using rule 97 (expression -> expression MOD term .)
+    SEMI            reduce using rule 97 (expression -> expression MOD term .)
+
+
+state 33
+
+    (98) expression -> expression EXP term .
+
+    PLUS            reduce using rule 98 (expression -> expression EXP term .)
+    MINUS           reduce using rule 98 (expression -> expression EXP term .)
+    TIMES           reduce using rule 98 (expression -> expression EXP term .)
+    DIVIDE          reduce using rule 98 (expression -> expression EXP term .)
+    MOD             reduce using rule 98 (expression -> expression EXP term .)
+    EXP             reduce using rule 98 (expression -> expression EXP term .)
+    ECHO            reduce using rule 98 (expression -> expression EXP term .)
+    ARRAY           reduce using rule 98 (expression -> expression EXP term .)
+    VARIABLE        reduce using rule 98 (expression -> expression EXP term .)
+    INTEGER         reduce using rule 98 (expression -> expression EXP term .)
+    FLOAT           reduce using rule 98 (expression -> expression EXP term .)
+    STRING          reduce using rule 98 (expression -> expression EXP term .)
+    LPAREN          reduce using rule 98 (expression -> expression EXP term .)
+    $end            reduce using rule 98 (expression -> expression EXP term .)
+    RPAREN          reduce using rule 98 (expression -> expression EXP term .)
+    SEMI            reduce using rule 98 (expression -> expression EXP term .)
+
+
+state 34
+
+    (44) impression -> ECHO LPAREN value . RPAREN
+
+    RPAREN          shift and go to state 47
+
+
+state 35
+
+    (57) value -> VARIABLE .
+    (102) term -> VARIABLE .
+
+    RPAREN          reduce using rule 57 (value -> VARIABLE .)
+    ECHO            reduce using rule 57 (value -> VARIABLE .)
+    ARRAY           reduce using rule 57 (value -> VARIABLE .)
+    VARIABLE        reduce using rule 57 (value -> VARIABLE .)
+    INTEGER         reduce using rule 57 (value -> VARIABLE .)
+    FLOAT           reduce using rule 57 (value -> VARIABLE .)
+    STRING          reduce using rule 57 (value -> VARIABLE .)
+    LPAREN          reduce using rule 57 (value -> VARIABLE .)
+    $end            reduce using rule 57 (value -> VARIABLE .)
+    COMMA           reduce using rule 57 (value -> VARIABLE .)
+    SEMI            reduce using rule 102 (term -> VARIABLE .)
+    PLUS            reduce using rule 102 (term -> VARIABLE .)
+    MINUS           reduce using rule 102 (term -> VARIABLE .)
+    TIMES           reduce using rule 102 (term -> VARIABLE .)
+    DIVIDE          reduce using rule 102 (term -> VARIABLE .)
+    MOD             reduce using rule 102 (term -> VARIABLE .)
+    EXP             reduce using rule 102 (term -> VARIABLE .)
+
+
+state 36
+
+    (58) value -> INTEGER .
+    (99) term -> INTEGER .
+
+    RPAREN          reduce using rule 58 (value -> INTEGER .)
+    ECHO            reduce using rule 58 (value -> INTEGER .)
+    ARRAY           reduce using rule 58 (value -> INTEGER .)
+    VARIABLE        reduce using rule 58 (value -> INTEGER .)
+    INTEGER         reduce using rule 58 (value -> INTEGER .)
+    FLOAT           reduce using rule 58 (value -> INTEGER .)
+    STRING          reduce using rule 58 (value -> INTEGER .)
+    LPAREN          reduce using rule 58 (value -> INTEGER .)
+    $end            reduce using rule 58 (value -> INTEGER .)
+    COMMA           reduce using rule 58 (value -> INTEGER .)
+    SEMI            reduce using rule 99 (term -> INTEGER .)
+    PLUS            reduce using rule 99 (term -> INTEGER .)
+    MINUS           reduce using rule 99 (term -> INTEGER .)
+    TIMES           reduce using rule 99 (term -> INTEGER .)
+    DIVIDE          reduce using rule 99 (term -> INTEGER .)
+    MOD             reduce using rule 99 (term -> INTEGER .)
+    EXP             reduce using rule 99 (term -> INTEGER .)
+
+
+state 37
+
+    (59) value -> FLOAT .
+    (100) term -> FLOAT .
+
+    RPAREN          reduce using rule 59 (value -> FLOAT .)
+    ECHO            reduce using rule 59 (value -> FLOAT .)
+    ARRAY           reduce using rule 59 (value -> FLOAT .)
+    VARIABLE        reduce using rule 59 (value -> FLOAT .)
+    INTEGER         reduce using rule 59 (value -> FLOAT .)
+    FLOAT           reduce using rule 59 (value -> FLOAT .)
+    STRING          reduce using rule 59 (value -> FLOAT .)
+    LPAREN          reduce using rule 59 (value -> FLOAT .)
+    $end            reduce using rule 59 (value -> FLOAT .)
+    COMMA           reduce using rule 59 (value -> FLOAT .)
+    SEMI            reduce using rule 100 (term -> FLOAT .)
+    PLUS            reduce using rule 100 (term -> FLOAT .)
+    MINUS           reduce using rule 100 (term -> FLOAT .)
+    TIMES           reduce using rule 100 (term -> FLOAT .)
+    DIVIDE          reduce using rule 100 (term -> FLOAT .)
+    MOD             reduce using rule 100 (term -> FLOAT .)
+    EXP             reduce using rule 100 (term -> FLOAT .)
+
+
+state 38
+
+    (60) value -> expression_statement .
+
+    RPAREN          reduce using rule 60 (value -> expression_statement .)
+    ECHO            reduce using rule 60 (value -> expression_statement .)
+    ARRAY           reduce using rule 60 (value -> expression_statement .)
+    VARIABLE        reduce using rule 60 (value -> expression_statement .)
+    INTEGER         reduce using rule 60 (value -> expression_statement .)
+    FLOAT           reduce using rule 60 (value -> expression_statement .)
+    STRING          reduce using rule 60 (value -> expression_statement .)
+    LPAREN          reduce using rule 60 (value -> expression_statement .)
+    $end            reduce using rule 60 (value -> expression_statement .)
+    COMMA           reduce using rule 60 (value -> expression_statement .)
+
+
+state 39
+
+    (28) expression_statement -> expression . SEMI
+    (93) expression -> expression . PLUS term
+    (94) expression -> expression . MINUS term
+    (95) expression -> expression . TIMES term
+    (96) expression -> expression . DIVIDE term
+    (97) expression -> expression . MOD term
+    (98) expression -> expression . EXP term
+
+    SEMI            shift and go to state 48
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+    MOD             shift and go to state 21
+    EXP             shift and go to state 22
+
+
+state 40
+
+    (103) term -> LPAREN expression RPAREN .
+
+    PLUS            reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    EXP             reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    ECHO            reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    ARRAY           reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    VARIABLE        reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    INTEGER         reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    FLOAT           reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    STRING          reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    $end            reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 103 (term -> LPAREN expression RPAREN .)
+    SEMI            reduce using rule 103 (term -> LPAREN expression RPAREN .)
+
+
+state 41
+
+    (29) array -> ARRAY LPAREN arrayArg . RPAREN SEMI
+
+    RPAREN          shift and go to state 49
+
+
+state 42
+
+    (30) arrayArg -> index . ARROW value
+    (31) arrayArg -> index . ARROW value arrayArg
+    (32) arrayArg -> index . ARROW value COMMA arrayArg
+
+    ARROW           shift and go to state 50
+
+
+state 43
+
+    (33) index -> INTEGER .
+
+    ARROW           reduce using rule 33 (index -> INTEGER .)
+
+
+state 44
+
+    (34) index -> STRING .
+
+    ARROW           reduce using rule 34 (index -> STRING .)
+
+
+state 45
+
+    (42) declaration -> VARIABLE EQUALS value .
+
+    ECHO            reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    ARRAY           reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    VARIABLE        reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    INTEGER         reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    FLOAT           reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    STRING          reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    LPAREN          reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+    $end            reduce using rule 42 (declaration -> VARIABLE EQUALS value .)
+
+
+state 46
+
+    (43) declaration -> VARIABLE EQUALS array .
+
+    ECHO            reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    ARRAY           reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    VARIABLE        reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    INTEGER         reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    FLOAT           reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    STRING          reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    LPAREN          reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+    $end            reduce using rule 43 (declaration -> VARIABLE EQUALS array .)
+
+
+state 47
+
+    (44) impression -> ECHO LPAREN value RPAREN .
+
+    ECHO            reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    ARRAY           reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    VARIABLE        reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    INTEGER         reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    FLOAT           reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    STRING          reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    LPAREN          reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+    $end            reduce using rule 44 (impression -> ECHO LPAREN value RPAREN .)
+
+
+state 48
+
+    (28) expression_statement -> expression SEMI .
+
+    RPAREN          reduce using rule 28 (expression_statement -> expression SEMI .)
+    ECHO            reduce using rule 28 (expression_statement -> expression SEMI .)
+    ARRAY           reduce using rule 28 (expression_statement -> expression SEMI .)
+    VARIABLE        reduce using rule 28 (expression_statement -> expression SEMI .)
+    INTEGER         reduce using rule 28 (expression_statement -> expression SEMI .)
+    FLOAT           reduce using rule 28 (expression_statement -> expression SEMI .)
+    STRING          reduce using rule 28 (expression_statement -> expression SEMI .)
+    LPAREN          reduce using rule 28 (expression_statement -> expression SEMI .)
+    $end            reduce using rule 28 (expression_statement -> expression SEMI .)
+    COMMA           reduce using rule 28 (expression_statement -> expression SEMI .)
+
+
+state 49
+
+    (29) array -> ARRAY LPAREN arrayArg RPAREN . SEMI
+
+    SEMI            shift and go to state 51
+
+
+state 50
+
+    (30) arrayArg -> index ARROW . value
+    (31) arrayArg -> index ARROW . value arrayArg
+    (32) arrayArg -> index ARROW . value COMMA arrayArg
+    (57) value -> . VARIABLE
+    (58) value -> . INTEGER
+    (59) value -> . FLOAT
+    (60) value -> . expression_statement
+    (28) expression_statement -> . expression SEMI
+    (92) expression -> . term
+    (93) expression -> . expression PLUS term
+    (94) expression -> . expression MINUS term
+    (95) expression -> . expression TIMES term
+    (96) expression -> . expression DIVIDE term
+    (97) expression -> . expression MOD term
+    (98) expression -> . expression EXP term
+    (99) term -> . INTEGER
+    (100) term -> . FLOAT
+    (101) term -> . STRING
+    (102) term -> . VARIABLE
+    (103) term -> . LPAREN expression RPAREN
+
+    VARIABLE        shift and go to state 35
+    INTEGER         shift and go to state 36
+    FLOAT           shift and go to state 37
+    STRING          shift and go to state 16
+    LPAREN          shift and go to state 11
+
+    value                          shift and go to state 52
+    expression_statement           shift and go to state 38
+    expression                     shift and go to state 39
+    term                           shift and go to state 9
+
+state 51
+
+    (29) array -> ARRAY LPAREN arrayArg RPAREN SEMI .
+
+    ECHO            reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    ARRAY           reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    VARIABLE        reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    INTEGER         reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    FLOAT           reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    STRING          reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    LPAREN          reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+    $end            reduce using rule 29 (array -> ARRAY LPAREN arrayArg RPAREN SEMI .)
+
+
+state 52
+
+    (30) arrayArg -> index ARROW value .
+    (31) arrayArg -> index ARROW value . arrayArg
+    (32) arrayArg -> index ARROW value . COMMA arrayArg
+    (30) arrayArg -> . index ARROW value
+    (31) arrayArg -> . index ARROW value arrayArg
+    (32) arrayArg -> . index ARROW value COMMA arrayArg
+    (33) index -> . INTEGER
+    (34) index -> . STRING
+
+    RPAREN          reduce using rule 30 (arrayArg -> index ARROW value .)
+    COMMA           shift and go to state 54
+    INTEGER         shift and go to state 43
+    STRING          shift and go to state 44
+
+    index                          shift and go to state 42
+    arrayArg                       shift and go to state 53
+
+state 53
+
+    (31) arrayArg -> index ARROW value arrayArg .
+
+    RPAREN          reduce using rule 31 (arrayArg -> index ARROW value arrayArg .)
+
+
+state 54
+
+    (32) arrayArg -> index ARROW value COMMA . arrayArg
+    (30) arrayArg -> . index ARROW value
+    (31) arrayArg -> . index ARROW value arrayArg
+    (32) arrayArg -> . index ARROW value COMMA arrayArg
+    (33) index -> . INTEGER
+    (34) index -> . STRING
+
+    INTEGER         shift and go to state 43
+    STRING          shift and go to state 44
+
+    index                          shift and go to state 42
+    arrayArg                       shift and go to state 55
+
+state 55
+
+    (32) arrayArg -> index ARROW value COMMA arrayArg .
+
+    RPAREN          reduce using rule 32 (arrayArg -> index ARROW value COMMA arrayArg .)
+

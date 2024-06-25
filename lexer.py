@@ -20,7 +20,7 @@ tokens = [
     'ARROW',
     'COMMA',
     'IDENTIFIER',
-    'SET',
+    'EQUALS',
     'DOLLAR'
     # fin - Alejandro Barrera
 ]
@@ -56,7 +56,11 @@ reserved = {
     'try': 'TRY', 
     'catch': 'CATCH', 
     'finally': 'FINALLY', 
-    'throw': 'THROW'
+    'throw': 'THROW',
+    'echo' : 'ECHO',
+    'readline' : 'READLINE',
+    'empty' : 'EMPTY',
+    'bool' : 'BOOLEAN',
     # fin - Enrique Zambrano
 }
 
@@ -124,7 +128,7 @@ t_ignore = ' \t'
 # Definición de los patrones de los tokens
 
 # Inicio - Alejandro Barrera
-t_SET     = r'='
+t_EQUALS  = r'='
 t_DOLLAR  = r'\$'
 t_PLUS    = r'\+'
 t_MINUS   = r'-'
