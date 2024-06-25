@@ -1,0 +1,202 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    BREAK
+    CASE
+    CATCH
+    COMMENT
+    CONST
+    CONTINUE
+    DEFAULT
+    DIVIDE
+    DO
+    DOLLAR
+    ELSEIF
+    ERROR
+    EXP
+    EXTENDS
+    FINALLY
+    FOR
+    FOREACH
+    IDENTICAL
+    IMPLEMENTS
+    LBRACKET
+    MINUS
+    MOD
+    NEWLINE
+    NOT
+    NOT_IDENTICAL
+    OR
+    PLUS
+    RBRACKET
+    RETURN
+    SET
+    STATIC
+    SWITCH
+    THROW
+    TIMES
+    TRY
+
+Grammar
+
+Rule 0     S' -> object_declaration
+Rule 1     object_declaration -> VAR VARIABLE EQUALS NEW CLASS LPAREN RPAREN SEMI
+Rule 2     while_statement -> WHILE LPAREN expression RPAREN statement
+Rule 3     function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
+Rule 4     print_statement -> ECHO LPAREN expression_list RPAREN SEMI
+Rule 5     print_statement -> ECHO expression_list SEMI
+Rule 6     input_statement -> VARIABLE EQUALS READLINE LPAREN RPAREN SEMI
+Rule 7     expression_statement -> expression SEMI
+Rule 8     array -> ARRAY LPAREN arrayArg RPAREN SEMI
+Rule 9     arrayArg -> index ARROW value
+Rule 10    arrayArg -> index ARROW value arrayArg
+Rule 11    arrayArg -> index ARROW value COMMA arrayArg
+Rule 12    index -> INTEGER
+Rule 13    index -> STRING
+Rule 14    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
+Rule 15    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE elseStatement
+Rule 16    elseStatement -> ELSE LBRACE statements RBRACE SEMI
+Rule 17    condition -> value compOperator value
+Rule 18    compOperator -> LT
+Rule 19    compOperator -> GT
+Rule 20    compOperator -> LE
+Rule 21    compOperator -> GE
+Rule 22    compOperator -> EQ
+Rule 23    compOperator -> NE
+Rule 24    value -> VARIABLE
+Rule 25    value -> INT
+Rule 26    value -> FLOAT
+Rule 27    value -> expression_statement
+Rule 28    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+Rule 29    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction
+Rule 30    class_declaration -> CLASS IDENTIFIER LBRACE class_body RBRACE
+Rule 31    class_body -> class_member_list
+Rule 32    class_member_list -> class_member_list class_member
+Rule 33    class_member_list -> empty
+Rule 34    class_member -> property_declaration
+Rule 35    class_member -> method_declaration
+Rule 36    class_member -> constructor_declaration
+Rule 37    property_declaration -> visibility VARIABLE SEMI
+Rule 38    method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 39    constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 40    visibility -> PUBLIC
+Rule 41    visibility -> PROTECTED
+Rule 42    visibility -> PRIVATE
+Rule 43    parameter_list -> parameter_list COMMA parameter
+Rule 44    parameter_list -> empty
+Rule 45    parameter -> TYPE VARIABLE
+Rule 46    parameter -> VARIABLE
+Rule 47    statement_list -> statement_list statement
+Rule 48    statement_list -> empty
+
+Terminals, with rules where they appear
+
+AND                  : 
+ARRAY                : 8
+ARROW                : 9 10 11 28 29
+BREAK                : 
+CASE                 : 
+CATCH                : 
+CLASS                : 1 30
+COMMA                : 11 43
+COMMENT              : 
+CONST                : 
+CONSTRUCT            : 39
+CONTINUE             : 
+DEFAULT              : 
+DIVIDE               : 
+DO                   : 
+DOLLAR               : 
+ELSE                 : 16
+ELSEIF               : 
+EQ                   : 22
+ERROR                : 
+EXP                  : 
+EXTENDS              : 
+FINALLY              : 
+FLOAT                : 26
+FOR                  : 
+FOREACH              : 
+FUNCTION             : 3 28 29 38 39
+GE                   : 21
+GT                   : 19
+IDENTICAL            : 
+IDENTIFIER           : 30 38
+IF                   : 14 15
+IMPLEMENTS           : 
+INTEGER              : 12
+LBRACE               : 3 14 15 16 30 38 39
+LBRACKET             : 
+LE                   : 20
+LPAREN               : 1 2 3 4 6 8 14 15 28 29 38 39
+LT                   : 18
+MINUS                : 
+MOD                  : 
+NE                   : 23
+NEW                  : 1
+NEWLINE              : 
+NOT                  : 
+NOT_IDENTICAL        : 
+OR                   : 
+PLUS                 : 
+PRIVATE              : 42
+PROTECTED            : 41
+PUBLIC               : 40
+RBRACE               : 3 14 15 16 30 38 39
+RBRACKET             : 
+RETURN               : 
+RPAREN               : 1 2 3 4 6 8 14 15 28 29 38 39
+SEMI                 : 1 4 5 6 7 8 14 16 28 37
+SET                  : 
+STATIC               : 
+STRING               : 13
+SWITCH               : 
+THROW                : 
+TIMES                : 
+TRY                  : 
+VAR                  : 1
+VARIABLE             : 1 3 6 24 28 29 37 45 46
+WHILE                : 2
+error                : 
+
+Nonterminals, with rules where they appear
+
+ECHO                 : 4 5
+EQUALS               : 1 6
+INT                  : 25
+READLINE             : 6
+TYPE                 : 45
+array                : 
+arrayArg             : 8 10 11
+arrowFunction        : 29
+class_body           : 30
+class_declaration    : 
+class_member         : 32
+class_member_list    : 31 32
+compOperator         : 17
+condition            : 14 15
+constructor_declaration : 36
+elseStatement        : 15
+empty                : 33 44 48
+expression           : 2 7 28
+expression_list      : 4 5
+expression_statement : 27
+function_variable    : 
+ifStatement          : 
+index                : 9 10 11
+input_statement      : 
+method_declaration   : 35
+object_declaration   : 0
+parameter            : 43
+parameter_list       : 38 39 43
+print_statement      : 
+property_declaration : 34
+statement            : 2 47
+statement_list       : 38 39 47
+statements           : 3 14 15 16
+value                : 9 10 11 17 17
+visibility           : 37 38 39
+while_statement      : 
+

@@ -1,0 +1,330 @@
+NEWLINE: 
+ (line 125)
+LT: < (line 126)
+IDENTIFIER: php (line 126)
+NEWLINE: 
+
+ (line 126)
+NEWLINE: 
+
+ (line 128)
+NEWLINE: 
+
+ (line 130)
+NEWLINE: 
+
+ (line 132)
+NEWLINE: 
+ (line 134)
+IDENTIFIER: entero (line 135)
+SET: = (line 135)
+INTEGER: 32 (line 135)
+SEMI: ; (line 135)
+NEWLINE: 
+ (line 135)
+IDENTIFIER: flotante (line 136)
+SET: = (line 136)
+FLOAT: 6.28 (line 136)
+SEMI: ; (line 136)
+NEWLINE: 
+ (line 136)
+IDENTIFIER: cadena (line 137)
+SET: = (line 137)
+STRING: "Hola Mundo" (line 137)
+SEMI: ; (line 137)
+NEWLINE: 
+ (line 137)
+IDENTIFIER: booleano (line 138)
+SET: = (line 138)
+IDENTIFIER: false (line 138)
+SEMI: ; (line 138)
+NEWLINE: 
+
+ (line 138)
+NEWLINE: 
+ (line 140)
+IDENTIFIER: arreglo (line 141)
+SET: = (line 141)
+LBRACKET: [ (line 141)
+INTEGER: 7 (line 141)
+COMMA: , (line 141)
+IDENTIFIER: i (line 141)
+COMMA: , (line 141)
+LBRACKET: [ (line 141)
+INTEGER: 1 (line 141)
+COMMA: , (line 141)
+INTEGER: 2 (line 141)
+RBRACKET: ] (line 141)
+RBRACKET: ] (line 141)
+SEMI: ; (line 141)
+NEWLINE: 
+
+ (line 141)
+NEWLINE: 
+ (line 143)
+CLASS: class (line 144)
+IDENTIFIER: Clase (line 144)
+LBRACE: { (line 144)
+NEWLINE: 
+ (line 144)
+PUBLIC: public (line 145)
+IDENTIFIER: propiedad (line 145)
+SET: = (line 145)
+STRING: "valor" (line 145)
+SEMI: ; (line 145)
+NEWLINE: 
+ (line 145)
+PUBLIC: public (line 146)
+FUNCTION: function (line 146)
+IDENTIFIER: m (line 146)
+IDENTIFIER: todo (line 146)
+LPAREN: ( (line 146)
+IDENTIFIER: parametro (line 146)
+RPAREN: ) (line 146)
+LBRACE: { (line 146)
+NEWLINE: 
+ (line 146)
+IDENTIFIER: echo (line 147)
+IDENTIFIER: parametro (line 147)
+SEMI: ; (line 147)
+NEWLINE: 
+ (line 147)
+RETURN: return (line 148)
+SEMI: ; (line 148)
+NEWLINE: 
+ (line 148)
+RBRACE: } (line 149)
+NEWLINE: 
+ (line 149)
+RBRACE: } (line 150)
+NEWLINE: 
+ (line 150)
+IDENTIFIER: instancia (line 151)
+SET: = (line 151)
+NEW: new (line 151)
+IDENTIFIER: Clase (line 151)
+LPAREN: ( (line 151)
+RPAREN: ) (line 151)
+SEMI: ; (line 151)
+NEWLINE: 
+ (line 151)
+IDENTIFIER: echo (line 152)
+IDENTIFIER: instancia (line 152)
+MINUS: - (line 152)
+GT: > (line 152)
+IDENTIFIER: m (line 152)
+IDENTIFIER: todo (line 152)
+LPAREN: ( (line 152)
+IDENTIFIER: Hola (line 152)
+RPAREN: ) (line 152)
+NEWLINE: 
+ (line 152)
+SEMI: ; (line 153)
+NEWLINE: 
+
+ (line 153)
+NEWLINE: 
+ (line 155)
+IDENTIFIER: suma (line 156)
+SET: = (line 156)
+IDENTIFIER: entero (line 156)
+PLUS: + (line 156)
+INTEGER: 5 (line 156)
+SEMI: ; (line 156)
+NEWLINE: 
+ (line 156)
+IDENTIFIER: resta (line 157)
+SET: = (line 157)
+IDENTIFIER: entero (line 157)
+MINUS: - (line 157)
+INTEGER: 3 (line 157)
+SEMI: ; (line 157)
+NEWLINE: 
+ (line 157)
+IDENTIFIER: multiplicaci (line 158)
+IDENTIFIER: n (line 158)
+SET: = (line 158)
+IDENTIFIER: entero (line 158)
+TIMES: * (line 158)
+INTEGER: 2 (line 158)
+SEMI: ; (line 158)
+NEWLINE: 
+ (line 158)
+IDENTIFIER: divisi (line 159)
+IDENTIFIER: n (line 159)
+SET: = (line 159)
+IDENTIFIER: entero (line 159)
+DIVIDE: / (line 159)
+INTEGER: 2 (line 159)
+SEMI: ; (line 159)
+NEWLINE: 
+ (line 159)
+IDENTIFIER: modulo (line 160)
+SET: = (line 160)
+IDENTIFIER: entero (line 160)
+MOD: % (line 160)
+INTEGER: 3 (line 160)
+SEMI: ; (line 160)
+NEWLINE: 
+ (line 160)
+IDENTIFIER: entero (line 161)
+PLUS: + (line 161)
+SET: = (line 161)
+INTEGER: 2 (line 161)
+SEMI: ; (line 161)
+NEWLINE: 
+
+ (line 161)
+NEWLINE: 
+ (line 163)
+IDENTIFIER: and (line 164)
+SET: = (line 164)
+IDENTIFIER: booleano (line 164)
+AND: && (line 164)
+IDENTIFIER: false (line 164)
+SEMI: ; (line 164)
+NEWLINE: 
+ (line 164)
+IDENTIFIER: or (line 165)
+SET: = (line 165)
+IDENTIFIER: booleano (line 165)
+OR: || (line 165)
+IDENTIFIER: false (line 165)
+SEMI: ; (line 165)
+NEWLINE: 
+ (line 165)
+IDENTIFIER: not (line 166)
+SET: = (line 166)
+NOT: ! (line 166)
+IDENTIFIER: booleano (line 166)
+SEMI: ; (line 166)
+NEWLINE: 
+
+ (line 166)
+NEWLINE: 
+ (line 168)
+IF: if (line 169)
+LPAREN: ( (line 169)
+IDENTIFIER: entero (line 169)
+GE: >= (line 169)
+INTEGER: 10 (line 169)
+RPAREN: ) (line 169)
+LBRACE: { (line 169)
+NEWLINE: 
+ (line 169)
+IDENTIFIER: echo (line 170)
+IDENTIFIER: Mayor (line 170)
+IDENTIFIER: que (line 170)
+INTEGER: 10 (line 170)
+NEWLINE: 
+ (line 170)
+SEMI: ; (line 171)
+NEWLINE: 
+ (line 171)
+RBRACE: } (line 172)
+ELSE: else (line 172)
+IF: if (line 172)
+LPAREN: ( (line 172)
+IDENTIFIER: entero (line 172)
+LT: < (line 172)
+INTEGER: 5 (line 172)
+RPAREN: ) (line 172)
+LBRACE: { (line 172)
+NEWLINE: 
+ (line 172)
+IDENTIFIER: Echo (line 173)
+IDENTIFIER: Entre (line 173)
+INTEGER: 1 (line 173)
+IDENTIFIER: y (line 173)
+INTEGER: 5 (line 173)
+NEWLINE: 
+ (line 173)
+SEMI: ; (line 174)
+NEWLINE: 
+ (line 174)
+RBRACE: } (line 175)
+ELSE: else (line 175)
+LBRACE: { (line 175)
+NEWLINE: 
+ (line 175)
+IDENTIFIER: echo (line 176)
+IDENTIFIER: Entre (line 176)
+INTEGER: 10 (line 176)
+IDENTIFIER: y (line 176)
+INTEGER: 5 (line 176)
+NEWLINE: 
+ (line 176)
+SEMI: ; (line 177)
+NEWLINE: 
+ (line 177)
+RBRACE: } (line 178)
+NEWLINE: 
+
+ (line 178)
+NEWLINE: 
+ (line 180)
+IDENTIFIER: i (line 181)
+SET: = (line 181)
+INTEGER: 1 (line 181)
+SEMI: ; (line 181)
+NEWLINE: 
+ (line 181)
+WHILE: while (line 182)
+LPAREN: ( (line 182)
+IDENTIFIER: i (line 182)
+LE: <= (line 182)
+INTEGER: 10 (line 182)
+RPAREN: ) (line 182)
+LBRACE: { (line 182)
+NEWLINE: 
+ (line 182)
+IDENTIFIER: echo (line 183)
+IDENTIFIER: i (line 183)
+PLUS: + (line 183)
+PLUS: + (line 183)
+SEMI: ; (line 183)
+NEWLINE: 
+ (line 183)
+RBRACE: } (line 184)
+NEWLINE: 
+
+ (line 184)
+NEWLINE: 
+ (line 186)
+FUNCTION: function (line 187)
+IDENTIFIER: multiplicaci (line 187)
+IDENTIFIER: n (line 187)
+LPAREN: ( (line 187)
+IDENTIFIER: a (line 187)
+COMMA: , (line 187)
+IDENTIFIER: b (line 187)
+RPAREN: ) (line 187)
+LBRACE: { (line 187)
+NEWLINE: 
+ (line 187)
+RETURN: return (line 188)
+IDENTIFIER: a (line 188)
+TIMES: * (line 188)
+IDENTIFIER: b (line 188)
+SEMI: ; (line 188)
+NEWLINE: 
+ (line 188)
+RBRACE: } (line 189)
+NEWLINE: 
+
+ (line 189)
+IDENTIFIER: echo (line 191)
+IDENTIFIER: suma (line 191)
+LPAREN: ( (line 191)
+INTEGER: 2 (line 191)
+COMMA: , (line 191)
+INTEGER: 3 (line 191)
+RPAREN: ) (line 191)
+NEWLINE: 
+ (line 191)
+SEMI: ; (line 192)
+NEWLINE: 
+ (line 192)
+GT: > (line 193)
+NEWLINE: 
+ (line 193)
