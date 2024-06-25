@@ -10,6 +10,7 @@ _lr_signature = 'AND ARRAY ARROW BREAK CASE CATCH CLASS COMMA COMMENT CONST CONS
     
 _lr_action_items = {'VAR':([0,],[2,]),'$end':([1,9,],[0,-1,]),'VARIABLE':([2,],[3,]),'EQ':([3,],[4,]),'NEW':([4,],[5,]),'CLASS':([5,],[6,]),'LPAREN':([6,],[7,]),'RPAREN':([7,],[8,]),'SEMI':([8,],[9,]),}
 
+
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
    for _x,_y in zip(_v[0],_v[1]):
@@ -17,7 +18,9 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
+
 _lr_goto_items = {'object_declaration':([0,],[1,]),}
+
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,6 +29,7 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
+
   ("S' -> object_declaration","S'",1,None,None,None),
   ('object_declaration -> VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI','object_declaration',8,'p_object_declaration','parser.py',10),
   ('while_statement -> WHILE LPAREN expression RPAREN statement','while_statement',5,'p_while_statement','parser.py',14),
