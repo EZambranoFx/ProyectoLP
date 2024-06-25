@@ -26,7 +26,9 @@ def p_statement(p):
                  | condition_statement
                  | data_structure_statement
                  | function_statement
-                 | class_statement'''
+                 | class_statement
+                 | ifStatement
+                 | array'''
     p[0] = p[1]
 
 def p_print_statement(p):
@@ -107,6 +109,40 @@ def p_condition(p):
         p[0] = (p[2], p[1], p[3])
     else:
         p[0] = (p[2], p[1], p[3])
+        
+# Estructura de Datos: Declaración de arreglos
+def p_array(p):
+    '''array : ARRAY LPAREN arrayArg RPAREN SEMI'''
+
+def p_arrayArg(p):
+    '''arrayArg : index ARROW value
+                | index ARROW value arrayArg
+                | index ARROW value COMMA arrayArg'''
+
+def p_index(p):
+    '''index : INTEGER
+            | STRING'''
+
+# Estructura de Control: if y else
+def p_ifStatement(p):
+    '''ifStatement : IF LPAREN condition RPAREN LBRACE statement RBRACE SEMI
+                    | IF LPAREN condition RPAREN LBRACE statement RBRACE elseStatement'''
+
+def p_elseStatement(p):
+    '''elseStatement : ELSE LBRACE statement RBRACE SEMI'''
+
+def p_value(p):
+    '''value : VARIABLE
+            | INTEGER
+            | FLOAT
+            | expression_statement'''
+
+#Función: Funciones de flecha.
+def p_arrowFunction(p):
+    '''arrowFunction : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+                    | FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction'''
+
+#Fin - Alejandro Barrera
 
 def p_comparison_operator(p):
     '''comparison_operator : EQ
@@ -170,3 +206,74 @@ def test_parser(data, username):
     with open(os.path.join(log_folder, filename), 'w') as log_file:
         log_file.write(str(result))
     return result
+
+#Inicio - Alejandro Barrera
+AlgoritmoAlejandroBarrera = '''
+<?php 
+
+// Comentario de una línea --- Algoritmo Alejandro Barrera
+
+// Comentario de una línea
+
+/*
+ Comentario de múltiples líneas
+ */
+
+// Declaración de variables
+$entero = 32; // Entero
+$flotante = 6.28; // Flotante
+$cadena = "Hola Mundo"; // Cadena de texto
+$booleano = false; // Booleano
+
+// Arreglo
+$arreglo = [7, “i”, [1, 2]];
+
+// Objeto y Clase
+class Clase {
+    public $propiedad = "valor";
+    public function método($parametro) {
+        echo $parametro;
+        return;
+    }
+}
+$instancia = new Clase ();
+echo $instancia -> método(“Hola”). "\n";
+
+// Operadores aritméticos y de asignación
+$suma = $entero + 5;
+$resta = $entero - 3;
+$multiplicación = $entero * 2;
+$división = $entero / 2;
+$modulo = $entero % 3;
+$entero += 2;
+
+// Operadores lógicos
+$and = $booleano && false;
+$or = $booleano || false;
+$not = !$booleano;
+
+// Estructura de control: if
+if ($entero >= 10) {
+    echo "Mayor que 10\n";
+} else if ($entero < 5) {
+    Echo "Entre 1 y 5\n";  
+} else {
+    echo "Entre 10 y 5\n";
+}
+
+// Bucle while
+$i = 1;
+while ($i <= 10) {
+    echo $i++;
+}
+
+// Función
+function multiplicación($a, $b) {
+    return $a * $b;
+}
+
+echo suma (2, 3). "\n";
+?> 
+'''
+test_parser(AlgoritmoAlejandroBarrera, "AlejandroBarrera")
+#Final - Alejandro Barrera
