@@ -1,6 +1,0 @@
-VARIABLE: var1 (line 1)
-INTEGER: 10 (line 1)
-VARIABLE: var2 (line 1)
-VARIABLE: var1 (line 1)
-PLUS: + (line 1)
-INTEGER: 20 (line 1)

@@ -208,8 +208,6 @@ $var1 = 10;
 $var2 = $var1 + 20;
 '''
 
-test_lexer(data1, "EZambranoFx")
-
 data2 =    '''
 <?php
 // Factorial function
@@ -224,7 +222,6 @@ $number = 5;
 echo "Factorial of $number is " . factorial($number);
 ?>
 '''
-test_lexer(data2, "EZambranoFx")
 #Fin - Enrique Zambrano
 
 #Prueba de Lexer con algoritmo de Pratt Garcia
@@ -332,7 +329,6 @@ try {
 } 
 ?> 
 '''
-test_lexer(AlgoritmoPrattGarcia, "PrattGarcia")
 
 #Final - Pratt Garcia
 
@@ -404,5 +400,4 @@ function multiplicación($a, $b) {
 echo suma (2, 3). "\n";
 ?> 
 '''
-test_lexer(AlgoritmoAlejandroBarrera, "AlejandroBarrera")
 #Final - Alejandro Barrera
