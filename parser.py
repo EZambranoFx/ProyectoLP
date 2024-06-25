@@ -7,7 +7,7 @@ import os
 
 # Estructura de Datos: Declaracion de objetos
 def p_object_declaration(p):
-    '''object_declaration : VAR VARIABLE EQUALS NEW CLASS LPAREN RPAREN SEMI'''
+    '''object_declaration : VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI'''
 
 # Estructura de Control: While
 def p_while_statement(p):
@@ -24,7 +24,8 @@ def p_print_statement(p):
 
 # Solicitud de Datos
 def p_input_statement(p):
-    '''input_statement : VARIABLE EQUALS READLINE LPAREN RPAREN SEMI'''
+    '''input_statement : VARIABLE EQ READLINE LPAREN RPAREN SEMI
+                       | empty'''
 
 # Expresiones Aritmeticas
 def p_expression_statement(p):
@@ -68,7 +69,7 @@ def p_compOperator(p):
     
 def p_value(p):
     '''value : VARIABLE
-            | INT
+            | INTEGER
             | FLOAT
             | expression_statement'''
     
@@ -79,7 +80,39 @@ def p_arrowFunction(p):
 
 #Fin - Alejandro Barrera
 
-#-----------TODO PRATT------------
+#Inicio - Pratt Garcia
+def p_expression(p):
+    '''expression : term
+                  | expression PLUS term
+                  | expression MINUS term
+                  | expression TIMES term
+                  | expression DIVIDE term'''
+
+def p_expression_list(p):
+    '''expression_list : expression_list COMMA expression
+                       | expression'''
+
+def p_empty(p):
+    '''empty :'''
+    pass
+
+def p_statements(p):
+    '''statements : statements statement
+                  | statement
+                  | empty'''
+
+def p_statement(p):
+    '''statement : expression_statement
+                 | compound_statement
+                 | ifStatement
+                 | while_statement
+                 | elseif_statement'''
+
+def p_expression_statement(p):
+    '''expression_statement : expression SEMI'''
+
+def p_compound_statement(p):
+    '''compound_statement : LBRACE statements RBRACE'''
 
 def p_class_declaration(p):
     '''class_declaration : CLASS IDENTIFIER LBRACE class_body RBRACE'''
@@ -120,8 +153,59 @@ def p_parameter(p):
 
 def p_statement_list(p):
     '''statement_list : statement_list statement
+                      | statement'''
+
+#Definicion del elseif
+def p_elseif_statement(p):
+    '''elseif_statement : ELSEIF LPAREN expression RPAREN statement'''
+
+
+#Funciones anonimas
+def p_anonymous_function(p):
+    '''anonymous_function : FUNCTION LPAREN parameter_list RPAREN use_clause_opt LBRACE statement_list RBRACE'''
+
+def p_use_clause_opt(p):
+    '''use_clause_opt : USE LPAREN variable_list RPAREN
+                      | empty'''
+def p_variable_list(p):
+    '''variable_list : variable_list COMMA VARIABLE
+                     | VARIABLE'''
+
+
+#Condiciones con uno o más conectores
+def p_condition(p):
+    '''condition : expression compOperator INTEGER
+                 | condition logical_operator condition'''
+def p_logical_operator(p):
+    '''logical_operator : AND
+                        | OR'''
+
+#Definición de Variables (todos los tipos) y almacenamiento de resultados de expresiones/condicionales
+def p_variable_declaration(p):
+    '''variable_declaration : VARIABLE EQ expression SEMI
+                            | VARIABLE EQ condition SEMI'''
+
+def p_term(p):
+    '''term : INTEGER
+            | STRING
+            | VARIABLE
+            | LPAREN expression RPAREN'''
+
+#Declarar Estructuras de Datos
+def p_array_declaration(p):
+    '''array_declaration : VARIABLE EQ ARRAY LPAREN array_elements RPAREN SEMI'''
+
+def p_array_elements(p):
+    '''array_elements : array_elements COMMA array_element
+                      | array_element
                       | empty'''
 
+def p_array_element(p):
+    '''array_element : expression
+                     | expression ARROW expression'''
+
+
+#Fin - Pratt Garcia
 
 parser = yacc.yacc()
 

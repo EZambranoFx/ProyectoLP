@@ -1,0 +1,73 @@
+NEWLINE: 
+ (line 4)
+LT: < (line 5)
+IDENTIFIER: php (line 5)
+NEWLINE: 
+ (line 5)
+NEWLINE: 
+ (line 6)
+FUNCTION: function (line 7)
+IDENTIFIER: factorial (line 7)
+LPAREN: ( (line 7)
+DOLLAR: $ (line 7)
+IDENTIFIER: n (line 7)
+RPAREN: ) (line 7)
+LBRACE: { (line 7)
+NEWLINE: 
+ (line 7)
+IF: if (line 8)
+LPAREN: ( (line 8)
+DOLLAR: $ (line 8)
+IDENTIFIER: n (line 8)
+EQ: == (line 8)
+INTEGER: 0 (line 8)
+RPAREN: ) (line 8)
+LBRACE: { (line 8)
+NEWLINE: 
+ (line 8)
+RETURN: return (line 9)
+INTEGER: 1 (line 9)
+SEMI: ; (line 9)
+NEWLINE: 
+ (line 9)
+RBRACE: } (line 10)
+NEWLINE: 
+ (line 10)
+RETURN: return (line 11)
+DOLLAR: $ (line 11)
+IDENTIFIER: n (line 11)
+TIMES: * (line 11)
+IDENTIFIER: factorial (line 11)
+LPAREN: ( (line 11)
+DOLLAR: $ (line 11)
+IDENTIFIER: n (line 11)
+MINUS: - (line 11)
+INTEGER: 1 (line 11)
+RPAREN: ) (line 11)
+SEMI: ; (line 11)
+NEWLINE: 
+ (line 11)
+RBRACE: } (line 12)
+NEWLINE: 
+
+ (line 12)
+DOLLAR: $ (line 14)
+IDENTIFIER: number (line 14)
+SET: = (line 14)
+INTEGER: 5 (line 14)
+SEMI: ; (line 14)
+NEWLINE: 
+ (line 14)
+IDENTIFIER: echo (line 15)
+STRING: "Factorial of $number is " (line 15)
+IDENTIFIER: factorial (line 15)
+LPAREN: ( (line 15)
+DOLLAR: $ (line 15)
+IDENTIFIER: number (line 15)
+RPAREN: ) (line 15)
+SEMI: ; (line 15)
+NEWLINE: 
+ (line 15)
+GT: > (line 16)
+NEWLINE: 
+ (line 16)
