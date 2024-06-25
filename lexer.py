@@ -6,6 +6,8 @@ from ply.ctokens import t_ARROW
 # Definición de los tokens
 tokens = [
     # inicio - Alejandro Barrera
+    'PHP_OPEN',
+    'PHP_CLOSE',
     'VARIABLE',
     'INTEGER',
     'FLOAT',
@@ -95,6 +97,8 @@ tokens += [
 # Definición de los patrones de los tokens
 
 #Inicio - Pratt Garcia
+t_PHP_OPEN = r'<\?php'
+t_PHP_CLOSE = r'\?>'
 t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
@@ -117,6 +121,7 @@ t_CONSTRUCT = r'__construct'
 t_USE = r'use'
 t_ECHO = r'echo'
 t_TYPE = r'\b(int|float|string|bool|array|object|void)\b'
+
 
 def t_NEWLINE(t):
     r'\n+'

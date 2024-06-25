@@ -270,4 +270,3 @@ def test_parser(data, username):
             log_file.write("Syntax errors found")
             print("Syntax errors found")
 
-
