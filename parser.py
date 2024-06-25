@@ -282,6 +282,23 @@ def test_parser(data, username):
         log_file.write(str(result))
     return result
 
+#Inicio - Enrique Zambrano
+AlgoritmoEnriqueZambrano = '''
+<?php
+// Ejemplo de código PHP
+function suma($a, $b) {
+    return $a + $b;
+}
+
+// Llamada a la función
+$resultado = suma(5, 3);
+echo "El resultado de la suma es: " . $resultado;
+?>
+
+'''
+test_parser(AlgoritmoEnriqueZambrano, "EnriqueZambrano")
+#Fin - Enrique Zambrano
+
 #Inicio - Alejandro Barrera
 AlgoritmoAlejandroBarrera = '''
 <?php 
@@ -301,7 +318,7 @@ $cadena = "Hola Mundo"; // Cadena de texto
 $booleano = false; // Booleano
 
 // Arreglo
-$arreglo = [7, “i”, [1, 2]];
+$arreglo = [7, "i", [1, 2]];
 
 // Objeto y Clase
 class Clase {
@@ -312,7 +329,7 @@ class Clase {
     }
 }
 $instancia = new Clase ();
-echo $instancia -> método(“Hola”). "\n";
+echo $instancia -> método("Hola"). "\n";
 
 // Operadores aritméticos y de asignación
 $suma = $entero + 5;
