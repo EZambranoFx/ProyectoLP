@@ -21,7 +21,11 @@ tokens = [
     'COMMA',
     'IDENTIFIER',
     'SET',
-    'DOLLAR'
+    'DOLLAR',
+    'USE',
+    'ECHO',
+    'TYPE',
+    'READLINE'
     # fin - Alejandro Barrera
 ]
 
@@ -111,11 +115,18 @@ t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
 t_SEMI = r';'
 t_CONSTRUCT = r'__construct'
-
+t_USE = r'use'
+t_ECHO = r'echo'
+t_TYPE = r'\b(int|float|string|bool|array|object|void)\b'
 
 def t_NEWLINE(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
+    return t
+
+def t_READLINE(t):
+    r'readline\s*\(\s*\)'
+    t.value = 'readline'
     return t
 
 t_ignore = ' \t'
