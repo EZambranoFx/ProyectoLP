@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import ply.lex as lex
 import datetime
 import os
@@ -152,12 +154,12 @@ t_ARROW   = r'=>'
 t_COMMA   = r','
 
 def t_VARIABLE(t):
-    r'$[_a-zA-Z][_a-zA-Z0-9]\w*'
+    r'\$[_a-zA-Z][_a-zA-Z0-9]*'
     t.type = reserved.get(t.value, 'VARIABLE')
     return t
 
 def t_FLOAT(t):
-    r'\d+\.(\d+)?'
+    r'\d+\.\d+'
     t.value = float(t.value)
     return t
 
@@ -176,7 +178,7 @@ def t_IDENTIFIER(t):
 
 # Fin - Pratt Garcia
 
-# Inicio - Enrique Zabrano
+# Inicio - Enrique Zambrano
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'ID')
@@ -210,7 +212,7 @@ def test_lexer(data, username):
     log_filename = f"lexico-{username}-{current_time}.txt"
     log_path = os.path.join(log_folder, log_filename)
 
-    with open(log_path, "w") as log_file:
+    with open(log_path, "w", encoding="utf-8") as log_file:
         while True:
             tok = lexer.token()
             if not tok:
@@ -322,104 +324,25 @@ for ($i = 0; $i < 3; $i++) {
 
 } 
 
-// Función 
-
-function suma($a, $b) { 
-
-    return $a + $b; 
-
-} 
-
-echo suma(2, 3) . "\n"; 
-
-// Manejo de excepciones 
-
-try { 
-
-    if ($entero < 0) { 
-
-        throw new Exception("Número negativo"); 
-
-    } 
-
-} catch (Exception $e) { 
-
-    echo "Error: " . $e->getMessage() . "\n"; 
-
-} 
-?> 
+?>
 '''
-#test_lexer(AlgoritmoPrattGarcia, "PrattGarcia")
+#test_lexer(AlgoritmoPrattGarcia, "PGraciaF")
 
-#Final - Pratt Garcia
 
+#Prueba de Lexer con algoritmo de Alejandro Barrera
 #Inicio - Alejandro Barrera
 AlgoritmoAlejandroBarrera = '''
-<?php 
+<?php
+$a = 3;
+$b = 4;
 
-// Comentario de una línea --- Algoritmo Alejandro Barrera
-
-// Comentario de una línea
-
-/*
- Comentario de múltiples líneas
- */
-
-// Declaración de variables
-$entero = 32; // Entero
-$flotante = 6.28; // Flotante
-$cadena = "Hola Mundo"; // Cadena de texto
-$booleano = false; // Booleano
-
-// Arreglo
-$arreglo = [7, “i”, [1, 2]];
-
-// Objeto y Clase
-class Clase {
-    public $propiedad = "valor";
-    public function método($parametro) {
-        echo $parametro;
-        return;
-    }
-}
-$instancia = new Clase ();
-echo $instancia -> método(“Hola”). "\n";
-
-// Operadores aritméticos y de asignación
-$suma = $entero + 5;
-$resta = $entero - 3;
-$multiplicación = $entero * 2;
-$división = $entero / 2;
-$modulo = $entero % 3;
-$entero += 2;
-
-// Operadores lógicos
-$and = $booleano && false;
-$or = $booleano || false;
-$not = !$booleano;
-
-// Estructura de control: if
-if ($entero >= 10) {
-    echo "Mayor que 10\n";
-} else if ($entero < 5) {
-    Echo "Entre 1 y 5\n";  
-} else {
-    echo "Entre 10 y 5\n";
+function suma($a, $b) {
+    return $a + $b;
 }
 
-// Bucle while
-$i = 1;
-while ($i <= 10) {
-    echo $i++;
-}
-
-// Función
-function multiplicación($a, $b) {
-    return $a * $b;
-}
-
-echo suma (2, 3). "\n";
-?> 
+echo suma($a, $b);
+?>
 '''
-#test_lexer(AlgoritmoAlejandroBarrera, "AlejandroBarrera")
-#Final - Alejandro Barrera
+#test_lexer(AlgoritmoAlejandroBarrera, "ABarreraF")
+#Fin - Alejandro Barrera
+
