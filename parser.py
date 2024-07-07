@@ -3,7 +3,7 @@ from lexer import tokens
 import datetime
 import os
 
-
+variables =()
 # Inicio - Enrique Zambrano
 
 # Estructura de Datos: Declaracion de objetos
@@ -26,6 +26,9 @@ def p_statement(p):
 def p_assignment_statement(p):
     '''assignment_statement : VARIABLE EQ expression SEMI'''
     p[0] = ('assign', p[1], p[3])
+    #Inicio semantico Enrique Zambrano
+    variables[p[1]]=p[3]
+    #fin semantico Enrique Zambrano
     
 def p_data_structure_statement(p):
     '''data_structure_statement : array
@@ -65,9 +68,10 @@ def p_input_statement(p):
 # Expresiones Aritmeticas
 def p_expression_statement(p):
     '''expression_statement : expression SEMI'''
-
+    p[0]=p[1]
 
 # Fin - Enrique Zambrano
+
 
 # Inicio - Alejandro Barrera
 
@@ -266,7 +270,6 @@ def p_array_element(p):
     '''array_element : expression
                      | expression ARROW expression'''
 
-
 # Fin - Pratt Garcia
 
 parser = yacc.yacc()
@@ -369,4 +372,3 @@ echo suma (2, 3). "\n";
 '''
 test_parser(AlgoritmoAlejandroBarrera, "AlejandroBarrera")
 #Final - Alejandro Barrera
-

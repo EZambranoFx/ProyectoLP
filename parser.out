@@ -48,287 +48,214 @@ Rule 8     statement -> function_statement
 Rule 9     statement -> class_statement
 Rule 10    statement -> ifStatement
 Rule 11    statement -> array
-Rule 12    assignment_statement -> VARIABLE EQ expression SEMI
-Rule 13    data_structure_statement -> array
-Rule 14    data_structure_statement -> class_statement
-Rule 15    class_statement -> CLASS IDENTIFIER LBRACE class_body RBRACE
-Rule 16    function_statement -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-Rule 17    while_statement -> WHILE LPAREN expression RPAREN statement
-Rule 18    function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
-Rule 19    print_statement -> ECHO LPAREN expression_list RPAREN SEMI
-Rule 20    print_statement -> ECHO expression_list SEMI
-Rule 21    input_statement -> VARIABLE EQ READLINE LPAREN RPAREN SEMI
-Rule 22    input_statement -> empty
-Rule 23    expression_statement -> expression SEMI
-Rule 24    array -> ARRAY LPAREN arrayArg RPAREN SEMI
-Rule 25    arrayArg -> index ARROW value
-Rule 26    arrayArg -> index ARROW value arrayArg
-Rule 27    arrayArg -> index ARROW value COMMA arrayArg
-Rule 28    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
-Rule 29    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE elseStatement
-Rule 30    elseStatement -> ELSE LBRACE statements RBRACE SEMI
-Rule 31    condition -> expression comparison_operator expression
-Rule 32    condition -> condition logical_operator condition
-Rule 33    index -> INTEGER
-Rule 34    index -> STRING
-Rule 35    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
-Rule 36    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction
-Rule 37    comparison_operator -> LT
-Rule 38    comparison_operator -> GT
-Rule 39    comparison_operator -> LE
-Rule 40    comparison_operator -> GE
-Rule 41    comparison_operator -> EQ
-Rule 42    comparison_operator -> NE
-Rule 43    value -> VARIABLE
-Rule 44    value -> INTEGER
-Rule 45    value -> FLOAT
-Rule 46    value -> expression_statement
-Rule 47    expression -> term
-Rule 48    expression -> expression PLUS term
-Rule 49    expression -> expression MINUS term
-Rule 50    expression -> expression TIMES term
-Rule 51    expression -> expression DIVIDE term
-Rule 52    expression_list -> expression_list COMMA expression
-Rule 53    expression_list -> expression
-Rule 54    empty -> <empty>
-Rule 55    statements -> statements statement
-Rule 56    statements -> statement
-Rule 57    statements -> empty
-Rule 58    compound_statement -> LBRACE statements RBRACE
-Rule 59    class_declaration -> CLASS IDENTIFIER LBRACE class_body RBRACE
-Rule 60    class_body -> class_member_list
-Rule 61    class_member_list -> class_member_list class_member
-Rule 62    class_member_list -> empty
-Rule 63    class_member -> property_declaration
-Rule 64    class_member -> method_declaration
-Rule 65    class_member -> constructor_declaration
-Rule 66    property_declaration -> visibility VARIABLE SEMI
-Rule 67    method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-Rule 68    constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
-Rule 69    visibility -> PUBLIC
-Rule 70    visibility -> PROTECTED
-Rule 71    visibility -> PRIVATE
-Rule 72    parameter_list -> parameter_list COMMA parameter
-Rule 73    parameter_list -> empty
-Rule 74    parameter -> TYPE VARIABLE
-Rule 75    parameter -> VARIABLE
-Rule 76    statement_list -> statement_list statement
-Rule 77    statement_list -> statement
-Rule 78    elseif_statement -> ELSEIF LPAREN expression RPAREN statement
-Rule 79    anonymous_function -> FUNCTION LPAREN parameter_list RPAREN use_clause_opt LBRACE statement_list RBRACE
-Rule 80    use_clause_opt -> USE LPAREN variable_list RPAREN
-Rule 81    use_clause_opt -> empty
-Rule 82    variable_list -> variable_list COMMA VARIABLE
-Rule 83    variable_list -> VARIABLE
-Rule 84    logical_operator -> AND
-Rule 85    logical_operator -> OR
-Rule 86    variable_declaration -> VARIABLE EQ expression SEMI
-Rule 87    variable_declaration -> VARIABLE EQ condition SEMI
-Rule 88    term -> INTEGER
-Rule 89    term -> STRING
-Rule 90    term -> VARIABLE
-Rule 91    term -> LPAREN expression RPAREN
-Rule 92    array_declaration -> VARIABLE EQ ARRAY LPAREN array_elements RPAREN SEMI
-Rule 93    array_elements -> array_elements COMMA array_element
-Rule 94    array_elements -> array_element
-Rule 95    array_elements -> empty
-Rule 96    array_element -> expression
-Rule 97    array_element -> expression ARROW expression
+Rule 12    data_structure_statement -> array
+Rule 13    data_structure_statement -> class_statement
+Rule 14    class_statement -> CLASS IDENTIFIER LBRACE class_body RBRACE
+Rule 15    function_statement -> FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 16    while_statement -> WHILE LPAREN expression RPAREN statement
+Rule 17    function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
+Rule 18    print_statement -> ECHO LPAREN expression_list RPAREN SEMI
+Rule 19    print_statement -> ECHO expression_list SEMI
+Rule 20    input_statement -> VARIABLE EQ READLINE LPAREN RPAREN SEMI
+Rule 21    input_statement -> empty
+Rule 22    expression_statement -> expression SEMI
+Rule 23    array -> ARRAY LPAREN arrayArg RPAREN SEMI
+Rule 24    arrayArg -> index ARROW value
+Rule 25    arrayArg -> index ARROW value arrayArg
+Rule 26    arrayArg -> index ARROW value COMMA arrayArg
+Rule 27    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
+Rule 28    ifStatement -> IF LPAREN condition RPAREN LBRACE statements RBRACE elseStatement
+Rule 29    elseStatement -> ELSE LBRACE statements RBRACE SEMI
+Rule 30    condition -> expression comparison_operator expression
+Rule 31    condition -> condition logical_operator condition
+Rule 32    index -> INTEGER
+Rule 33    index -> STRING
+Rule 34    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+Rule 35    arrowFunction -> FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction
+Rule 36    comparison_operator -> LT
+Rule 37    comparison_operator -> GT
+Rule 38    comparison_operator -> LE
+Rule 39    comparison_operator -> GE
+Rule 40    comparison_operator -> EQ
+Rule 41    comparison_operator -> NE
+Rule 42    value -> VARIABLE
+Rule 43    value -> INTEGER
+Rule 44    value -> FLOAT
+Rule 45    value -> expression_statement
+Rule 46    expression -> term
+Rule 47    expression -> expression PLUS term
+Rule 48    expression -> expression MINUS term
+Rule 49    expression -> expression TIMES term
+Rule 50    expression -> expression DIVIDE term
+Rule 51    expression_list -> expression_list COMMA expression
+Rule 52    expression_list -> expression
+Rule 53    empty -> <empty>
+Rule 54    statements -> statements statement
+Rule 55    statements -> statement
+Rule 56    statements -> empty
+Rule 57    compound_statement -> LBRACE statements RBRACE
+Rule 58    class_declaration -> CLASS IDENTIFIER LBRACE class_body RBRACE
+Rule 59    class_body -> class_member_list
+Rule 60    class_member_list -> class_member_list class_member
+Rule 61    class_member_list -> empty
+Rule 62    class_member -> property_declaration
+Rule 63    class_member -> method_declaration
+Rule 64    class_member -> constructor_declaration
+Rule 65    property_declaration -> visibility VARIABLE SEMI
+Rule 66    method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 67    constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statement_list RBRACE
+Rule 68    visibility -> PUBLIC
+Rule 69    visibility -> PROTECTED
+Rule 70    visibility -> PRIVATE
+Rule 71    parameter_list -> parameter_list COMMA parameter
+Rule 72    parameter_list -> empty
+Rule 73    parameter -> TYPE VARIABLE
+Rule 74    parameter -> VARIABLE
+Rule 75    statement_list -> statement_list statement
+Rule 76    statement_list -> statement
+Rule 77    elseif_statement -> ELSEIF LPAREN expression RPAREN statement
+Rule 78    anonymous_function -> FUNCTION LPAREN parameter_list RPAREN use_clause_opt LBRACE statement_list RBRACE
+Rule 79    use_clause_opt -> USE LPAREN variable_list RPAREN
+Rule 80    use_clause_opt -> empty
+Rule 81    variable_list -> variable_list COMMA VARIABLE
+Rule 82    variable_list -> VARIABLE
+Rule 83    logical_operator -> AND
+Rule 84    logical_operator -> OR
+Rule 85    variable_declaration -> VARIABLE EQ expression SEMI
+Rule 86    variable_declaration -> VARIABLE EQ condition SEMI
+Rule 87    term -> INTEGER
+Rule 88    term -> STRING
+Rule 89    term -> VARIABLE
+Rule 90    term -> LPAREN expression RPAREN
+Rule 91    array_declaration -> VARIABLE EQ ARRAY LPAREN array_elements RPAREN SEMI
+Rule 92    array_elements -> array_elements COMMA array_element
+Rule 93    array_elements -> array_element
+Rule 94    array_elements -> empty
+Rule 95    array_element -> expression
+Rule 96    array_element -> expression ARROW expression
 
 Terminals, with rules where they appear
 
-AND                  : 84
-ARRAY                : 24 92
-ARROW                : 25 26 27 35 36 97
+AND                  : 83
+ARRAY                : 23 91
+ARROW                : 24 25 26 34 35 96
 BREAK                : 
 CASE                 : 
 CATCH                : 
-CLASS                : 1 15 59
-COMMA                : 27 52 72 82 93
+CLASS                : 1 14 58
+COMMA                : 26 51 71 81 92
 COMMENT              : 
 CONST                : 
-CONSTRUCT            : 68
+CONSTRUCT            : 67
 CONTINUE             : 
 DEFAULT              : 
-DIVIDE               : 51
+DIVIDE               : 50
 DO                   : 
 DOLLAR               : 
-ECHO                 : 19 20
-ELSE                 : 30
-ELSEIF               : 78
-EQ                   : 1 12 21 41 86 87 92
+ECHO                 : 18 19
+ELSE                 : 29
+ELSEIF               : 77
+EQ                   : 1 20 40 85 86 91
 ERROR                : 
 EXP                  : 
 EXTENDS              : 
 FINALLY              : 
-FLOAT                : 45
+FLOAT                : 44
 FOR                  : 
 FOREACH              : 
-FUNCTION             : 16 18 35 36 67 68 79
-GE                   : 40
-GT                   : 38
+FUNCTION             : 15 17 34 35 66 67 78
+GE                   : 39
+GT                   : 37
 IDENTICAL            : 
-IDENTIFIER           : 15 16 59 67
-IF                   : 28 29
+IDENTIFIER           : 14 15 58 66
+IF                   : 27 28
 IMPLEMENTS           : 
-INTEGER              : 33 44 88
-LBRACE               : 15 16 18 28 29 30 58 59 67 68 79
+INTEGER              : 32 43 87
+LBRACE               : 14 15 17 27 28 29 57 58 66 67 78
 LBRACKET             : 
-LE                   : 39
-LPAREN               : 1 16 17 18 19 21 24 28 29 35 36 67 68 78 79 80 91 92
-LT                   : 37
-MINUS                : 49
+LE                   : 38
+LPAREN               : 1 15 16 17 18 20 23 27 28 34 35 66 67 77 78 79 90 91
+LT                   : 36
+MINUS                : 48
 MOD                  : 
-NE                   : 42
+NE                   : 41
 NEW                  : 1
 NEWLINE              : 
 NOT                  : 
 NOT_IDENTICAL        : 
-OR                   : 85
+OR                   : 84
 PHP_CLOSE            : 
 PHP_OPEN             : 
-PLUS                 : 48
-PRIVATE              : 71
-PROTECTED            : 70
-PUBLIC               : 69
-RBRACE               : 15 16 18 28 29 30 58 59 67 68 79
+PLUS                 : 47
+PRIVATE              : 70
+PROTECTED            : 69
+PUBLIC               : 68
+RBRACE               : 14 15 17 27 28 29 57 58 66 67 78
 RBRACKET             : 
-READLINE             : 21
+READLINE             : 20
 RETURN               : 
-RPAREN               : 1 16 17 18 19 21 24 28 29 35 36 67 68 78 79 80 91 92
-SEMI                 : 1 12 19 20 21 23 24 28 30 35 66 86 87 92
+RPAREN               : 1 15 16 17 18 20 23 27 28 34 35 66 67 77 78 79 90 91
+SEMI                 : 1 18 19 20 22 23 27 29 34 65 85 86 91
 SET                  : 
 STATIC               : 
-STRING               : 34 89
+STRING               : 33 88
 SWITCH               : 
 THROW                : 
-TIMES                : 50
+TIMES                : 49
 TRY                  : 
-TYPE                 : 74
-USE                  : 80
+TYPE                 : 73
+USE                  : 79
 VAR                  : 1
-VARIABLE             : 1 12 18 21 35 36 43 66 74 75 82 83 86 87 90 92
-WHILE                : 17
+VARIABLE             : 1 17 20 34 35 42 65 73 74 81 82 85 86 89 91
+WHILE                : 16
 error                : 
 
 Nonterminals, with rules where they appear
 
 anonymous_function   : 
-array                : 11 13
-arrayArg             : 24 26 27
+array                : 11 12
+arrayArg             : 23 25 26
 array_declaration    : 
-array_element        : 93 94
-array_elements       : 92 93
-arrowFunction        : 36
+array_element        : 92 93
+array_elements       : 91 92
+arrowFunction        : 35
 assignment_statement : 5
-class_body           : 15 59
+class_body           : 14 58
 class_declaration    : 
-class_member         : 61
-class_member_list    : 60 61
-class_statement      : 9 14
-comparison_operator  : 31
+class_member         : 60
+class_member_list    : 59 60
+class_statement      : 9 13
+comparison_operator  : 30
 compound_statement   : 
-condition            : 6 28 29 32 32 87
-constructor_declaration : 65
+condition            : 6 27 28 31 31 86
+constructor_declaration : 64
 data_structure_statement : 7
-elseStatement        : 29
+elseStatement        : 28
 elseif_statement     : 
-empty                : 22 57 62 73 81 95
-expression           : 12 17 23 31 31 35 48 49 50 51 52 53 78 86 91 96 97 97
-expression_list      : 19 20 52
-expression_statement : 4 46
+empty                : 21 56 61 72 80 94
+expression           : 16 22 30 30 34 47 48 49 50 51 52 77 85 90 95 96 96
+expression_list      : 18 19 51
+expression_statement : 4 45
 function_statement   : 8
 function_variable    : 
 ifStatement          : 10
-index                : 25 26 27
+index                : 24 25 26
 input_statement      : 3
-logical_operator     : 32
-method_declaration   : 64
+logical_operator     : 31
+method_declaration   : 63
 object_declaration   : 0
-parameter            : 72
-parameter_list       : 16 67 68 72 79
+parameter            : 71
+parameter_list       : 15 66 67 71 78
 print_statement      : 2
-property_declaration : 63
-statement            : 17 55 56 76 77 78
-statement_list       : 16 67 68 76 79
-statements           : 18 28 29 30 55 58
-term                 : 47 48 49 50 51
-use_clause_opt       : 79
-value                : 25 26 27
+property_declaration : 62
+statement            : 16 54 55 75 76 77
+statement_list       : 15 66 67 75 78
+statements           : 17 27 28 29 54 57
+term                 : 46 47 48 49 50
+use_clause_opt       : 78
+value                : 24 25 26
 variable_declaration : 
-variable_list        : 80 82
-visibility           : 66 67 68
+variable_list        : 79 81
+visibility           : 65 66 67
 while_statement      : 
-
-Parsing method: LALR
-
-state 0
-
-    (0) S' -> . object_declaration
-    (1) object_declaration -> . VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI
-
-    VAR             shift and go to state 2
-
-    object_declaration             shift and go to state 1
-
-state 1
-
-    (0) S' -> object_declaration .
-
-
-
-state 2
-
-    (1) object_declaration -> VAR . VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI
-
-    VARIABLE        shift and go to state 3
-
-
-state 3
-
-    (1) object_declaration -> VAR VARIABLE . EQ NEW CLASS LPAREN RPAREN SEMI
-
-    EQ              shift and go to state 4
-
-
-state 4
-
-    (1) object_declaration -> VAR VARIABLE EQ . NEW CLASS LPAREN RPAREN SEMI
-
-    NEW             shift and go to state 5
-
-
-state 5
-
-    (1) object_declaration -> VAR VARIABLE EQ NEW . CLASS LPAREN RPAREN SEMI
-
-    CLASS           shift and go to state 6
-
-
-state 6
-
-    (1) object_declaration -> VAR VARIABLE EQ NEW CLASS . LPAREN RPAREN SEMI
-
-    LPAREN          shift and go to state 7
-
-
-state 7
-
-    (1) object_declaration -> VAR VARIABLE EQ NEW CLASS LPAREN . RPAREN SEMI
-
-    RPAREN          shift and go to state 8
-
-
-state 8
-
-    (1) object_declaration -> VAR VARIABLE EQ NEW CLASS LPAREN RPAREN . SEMI
-
-    SEMI            shift and go to state 9
-
-
-state 9
-
-    (1) object_declaration -> VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI .
-
-    $end            reduce using rule 1 (object_declaration -> VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI .)
 
