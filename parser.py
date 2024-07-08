@@ -15,10 +15,10 @@ def p_statement(p):
                  | class_declaration
                  | array_declaration SEMI
                  | property_declaration SEMI
-                 | data_structure
                  | function_statement
                  | function_variable
                  | function_anonymous
+                 | function_arrow
                  | class_statement
                  | while
                  | if'''
@@ -32,12 +32,8 @@ def p_declaration(p):
                     | VARIABLE SET condition'''
     variables[p[1]]=p[3]        #Enrique Zambrano
     
-def p_data_structure(p):
-    '''data_structure : array_declaration
-                    | class_statement'''
-    
 def p_class_statement(p):
-    '''class_statement : CLASS IDENTIFIER LBRACE class_body RBRACE'''
+    '''class_statement : CLASS IDENTIFIER LBRACE class_member_list RBRACE'''
     p[0] = ('class', p[2], p[4])
 
 def p_function_statement(p):
@@ -75,7 +71,8 @@ def p_object_declaration(p):
 
 # Estructura de Datos: Declaración de arreglos
 def p_array_declaration(p):
-    '''array_declaration : VARIABLE SET ARRAY LPAREN arrayArg RPAREN'''
+    '''array_declaration : VARIABLE SET ARRAY LPAREN arrayArg RPAREN
+                        | VARIABLE SET ARRAY LPAREN empty RPAREN'''
 
 
 def p_arrayArg(p):
@@ -87,8 +84,9 @@ def p_arrayArg(p):
 # Estructura de Control: if y else
 def p_if(p):
     '''if : IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
-                    | IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
-                    | IF LPAREN condition RPAREN LBRACE statements RBRACE else'''
+            | IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
+            | IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
+            | IF LPAREN condition RPAREN LBRACE statements RBRACE else'''
 
 
 def p_else(p):
@@ -96,13 +94,15 @@ def p_else(p):
 
 
 def p_condition(p):
-    '''condition : expression comparison_operator expression
-                 | condition logical_operator condition'''
+    'condition : expression comparison_operator expression'
     if len(p) == 4:
         p[0] = (p[2], p[1], p[3])
     else:
         p[0] = (p[2], p[1], p[3])
         
+def p_conditions(p):
+    '''conditions : LBRACE condition RBRACE logical_operator conditions
+                    | LBRACE condition RBRACE'''
 
 def p_index(p):
     '''index : INTEGER
@@ -110,9 +110,9 @@ def p_index(p):
 
 
 #Función: Funciones de flecha.
-def p_arrowFunction(p):
-    '''arrowFunction : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
-                    | FUNCTION LPAREN VARIABLE RPAREN ARROW arrowFunction'''
+def p_function_arrow(p):
+    '''function_arrow : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+                    | FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow'''
 
 
 
