@@ -13,14 +13,15 @@ def p_statement(p):
                  | declaration SEMI
                  | object_declaration
                  | class_declaration
-                 | array_declaration
+                 | array_declaration SEMI
+                 | property_declaration SEMI
                  | data_structure
                  | function_statement
                  | function_variable
                  | function_anonymous
                  | class_statement
                  | while
-                 | array'''
+                 | if'''
     
 def p_statements(p):
     '''statements : statement statements
@@ -32,7 +33,7 @@ def p_declaration(p):
     variables[p[1]]=p[3]        #Enrique Zambrano
     
 def p_data_structure(p):
-    '''data_structure : array
+    '''data_structure : array_declaration
                     | class_statement'''
     
 def p_class_statement(p):
@@ -40,7 +41,7 @@ def p_class_statement(p):
     p[0] = ('class', p[2], p[4])
 
 def p_function_statement(p):
-    '''function_statement : FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statements RBRACE'''
+    '''function_statement : FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
     p[0] = ('function', p[2], p[4], p[7])
 
 # Estructura de Control: While
@@ -61,8 +62,7 @@ def p_print(p):
 
 # Solicitud de Datos
 def p_input(p):
-    '''input : VARIABLE SET READLINE LPAREN RPAREN
-            | empty'''
+    'input : VARIABLE SET READLINE LPAREN RPAREN'
     
 # Estructura de Datos: Declaracion de objetos
 def p_object_declaration(p):
@@ -74,8 +74,8 @@ def p_object_declaration(p):
 # Inicio - Alejandro Barrera
 
 # Estructura de Datos: Declaración de arreglos
-def p_array(p):
-    '''array : ARRAY LPAREN arrayArg RPAREN SEMI'''
+def p_array_declaration(p):
+    '''array_declaration : VARIABLE SET ARRAY LPAREN arrayArg RPAREN'''
 
 
 def p_arrayArg(p):
@@ -129,10 +129,10 @@ def p_value(p):
     '''value : VARIABLE
             | INTEGER
             | FLOAT'''
-
-
-
 # Fin - Alejandro Barrera
+
+
+
 
 # Inicio - Pratt Garcia
 
@@ -148,12 +148,7 @@ def p_expression(p):
 
 def p_expressions(p):
     '''expressions : expression COMMA expressions
-                       | expression'''
-
-
-def p_empty(p):
-    '''empty :'''
-    pass
+                    | expression'''
 
 def p_class_declaration(p):
     '''class_declaration : CLASS IDENTIFIER LBRACE class_body RBRACE'''
@@ -164,8 +159,8 @@ def p_class_body(p):
 
 
 def p_class_member_list(p):
-    '''class_member_list : class_member_list class_member
-                         | empty'''
+    '''class_member_list : class_member class_member_list
+                         | class_member'''
 
 
 def p_class_member(p):
@@ -175,15 +170,15 @@ def p_class_member(p):
 
 
 def p_property_declaration(p):
-    '''property_declaration : visibility VARIABLE SEMI'''
+    '''property_declaration : visibility VARIABLE'''
 
 
 def p_method_declaration(p):
-    '''method_declaration : visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statements RBRACE'''
+    '''method_declaration : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
 
 
 def p_constructor_declaration(p):
-    '''constructor_declaration : visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statements RBRACE'''
+    '''constructor_declaration : visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE statements RBRACE'''
 
 
 def p_visibility(p):
@@ -192,9 +187,9 @@ def p_visibility(p):
                   | PRIVATE'''
 
 
-def p_parameter_list(p):
-    '''parameter_list : parameter_list COMMA parameter
-                      | empty'''
+def p_parameters(p):
+    '''parameters : parameter COMMA parameters
+                    | parameter'''
 
 
 def p_parameter(p):
@@ -210,40 +205,27 @@ def p_elseif(p):
 
 # Funciones anonimas
 def p_function_anonymous(p):
-    '''function_anonymous : FUNCTION LPAREN parameter_list RPAREN use_clause_opt LBRACE statements RBRACE'''
+    '''function_anonymous : FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE'''
 
 
 def p_use_clause_opt(p):
-    '''use_clause_opt : USE LPAREN variable_list RPAREN
-                      | empty'''
+    'use_clause_opt : USE LPAREN variables RPAREN'
 
 
-def p_variable_list(p):
-    '''variable_list : variable_list COMMA VARIABLE
-                     | VARIABLE'''
+def p_variables(p):
+    '''variables : VARIABLE COMMA variables
+                | VARIABLE'''
 
 
 def p_logical_operator(p):
     '''logical_operator : AND
                         | OR'''
 
-
-# Declarar Estructuras de Datos
-def p_array_declaration(p):
-    '''array_declaration : VARIABLE SET ARRAY LPAREN array_elements RPAREN SEMI'''
-
-
-def p_array_elements(p):
-    '''array_elements : array_elements COMMA array_element
-                      | array_element
-                      | empty'''
-
-
-def p_array_element(p):
-    '''array_element : expression
-                     | expression ARROW expression'''
-
 # Fin - Pratt Garcia
+
+def p_empty(p):
+    '''empty :'''
+    pass
 
 # Error rule for syntax errors
 def p_error(p):
