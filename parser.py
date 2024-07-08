@@ -8,9 +8,9 @@ variables ={}
 
 def p_statement(p):
     '''statement : print SEMI
+                 | declaration SEMI
                  | input SEMI
                  | expression SEMI
-                 | declaration SEMI
                  | object_declaration
                  | class_declaration
                  | array_declaration SEMI
@@ -28,17 +28,18 @@ def p_statements(p):
                 | statement'''
     
 def p_declaration(p):
-    '''declaration : VARIABLE SET expression
+    '''declaration : VARIABLE SET value
+                    | VARIABLE SET expression
                     | VARIABLE SET condition'''
-    variables[p[1]]=p[3]        #Enrique Zambrano
+    #variables[p[1]]=p[3]        #Enrique Zambrano
     
 def p_class_statement(p):
     '''class_statement : CLASS IDENTIFIER LBRACE class_member_list RBRACE'''
-    p[0] = ('class', p[2], p[4])
+    #p[0] = ('class', p[2], p[4])
 
 def p_function_statement(p):
     '''function_statement : FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
-    p[0] = ('function', p[2], p[4], p[7])
+    #p[0] = ('function', p[2], p[4], p[7])
 
 # Estructura de Control: While
 def p_while(p):
@@ -144,6 +145,10 @@ def p_operator(p):
     
 def p_expression(p):
     'expression : value operator value'
+    if not isinstance(p[1], str) or p[1] in varibles:
+        pass
+    else:
+        print("f:Error semántico: la variable {p[1]} no ha sido inicializada.")
 
 
 def p_expressions(p):

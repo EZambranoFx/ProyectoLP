@@ -143,7 +143,7 @@ t_ignore = ' \t'
 # Definición de los patrones de los tokens
 
 # Inicio - Alejandro Barrera
-t_SET     = r'='
+t_SET     = r'\='
 t_DOLLAR  = r'\$'
 t_PLUS    = r'\+'
 t_MINUS   = r'-'
@@ -154,7 +154,7 @@ t_ARROW   = r'=>'
 t_COMMA   = r','
 
 def t_VARIABLE(t):
-    r'\$[_a-zA-Z][_a-zA-Z0-9]*'
+    r'\$[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'VARIABLE')
     return t
 
