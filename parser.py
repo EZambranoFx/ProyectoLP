@@ -3,49 +3,49 @@ from lexer import tokens
 import datetime
 import os
 
-variables =()
+variables ={}
 # Inicio - Enrique Zambrano
 
-# Estructura de Datos: Declaracion de objetos
-def p_object_declaration(p):
-    '''object_declaration : VAR VARIABLE EQ NEW CLASS LPAREN RPAREN SEMI'''
-
 def p_statement(p):
-    '''statement : print_statement
-                 | input_statement
-                 | expression_statement
-                 | assignment_statement
-                 | condition
-                 | data_structure_statement
+    '''statement : print SEMI
+                 | input SEMI
+                 | expression SEMI
+                 | declaration SEMI
+                 | object_declaration
+                 | class_declaration
+                 | array_declaration
+                 | data_structure
                  | function_statement
+                 | function_variable
+                 | function_anonymous
                  | class_statement
-                 | ifStatement
+                 | while
                  | array'''
-    p[0] = p[1]
     
-def p_assignment_statement(p):
-    '''assignment_statement : VARIABLE EQ expression SEMI'''
-    p[0] = ('assign', p[1], p[3])
-    #Inicio semantico Enrique Zambrano
-    variables[p[1]]=p[3]
-    #fin semantico Enrique Zambrano
+def p_statements(p):
+    '''statements : statement statements
+                | statement'''
     
-def p_data_structure_statement(p):
-    '''data_structure_statement : array
-                                | class_statement'''
-    p[0] = p[1]
+def p_declaration(p):
+    '''declaration : VARIABLE SET expression
+                    | VARIABLE SET condition'''
+    variables[p[1]]=p[3]        #Enrique Zambrano
+    
+def p_data_structure(p):
+    '''data_structure : array
+                    | class_statement'''
     
 def p_class_statement(p):
     '''class_statement : CLASS IDENTIFIER LBRACE class_body RBRACE'''
     p[0] = ('class', p[2], p[4])
 
 def p_function_statement(p):
-    '''function_statement : FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'''
+    '''function_statement : FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statements RBRACE'''
     p[0] = ('function', p[2], p[4], p[7])
 
 # Estructura de Control: While
-def p_while_statement(p):
-    '''while_statement : WHILE LPAREN expression RPAREN statement'''
+def p_while(p):
+    '''while : WHILE LPAREN expression RPAREN LBRACE statements RBRACE'''
 
 
 # Funcion: Funcion Variable
@@ -54,21 +54,19 @@ def p_function_variable(p):
 
 
 # Impresion
-def p_print_statement(p):
-    '''print_statement : ECHO LPAREN expression_list RPAREN SEMI
-                       | ECHO expression_list SEMI'''
+def p_print(p):
+    '''print : ECHO LPAREN expressions RPAREN
+                       | ECHO expressions'''
 
 
 # Solicitud de Datos
-def p_input_statement(p):
-    '''input_statement : VARIABLE EQ READLINE LPAREN RPAREN SEMI
-                       | empty'''
-
-
-# Expresiones Aritmeticas
-def p_expression_statement(p):
-    '''expression_statement : expression SEMI'''
-    p[0]=p[1]
+def p_input(p):
+    '''input : VARIABLE SET READLINE LPAREN RPAREN
+            | empty'''
+    
+# Estructura de Datos: Declaracion de objetos
+def p_object_declaration(p):
+    'object_declaration : VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI'
 
 # Fin - Enrique Zambrano
 
@@ -87,13 +85,14 @@ def p_arrayArg(p):
 
 
 # Estructura de Control: if y else
-def p_ifStatement(p):
-    '''ifStatement : IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
-                    | IF LPAREN condition RPAREN LBRACE statements RBRACE elseStatement'''
+def p_if(p):
+    '''if : IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
+                    | IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
+                    | IF LPAREN condition RPAREN LBRACE statements RBRACE else'''
 
 
-def p_elseStatement(p):
-    '''elseStatement : ELSE LBRACE statements RBRACE SEMI'''
+def p_else(p):
+    '''else : ELSE LBRACE statements RBRACE SEMI'''
 
 
 def p_condition(p):
@@ -129,41 +128,32 @@ def p_comparison_operator(p):
 def p_value(p):
     '''value : VARIABLE
             | INTEGER
-            | FLOAT
-            | expression_statement'''
+            | FLOAT'''
 
 
 
 # Fin - Alejandro Barrera
 
 # Inicio - Pratt Garcia
+
+def p_operator(p):
+    '''operator : PLUS
+                | MINUS
+                | TIMES
+                | DIVIDE'''
+    
 def p_expression(p):
-    '''expression : term
-                  | expression PLUS term
-                  | expression MINUS term
-                  | expression TIMES term
-                  | expression DIVIDE term'''
+    'expression : value operator value'
 
 
-def p_expression_list(p):
-    '''expression_list : expression_list COMMA expression
+def p_expressions(p):
+    '''expressions : expression COMMA expressions
                        | expression'''
 
 
 def p_empty(p):
     '''empty :'''
     pass
-
-
-def p_statements(p):
-    '''statements : statements statement
-                  | statement
-                  | empty'''
-
-
-def p_compound_statement(p):
-    '''compound_statement : LBRACE statements RBRACE'''
-
 
 def p_class_declaration(p):
     '''class_declaration : CLASS IDENTIFIER LBRACE class_body RBRACE'''
@@ -189,11 +179,11 @@ def p_property_declaration(p):
 
 
 def p_method_declaration(p):
-    '''method_declaration : visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'''
+    '''method_declaration : visibility FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LBRACE statements RBRACE'''
 
 
 def p_constructor_declaration(p):
-    '''constructor_declaration : visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statement_list RBRACE'''
+    '''constructor_declaration : visibility FUNCTION CONSTRUCT LPAREN parameter_list RPAREN LBRACE statements RBRACE'''
 
 
 def p_visibility(p):
@@ -212,19 +202,15 @@ def p_parameter(p):
                  | VARIABLE'''
 
 
-def p_statement_list(p):
-    '''statement_list : statement_list statement
-                      | statement'''
-
-
 # Definicion del elseif
-def p_elseif_statement(p):
-    '''elseif_statement : ELSEIF LPAREN expression RPAREN statement'''
+def p_elseif(p):
+    '''elseif : ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE
+                | ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE else'''
 
 
 # Funciones anonimas
-def p_anonymous_function(p):
-    '''anonymous_function : FUNCTION LPAREN parameter_list RPAREN use_clause_opt LBRACE statement_list RBRACE'''
+def p_function_anonymous(p):
+    '''function_anonymous : FUNCTION LPAREN parameter_list RPAREN use_clause_opt LBRACE statements RBRACE'''
 
 
 def p_use_clause_opt(p):
@@ -242,22 +228,9 @@ def p_logical_operator(p):
                         | OR'''
 
 
-# Definición de Variables (todos los tipos) y almacenamiento de resultados de expresiones/condicionales
-def p_variable_declaration(p):
-    '''variable_declaration : VARIABLE EQ expression SEMI
-                            | VARIABLE EQ condition SEMI'''
-
-
-def p_term(p):
-    '''term : INTEGER
-            | STRING
-            | VARIABLE
-            | LPAREN expression RPAREN'''
-
-
 # Declarar Estructuras de Datos
 def p_array_declaration(p):
-    '''array_declaration : VARIABLE EQ ARRAY LPAREN array_elements RPAREN SEMI'''
+    '''array_declaration : VARIABLE SET ARRAY LPAREN array_elements RPAREN SEMI'''
 
 
 def p_array_elements(p):
@@ -272,18 +245,29 @@ def p_array_element(p):
 
 # Fin - Pratt Garcia
 
+# Error rule for syntax errors
+def p_error(p):
+    print("Syntax error in input!")
+
 parser = yacc.yacc()
 
 
-def test_parser(data, username):
-    result = parser.parse(data)
+def test_parser(username):
     log_folder = "logs"
     os.makedirs(log_folder, exist_ok=True)
     current_time = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
     filename = f"Sintactico-{username}-{current_time}.txt"
+    
     with open(os.path.join(log_folder, filename), 'w') as log_file:
-        log_file.write(str(result))
-    return result
+        while True:
+            try:
+                s = input('calc > ')
+            except EOFError:
+                break
+            if not s: continue
+            result = parser.parse(s)
+            print(result)
+            log_file.write(str(result))
 
 #Inicio - Enrique Zambrano
 AlgoritmoEnriqueZambrano = '''
@@ -299,76 +283,7 @@ echo "El resultado de la suma es: " . $resultado;
 ?>
 
 '''
-test_parser(AlgoritmoEnriqueZambrano, "EnriqueZambrano")
+#test_parser(AlgoritmoEnriqueZambrano, "EnriqueZambrano")
 #Fin - Enrique Zambrano
 
-#Inicio - Alejandro Barrera
-AlgoritmoAlejandroBarrera = '''
-<?php 
-
-// Comentario de una línea --- Algoritmo Alejandro Barrera
-
-// Comentario de una línea
-
-/*
- Comentario de múltiples líneas
- */
-
-// Declaración de variables
-$entero = 32; // Entero
-$flotante = 6.28; // Flotante
-$cadena = "Hola Mundo"; // Cadena de texto
-$booleano = false; // Booleano
-
-// Arreglo
-$arreglo = [7, "i", [1, 2]];
-
-// Objeto y Clase
-class Clase {
-    public $propiedad = "valor";
-    public function método($parametro) {
-        echo $parametro;
-        return;
-    }
-}
-$instancia = new Clase ();
-echo $instancia -> método("Hola"). "\n";
-
-// Operadores aritméticos y de asignación
-$suma = $entero + 5;
-$resta = $entero - 3;
-$multiplicación = $entero * 2;
-$división = $entero / 2;
-$modulo = $entero % 3;
-$entero += 2;
-
-// Operadores lógicos
-$and = $booleano && false;
-$or = $booleano || false;
-$not = !$booleano;
-
-// Estructura de control: if
-if ($entero >= 10) {
-    echo "Mayor que 10\n";
-} else if ($entero < 5) {
-    Echo "Entre 1 y 5\n";  
-} else {
-    echo "Entre 10 y 5\n";
-}
-
-// Bucle while
-$i = 1;
-while ($i <= 10) {
-    echo $i++;
-}
-
-// Función
-function multiplicación($a, $b) {
-    return $a * $b;
-}
-
-echo suma (2, 3). "\n";
-?> 
-'''
-test_parser(AlgoritmoAlejandroBarrera, "AlejandroBarrera")
-#Final - Alejandro Barrera
+test_parser("A1ej00")
