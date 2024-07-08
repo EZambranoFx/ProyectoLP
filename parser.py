@@ -1,10 +1,13 @@
 import ply.yacc as yacc
+from docutils.parsers import null
+
 from lexer import tokens
 import datetime
 import os
 
 variables ={}
-
+constants={}
+defined_exceptions = ['CustomException', 'AnotherException']
 def p_statement(p):
     '''statement : print SEMI
                  | declaration SEMI
@@ -20,6 +23,10 @@ def p_statement(p):
                  | function_arrow
                  | class_statement
                  | while
+                 | constant_declaration
+                 | constant_use
+                 | try_catch
+                 | catch_item
                  | if'''
     
 def p_statements(p):

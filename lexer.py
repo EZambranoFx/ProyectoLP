@@ -51,7 +51,12 @@ tokens = [
     'RBRACKET',
     'SEMI',
     'ERROR',
-    'CONSTRUCT'
+    'CONSTRUCT',
+    'DEFINE',
+    'THROW',
+    'TRY',
+    'CATCH',
+    'EXCEPTION'
     # fin - Pratt Garcia
 ]
 
@@ -126,6 +131,11 @@ t_DIVIDE  = r'/'
 t_MOD     = r'%'
 t_ARROW   = r'=>'
 t_COMMA   = r','
+t_DEFINE = r'define'
+t_THROW = r'throw'
+t_TRY = r'try'
+t_CATCH = r'catch'
+t_EXCEPTION = r'Exception'
 
 def t_NEWLINE(t):
     r'\n+'
@@ -137,8 +147,6 @@ def t_READLINE(t):
     t.value = 'readline'
     return t
 
-<<<<<<< HEAD
-=======
 t_ignore = ' \t'
 
 #Fin - Pratt Garcia
@@ -156,7 +164,7 @@ t_MOD     = r'%'
 t_ARROW   = r'=>'
 t_COMMA   = r','
 
->>>>>>> b7a2b93ddb38e8bd4e1df8b994dadec8727d074e
+
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'VARIABLE')
