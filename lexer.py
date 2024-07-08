@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import ply.lex as lex
 import datetime
 import os
@@ -29,8 +28,31 @@ tokens = [
     'USE',
     'ECHO',
     'TYPE',
-    'READLINE'
+    'READLINE',
     # fin - Alejandro Barrera
+    # inicio - Pratt Garcia
+    'NEWLINE',
+    'AND',
+    'OR',
+    'NOT',
+    'EQ',
+    'IDENTICAL',
+    'NE',
+    'NOT_IDENTICAL',
+    'LT',
+    'GT',
+    'LE',
+    'GE',
+    'LPAREN',
+    'RPAREN',
+    'LBRACE',
+    'RBRACE',
+    'LBRACKET',
+    'RBRACKET',
+    'SEMI',
+    'ERROR',
+    'CONSTRUCT'
+    # fin - Pratt Garcia
 ]
 
 # Definición de las palabras reservadas
@@ -64,42 +86,13 @@ reserved = {
     'try': 'TRY', 
     'catch': 'CATCH', 
     'finally': 'FINALLY', 
-    'throw': 'THROW',
-    'break' : 'BREAK'
+    'throw': 'THROW'
     # fin - Enrique Zambrano
 }
 
 tokens += list(reserved.values())
 
-tokens += [
-    #inicio - Pratt Garcia
-    'NEWLINE',
-    'AND',
-    'OR',
-    'NOT',
-    'EQ',
-    'IDENTICAL',
-    'NE',
-    'NOT_IDENTICAL',
-    'LT',
-    'GT',
-    'LE',
-    'GE',
-    'LPAREN',
-    'RPAREN',
-    'LBRACE',
-    'RBRACE',
-    'LBRACKET',
-    'RBRACKET',
-    'SEMI',
-    'ERROR',
-    'CONSTRUCT'
-    #Fin - Pratt Garcia
-]
-
-# Definición de los patrones de los tokens
-
-#Inicio - Pratt Garcia
+# Inicio - Pratt Garcia
 t_PHP_OPEN = r'<\?php'
 t_PHP_CLOSE = r'\?>'
 t_AND = r'&&'
@@ -124,7 +117,15 @@ t_CONSTRUCT = r'__construct'
 t_USE = r'use'
 t_ECHO = r'echo'
 t_TYPE = r'\b(int|float|string|bool|array|object|void)\b'
-
+t_SET = r'='
+t_DOLLAR  = r'\$'
+t_PLUS    = r'\+'
+t_MINUS   = r'-'
+t_TIMES   = r'\*'
+t_DIVIDE  = r'/'
+t_MOD     = r'%'
+t_ARROW   = r'=>'
+t_COMMA   = r','
 
 def t_NEWLINE(t):
     r'\n+'
@@ -136,6 +137,8 @@ def t_READLINE(t):
     t.value = 'readline'
     return t
 
+<<<<<<< HEAD
+=======
 t_ignore = ' \t'
 
 #Fin - Pratt Garcia
@@ -153,6 +156,7 @@ t_MOD     = r'%'
 t_ARROW   = r'=>'
 t_COMMA   = r','
 
+>>>>>>> b7a2b93ddb38e8bd4e1df8b994dadec8727d074e
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'VARIABLE')
@@ -168,20 +172,9 @@ def t_INTEGER(t):
     t.value = int(t.value)    
     return t
 
-# fin - Alejandro Barrera
-
-# Inicio - Pratt Garcia
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'IDENTIFIER')
-    return t
-
-# Fin - Pratt Garcia
-
-# Inicio - Enrique Zambrano
-def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value, 'ID')
     return t
 
 def t_COMMENT(t):
@@ -193,7 +186,8 @@ def t_STRING(t):
     t.type = 'STRING'
     return t
 
-# fin - Enrique Zambrano
+# Ignorar espacios en blanco y tabuladores
+t_ignore = ' \t'
 
 # Regla para manejar errores
 def t_error(t):
@@ -220,6 +214,7 @@ def test_lexer(data, username):
             log_file.write(f"{tok.type}: {tok.value} (line {tok.lineno})\n")
             print(f"{tok.type}: {tok.value} (line {tok.lineno})")
 
+
 #Prueba de Lexer con algoritmo de Enrique Zambrano
 #Inicio - Enrique Zambrano
 data1 = '''
@@ -229,7 +224,7 @@ $var2 = $var1 + 20;
 
 #test_lexer(data1, "EZambranoFx")
 
-data2 =    '''
+data2 = '''
 <?php
 // Factorial function
 function factorial($n) {
@@ -343,6 +338,5 @@ function suma($a, $b) {
 echo suma($a, $b);
 ?>
 '''
-#test_lexer(AlgoritmoAlejandroBarrera, "ABarreraF")
+test_lexer(AlgoritmoAlejandroBarrera, "ABarreraF")
 #Fin - Alejandro Barrera
-
