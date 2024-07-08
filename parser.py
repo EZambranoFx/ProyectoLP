@@ -32,10 +32,21 @@ def p_declaration(p):
                     | VARIABLE SET expression
                     | VARIABLE SET condition'''
     variables[p[1]] = p[3]        #Enrique Zambrano
+    if isinstance(p[3], str) and p[3] not in variables:
+        print(f"Error semántico: la variable '{p[3]}' no ha sido inicializada.")
     
-def p_class_statement(p):
+def p_class_statement(p):          #Enrique Zambrano
     '''class_statement : CLASS IDENTIFIER LBRACE class_member_list RBRACE'''
     p[0] = ('class', p[2], p[4])
+    validate_class_members(p[2], p[4])
+
+def validate_class_members(class_name, member_list):        #Enrique Zambrano
+    if not member_list:
+        raise Exception(f"Error semántico: la clase {class_name} no tiene miembros.")
+    for member in member_list:
+        if member[0] not in ['property', 'method', 'constructor']:
+            raise Exception(f"Error semántico: miembro {member[1]} en la clase {class_name} no es válido.")
+
 
 def p_function_statement(p):
     '''function_statement : FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
