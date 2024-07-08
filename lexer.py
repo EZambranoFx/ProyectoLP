@@ -122,15 +122,6 @@ t_CONSTRUCT = r'__construct'
 t_USE = r'use'
 t_ECHO = r'echo'
 t_TYPE = r'\b(int|float|string|bool|array|object|void)\b'
-t_SET = r'='
-t_DOLLAR  = r'\$'
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_MOD     = r'%'
-t_ARROW   = r'=>'
-t_COMMA   = r','
 t_DEFINE = r'define'
 t_THROW = r'throw'
 t_TRY = r'try'
@@ -147,7 +138,6 @@ def t_READLINE(t):
     t.value = 'readline'
     return t
 
-t_ignore = ' \t'
 
 #Fin - Pratt Garcia
 

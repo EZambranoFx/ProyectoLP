@@ -216,6 +216,65 @@ def p_class_member(p):
                     | constructor_declaration'''
 
 
+#Inicio Regla semantica Pratt Garcia
+def p_constant_declaration(p):
+    '''constant_declaration : DEFINE LPAREN STRING COMMA expression RPAREN SEMI
+                            | CONST IDENTIFIER SET expression SEMI'''
+    if p[1] == 'define':
+        constant_name = p[3]
+        constant_value = p[5]
+        if constant_name in constants:
+            print(f"Error: Constant '{constant_name}' is already defined.")
+        else:
+            constants[constant_name] = constant_value
+    else:
+        constant_name = p[2]
+        constant_value = p[4]
+        if constant_name in constants:
+            print(f"Error: Constant '{constant_name}' is already defined.")
+        else:
+            constants[constant_name] = constant_value
+
+def p_constant_use(p):
+    '''constant_use : IDENTIFIER'''
+    constant_name = p[1]
+    if constant_name not in constants:
+        print(f"Error: Constant '{constant_name}' is not defined.")
+
+def p_try_catch(p):
+    '''try_catch : TRY LBRACE statements RBRACE catch_list'''
+    p[0] = ('try_catch', p[3], p[5])
+
+def p_catch_list(p):
+    '''catch_list : catch_item catch_list
+                  | empty'''
+    if len(p) == 3:
+        p[0] = [p[1]] + (p[2] if p[2] else [])
+    else:
+        p[0] = []
+
+def p_catch_item(p):
+    '''catch_item : CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE'''
+    # Añadir manejo semántico aquí, por ejemplo:
+    exception_type = p[3]
+    exception_variable = p[4]
+    # Verificar si la excepción es genérica o específica
+    if exception_type != 'Exception':
+        # Validar que la excepción esté definida o sea manejada adecuadamente
+        if exception_type not in defined_exceptions:
+            print(f"Error semántico: Excepción '{exception_type}' no definida.")
+        # Asegurarse de que la variable de excepción se maneje correctamente
+        if exception_variable not in variables:
+            print(f"Error semántico: Variable '{exception_variable}' no definida para capturar la excepción.")
+    else:
+        # Excepción genérica, no se requiere una variable
+        if exception_variable is not None:
+            print(f"Error semántico: No se espera variable para la excepción genérica '{exception_type}'.")
+
+    p[0] = ('catch_item', exception_type, exception_variable, p[7])
+
+#Fin Pratt Garcia
+
 def p_property_declaration(p):
     '''property_declaration : visibility VARIABLE'''
 

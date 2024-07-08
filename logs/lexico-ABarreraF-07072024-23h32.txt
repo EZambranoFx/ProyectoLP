@@ -1,0 +1,52 @@
+NEWLINE: 
+ (line 1)
+PHP_OPEN: <?php (line 2)
+NEWLINE: 
+ (line 2)
+VARIABLE: $a (line 3)
+SET: = (line 3)
+INTEGER: 3 (line 3)
+SEMI: ; (line 3)
+NEWLINE: 
+ (line 3)
+VARIABLE: $b (line 4)
+SET: = (line 4)
+INTEGER: 4 (line 4)
+SEMI: ; (line 4)
+NEWLINE: 
+
+ (line 4)
+FUNCTION: function (line 6)
+IDENTIFIER: suma (line 6)
+LPAREN: ( (line 6)
+VARIABLE: $a (line 6)
+COMMA: , (line 6)
+VARIABLE: $b (line 6)
+RPAREN: ) (line 6)
+LBRACE: { (line 6)
+NEWLINE: 
+ (line 6)
+RETURN: return (line 7)
+VARIABLE: $a (line 7)
+PLUS: + (line 7)
+VARIABLE: $b (line 7)
+SEMI: ; (line 7)
+NEWLINE: 
+ (line 7)
+RBRACE: } (line 8)
+NEWLINE: 
+
+ (line 8)
+IDENTIFIER: echo (line 10)
+IDENTIFIER: suma (line 10)
+LPAREN: ( (line 10)
+VARIABLE: $a (line 10)
+COMMA: , (line 10)
+VARIABLE: $b (line 10)
+RPAREN: ) (line 10)
+SEMI: ; (line 10)
+NEWLINE: 
+ (line 10)
+PHP_CLOSE: ?> (line 11)
+NEWLINE: 
+ (line 11)
