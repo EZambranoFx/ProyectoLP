@@ -1,0 +1,7 @@
+calc > echo 'hola';
+
+calc > echo (45);
+
+Syntax error in print statement. Bad expression
+calc > echo'ho
+

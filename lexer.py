@@ -26,7 +26,6 @@ tokens = [
     'SET',
     'DOLLAR',
     'USE',
-    'ECHO',
     'TYPE',
     'READLINE',
     # fin - Alejandro Barrera
@@ -91,11 +90,23 @@ reserved = {
     'try': 'TRY', 
     'catch': 'CATCH', 
     'finally': 'FINALLY', 
-    'throw': 'THROW'
+    'throw': 'THROW',
+    'echo': 'ECHO'
     # fin - Enrique Zambrano
 }
 
 tokens += list(reserved.values())
+
+# Inicio - Alejandro Barrera
+t_SET     = r'\='
+t_DOLLAR  = r'\$'
+t_PLUS    = r'\+'
+t_MINUS   = r'-'
+t_TIMES   = r'\*'
+t_DIVIDE  = r'/'
+t_MOD     = r'%'
+t_ARROW   = r'=>'
+t_COMMA   = r','
 
 # Inicio - Pratt Garcia
 t_PHP_OPEN = r'<\?php'
@@ -120,7 +131,6 @@ t_RBRACKET = r'\]'
 t_SEMI = r';'
 t_CONSTRUCT = r'__construct'
 t_USE = r'use'
-t_ECHO = r'echo'
 t_TYPE = r'\b(int|float|string|bool|array|object|void)\b'
 t_DEFINE = r'define'
 t_THROW = r'throw'
@@ -143,16 +153,7 @@ def t_READLINE(t):
 
 # Definición de los patrones de los tokens
 
-# Inicio - Alejandro Barrera
-t_SET     = r'\='
-t_DOLLAR  = r'\$'
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_MOD     = r'%'
-t_ARROW   = r'=>'
-t_COMMA   = r','
+
 
 
 def t_VARIABLE(t):
@@ -180,7 +181,7 @@ def t_COMMENT(t):
     pass  # Ignorar comentarios
 
 def t_STRING(t):
-    r'\"([^\\\n]|(\\.))*?\"'
+    r'(\"([^\\\n]|(\\.))*?\"|\'([^\\\n]|(\\.))*?\')'
     t.type = 'STRING'
     return t
 
@@ -189,7 +190,7 @@ t_ignore = ' \t'
 
 # Regla para manejar errores
 def t_error(t):
-    print(f"Illegal character '{t.value[0]}'")
+    #print(f"Illegal character '{t.value[0]}'")
     t.lexer.skip(1)
 
 # Construir el lexer
@@ -336,5 +337,5 @@ function suma($a, $b) {
 echo suma($a, $b);
 ?>
 '''
-test_lexer(AlgoritmoAlejandroBarrera, "ABarreraF")
+#test_lexer(AlgoritmoAlejandroBarrera, "A1ej00")
 #Fin - Alejandro Barrera

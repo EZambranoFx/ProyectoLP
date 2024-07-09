@@ -1,15 +1,21 @@
 import ply.yacc as yacc
-from docutils.parsers import null
-
 from lexer import tokens
 import datetime
 import os
+
+date = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
+username = input('set username: ')
+log_folder = "logs"
+os.makedirs(log_folder, exist_ok=True)
+filename = f"Sintactico-{username}-{date}.txt"
+
 
 variables ={}
 constants={}
 defined_exceptions = ['CustomException', 'AnotherException']
 def p_statement(p):
     '''statement : print SEMI
+                 | print_error
                  | declaration SEMI
                  | input SEMI
                  | expression SEMI
@@ -28,6 +34,7 @@ def p_statement(p):
                  | try_catch
                  | catch_item
                  | if'''
+    
     
 def p_statements(p):
     '''statements : statement statements
@@ -61,7 +68,7 @@ def p_function_statement(p):
 
 # Estructura de Control: While
 def p_while(p):
-    '''while : WHILE LPAREN expression RPAREN LBRACE statements RBRACE'''
+    '''while : WHILE LPAREN condition RPAREN LBRACE statements RBRACE'''
 
 
 # Funcion: Funcion Variable
@@ -73,6 +80,7 @@ def p_function_variable(p):
 def p_print(p):
     '''print : ECHO LPAREN value RPAREN
             | ECHO value
+            | ECHO LPAREN STRING RPAREN
             | ECHO STRING'''
         
     if (len(p) == 5):    
@@ -81,6 +89,14 @@ def p_print(p):
         else:
             print(f"Error semántico: la variable {p[3]} no ha sido inicializada.")
             return
+        
+def p_print_error(p):
+    'print_error : ECHO error'
+    print("Syntax error in print statement. Bad expression")
+    log_file.write("Syntax error in print statement. Bad expression")
+    log_file.write("\n")
+    
+    
 
 # Solicitud de Datos
 def p_input(p):
@@ -305,7 +321,7 @@ def p_parameter(p):
 
 # Definicion del elseif
 def p_elseif(p):
-    '''elseif : ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE
+    '''elseif : ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE elseif
                 | ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE else'''
 
 
@@ -335,28 +351,20 @@ def p_empty(p):
 def p_error(p):
     print("Syntax error in input!")
 
+
 parser = yacc.yacc()
 
+with open(os.path.join(log_folder, filename), 'w') as log_file:
+    while True:
+        try:
+            s = input('calc > ')
+        except EOFError:
+            break
+        if not s: continue
+        if s == "close":
+            break
+        result = parser.parse(s)
+        print(result)
+        log_file.write('calc > ' + s)
+        log_file.write("\n\n")
 
-def test_parser(username):
-    log_folder = "logs"
-    os.makedirs(log_folder, exist_ok=True)
-    current_time = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
-    filename = f"Sintactico-{username}-{current_time}.txt"
-    
-    with open(os.path.join(log_folder, filename), 'w') as log_file:
-        while True:
-            try:
-                s = input('calc > ')
-            except EOFError:
-                break
-            if not s: continue
-            if s == "close":
-                break
-            result = parser.parse(s)
-            print(result)
-            log_file.write(str(result))
-
-
-
-test_parser("A1ej00")
