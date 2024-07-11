@@ -1,0 +1,4 @@
+calc > $n=pratt;
+
+calc > $n="pratt";
+
