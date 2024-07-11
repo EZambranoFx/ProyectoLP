@@ -64,22 +64,13 @@ reserved = {
     # inicio - Enrique Zambrano
     'if': 'IF', 
     'else': 'ELSE',
+    'elseif':'ELSEIF',
     'array' : 'ARRAY',
-    'elseif': 'ELSEIF', 
     'while': 'WHILE', 
-    'do': 'DO',
     'for': 'FOR', 
-    'foreach': 'FOREACH', 
-    'switch': 'SWITCH', 
-    'case': 'CASE', 
-    'default': 'DEFAULT',
-    'break': 'BREAK', 
-    'continue': 'CONTINUE', 
     'return': 'RETURN', 
     'function': 'FUNCTION',
     'class': 'CLASS', 
-    'extends': 'EXTENDS', 
-    'implements': 'IMPLEMENTS', 
     'public': 'PUBLIC',
     'protected': 'PROTECTED', 
     'private': 'PRIVATE', 
@@ -87,10 +78,6 @@ reserved = {
     'const': 'CONST',
     'var': 'VAR', 
     'new': 'NEW', 
-    'try': 'TRY', 
-    'catch': 'CATCH', 
-    'finally': 'FINALLY', 
-    'throw': 'THROW',
     'echo': 'ECHO'
     # fin - Enrique Zambrano
 }
@@ -145,7 +132,6 @@ def t_NEWLINE(t):
 
 def t_READLINE(t):
     r'readline\s*\(\s*\)'
-    t.value = 'readline'
     return t
 
 
@@ -155,6 +141,10 @@ def t_READLINE(t):
 
 
 
+def t_FUNCTION(t):
+    r'function'
+    t.value = 'function'
+    return t
 
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z0-9_]*'
@@ -170,7 +160,7 @@ def t_INTEGER(t):
     r'\d+'
     t.value = int(t.value)    
     return t
-
+# Inicio - Enrique Zabrano
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'IDENTIFIER')
@@ -184,6 +174,7 @@ def t_STRING(t):
     r'(\"([^\\\n]|(\\.))*?\"|\'([^\\\n]|(\\.))*?\')'
     t.type = 'STRING'
     return t
+# fin - Enrique Zambrano
 
 # Ignorar espacios en blanco y tabuladores
 t_ignore = ' \t'
