@@ -29,7 +29,6 @@ tokens = [
     'DOLLAR',
     'USE',
     'TYPE',
-    'READLINE',
     # fin - Alejandro Barrera
     # inicio - Pratt Garcia
     'NEWLINE',
@@ -51,12 +50,8 @@ tokens = [
     'LBRACKET',
     'RBRACKET',
     'SEMI',
-    'ERROR',
-    'CONSTRUCT',
-    'THROW',
-    'TRY',
-    'CATCH',
-    'EXCEPTION'
+    'ERROR'
+
     # fin - Pratt Garcia
 ]
 
@@ -80,7 +75,15 @@ reserved = {
     'define': 'DEFINE',
     'var': 'VAR',
     'new': 'NEW',
-    'echo': 'ECHO'
+    'echo': 'ECHO',
+    'Exception': 'EXCEPTION',
+    'construct': 'CONSTRUCT',
+    'throw': 'THROW',
+    'try': 'TRY',
+    'catch': 'CATCH',
+    'CustomException': 'EXCEPTION',
+    'AnotherException': 'EXCEPTION',
+    'readline': 'READLINE'
     # fin - Enrique Zambrano
 }
 
@@ -162,6 +165,8 @@ def t_INTEGER(t):
     r'\d+'
     t.value = int(t.value)
     return t
+# fin - Alejandro Barrera
+
 # Inicio - Enrique Zabrano
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -231,6 +236,8 @@ def p_declaration(p):
                     | VARIABLE SET expression
                     | VARIABLE SET condition'''
 
+    variables[p[1]] = p[3]
+
 
 def p_function_statement(p):
     '''function_statement : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
@@ -270,7 +277,7 @@ def p_print_error(p):
 
 # Solicitud de Datos
 def p_input(p):
-    'input : VARIABLE SET READLINE LPAREN RPAREN'
+    'input : VARIABLE SET READLINE LPAREN STRING RPAREN'
 
 
 # Estructura de Datos: Declaracion de objetos
@@ -333,7 +340,7 @@ def p_index(p):
 
 # Función: Funciones de flecha.
 def p_function_arrow(p):
-    '''function_arrow : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    '''function_arrow : VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
                     | FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow'''
 
 
@@ -478,8 +485,8 @@ def p_catch_list(p):
 
 
 def p_catch_item(p):
-    '''catch_item : CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE'''
-    # Añadir manejo semántico aquí, por ejemplo:
+    '''catch_item : CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE
+                  | CATCH LPAREN EXCEPTION empty RPAREN LBRACE statements RBRACE'''
     exception_type = p[3]
     exception_variable = p[4]
     # Verificar si la excepción es genérica o específica
@@ -489,9 +496,9 @@ def p_catch_item(p):
             print(f"Error semántico: Excepción '{exception_type}' no definida.")
         # Asegurarse de que la variable de excepción se maneje correctamente
         if exception_variable not in variables:
+            print(variables)
             print(f"Error semántico: Variable '{exception_variable}' no definida para capturar la excepción.")
     else:
-        # Excepción genérica, no se requiere una variable
         if exception_variable is not None:
             print(f"Error semántico: No se espera variable para la excepción genérica '{exception_type}'.")
 

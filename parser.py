@@ -12,7 +12,7 @@ filename = f"Sintactico-{username}-{date}.txt"
 
 variables ={}
 constants={}
-defined_exceptions = ['CustomException', 'AnotherException','Exception']
+defined_exceptions = ['CustomException', 'AnotherException']
 def p_statement(p):
     '''statement : print SEMI
                  | print_error
@@ -45,6 +45,8 @@ def p_declaration(p):
                     | VARIABLE SET STRING
                     | VARIABLE SET expression
                     | VARIABLE SET condition'''
+    
+    variables[p[1]] = p[3]
     
 def p_function_statement(p):
     '''function_statement : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
@@ -84,7 +86,7 @@ def p_print_error(p):
 
 # Solicitud de Datos
 def p_input(p):
-    'input : VARIABLE SET READLINE LPAREN RPAREN'
+    'input : VARIABLE SET READLINE LPAREN STRING RPAREN'
     
 # Estructura de Datos: Declaracion de objetos
 def p_object_declaration(p):
@@ -143,7 +145,7 @@ def p_index(p):
 
 #Función: Funciones de flecha.
 def p_function_arrow(p):
-    '''function_arrow : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    '''function_arrow : VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
                     | FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow'''
 
 
@@ -284,8 +286,8 @@ def p_catch_list(p):
         p[0] = []
 
 def p_catch_item(p):
-    '''catch_item : CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE'''
-    # Añadir manejo semántico aquí, por ejemplo:
+    '''catch_item : CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE
+                  | CATCH LPAREN EXCEPTION empty RPAREN LBRACE statements RBRACE'''
     exception_type = p[3]
     exception_variable = p[4]
     # Verificar si la excepción es genérica o específica
@@ -298,7 +300,6 @@ def p_catch_item(p):
             print(variables)
             print(f"Error semántico: Variable '{exception_variable}' no definida para capturar la excepción.")
     else:
-        # Excepción genérica, no se requiere una variable
         if exception_variable is not None:
             print(f"Error semántico: No se espera variable para la excepción genérica '{exception_type}'.")
 

@@ -1,0 +1,8 @@
+calc > define("PI",2);
+
+calc > PI+2;
+
+calc > try{echo"hola";} catch(Exception $e){echo"hola";}
+
+calc > try{echo"hola";} catch(Exception){echo"hola";}
+

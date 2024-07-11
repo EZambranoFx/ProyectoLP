@@ -1,0 +1,10 @@
+calc > $a=2;
+
+calc > $a+1;
+
+calc > try{echo"hola";} catch(CustomException $e){echo"hola";}
+
+calc > $e="";
+
+calc > try{echo"hola";} catch(CustomException $e){echo"hola";}
+

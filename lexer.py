@@ -27,7 +27,6 @@ tokens = [
     'DOLLAR',
     'USE',
     'TYPE',
-    'READLINE',
     # fin - Alejandro Barrera
     # inicio - Pratt Garcia
     'NEWLINE',
@@ -81,7 +80,8 @@ reserved = {
     'try': 'TRY',
     'catch': 'CATCH',
     'CustomException': 'EXCEPTION',
-    'AnotherException': 'EXCEPTION'
+    'AnotherException': 'EXCEPTION',
+    'readline': 'READLINE'
     # fin - Enrique Zambrano
 }
 
@@ -163,6 +163,8 @@ def t_INTEGER(t):
     r'\d+'
     t.value = int(t.value)    
     return t
+# fin - Alejandro Barrera
+
 # Inicio - Enrique Zabrano
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -214,8 +216,8 @@ def test_lexer(data, username):
 
 #Prueba de Lexer con algoritmo de Enrique Zambrano
 
-data2 = '$e="";'
-test_lexer(data2,"pratt")
+data2 = 'A+2;'
+#test_lexer(data2,"pratt")
 #Inicio - Enrique Zambrano
 data1 = '''
 $var1 = 10;

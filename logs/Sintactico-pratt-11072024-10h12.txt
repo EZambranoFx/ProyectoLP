@@ -1,0 +1,6 @@
+calc > ry{echo"hola";} catch(Exception){echo"hola";}
+
+calc > try{echo"hola";} catch(Exception){echo"hola";}
+
+calc > try{echo"hola";} catch(Exception $e){echo"hola";}
+
