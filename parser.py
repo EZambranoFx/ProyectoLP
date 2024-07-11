@@ -17,6 +17,7 @@ def p_statement(p):
     '''statement : print SEMI
                  | print_error
                  | declaration SEMI
+                 | declaration_error
                  | input SEMI
                  | expression SEMI
                  | object_declaration
@@ -32,8 +33,7 @@ def p_statement(p):
                  | constant_use
                  | try_catch
                  | catch_item
-                 | if
-                 | empty'''
+                 | if'''
     
     
 def p_statements(p):
@@ -47,6 +47,12 @@ def p_declaration(p):
                     | VARIABLE SET condition'''
     
     variables[p[1]] = p[3]
+    
+def p_declaration_error(p):
+    'declaration_error : VARIABLE SET error'
+    print("Syntax error in declaration statement. Bad expression")
+    log_file.write("Syntax error in declaration statement. Bad expression")
+    log_file.write("\n")
     
 def p_function_statement(p):
     '''function_statement : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
@@ -100,24 +106,23 @@ def p_array_declaration(p):
 
 def p_arrayArg(p):
     '''arrayArg : index ARROW value
-                | index ARROW value arrayArg
                 | index ARROW value COMMA arrayArg'''
 
 
 # Estructura de Control: if y else
 def p_if(p):
-    '''if : IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI
-            | IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
-            | IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
-            | IF LPAREN condition RPAREN LBRACE statements RBRACE else'''
-    
-    if p[3] == null:
-        print(f"Error semántico: Falta poner una condición.")
-        return
+    '''if : IF LPAREN conditions RPAREN LBRACE statements RBRACE
+            | IF LPAREN conditions RPAREN LBRACE statements RBRACE elseif
+            | IF LPAREN conditions RPAREN LBRACE statements RBRACE else'''
 
+# Definicion del elseif
+def p_elseif(p):
+    '''elseif : ELSEIF LPAREN conditions RPAREN LBRACE statements RBRACE
+                | ELSEIF LPAREN conditions RPAREN LBRACE statements RBRACE elseif
+                | ELSEIF LPAREN conditions RPAREN LBRACE statements RBRACE else'''
 
 def p_else(p):
-    '''else : ELSE LBRACE statements RBRACE SEMI'''
+    '''else : ELSE LBRACE statements RBRACE'''
 
 
 def p_condition(p):
@@ -135,8 +140,8 @@ def p_condition(p):
         return
 
 def p_conditions(p):
-    '''conditions : LBRACE condition RBRACE logical_operator conditions
-                    | LBRACE condition RBRACE'''
+    '''conditions : condition logical_operator conditions
+                    | condition '''
 
 def p_index(p):
     '''index : INTEGER
@@ -333,12 +338,6 @@ def p_parameters(p):
 def p_parameter(p):
     '''parameter : TYPE VARIABLE
                  | VARIABLE'''
-
-
-# Definicion del elseif
-def p_elseif(p):
-    '''elseif : ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE elseif
-                | ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE else'''
 
 
 # Funciones anonimas

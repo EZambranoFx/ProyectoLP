@@ -1,0 +1,3 @@
+Syntax error in declaration statement. Bad expression
+calc > $a = $@
+
