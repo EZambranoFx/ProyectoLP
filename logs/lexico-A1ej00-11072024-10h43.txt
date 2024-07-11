@@ -1,0 +1,328 @@
+NEWLINE: 
+ (line 1)
+PHP_OPEN: <?php (line 2)
+NEWLINE: 
+ (line 2)
+NEWLINE: 
+
+ (line 3)
+NEWLINE: 
+
+ (line 5)
+NEWLINE: 
+
+ (line 7)
+NEWLINE: 
+ (line 9)
+VARIABLE: $entero (line 10)
+SET: = (line 10)
+INTEGER: 32 (line 10)
+SEMI: ; (line 10)
+NEWLINE: 
+ (line 10)
+VARIABLE: $flotante (line 11)
+SET: = (line 11)
+FLOAT: 6.28 (line 11)
+SEMI: ; (line 11)
+NEWLINE: 
+ (line 11)
+VARIABLE: $cadena (line 12)
+SET: = (line 12)
+STRING: Hola Mundo (line 12)
+SEMI: ; (line 12)
+NEWLINE: 
+ (line 12)
+VARIABLE: $booleano (line 13)
+SET: = (line 13)
+IDENTIFIER: false (line 13)
+SEMI: ; (line 13)
+NEWLINE: 
+
+ (line 13)
+NEWLINE: 
+ (line 15)
+VARIABLE: $arreglo (line 16)
+SET: = (line 16)
+LBRACKET: [ (line 16)
+INTEGER: 7 (line 16)
+COMMA: , (line 16)
+IDENTIFIER: i (line 16)
+COMMA: , (line 16)
+LBRACKET: [ (line 16)
+INTEGER: 1 (line 16)
+COMMA: , (line 16)
+INTEGER: 2 (line 16)
+RBRACKET: ] (line 16)
+RBRACKET: ] (line 16)
+SEMI: ; (line 16)
+NEWLINE: 
+
+ (line 16)
+NEWLINE: 
+ (line 18)
+CLASS: class (line 19)
+IDENTIFIER: Clase (line 19)
+LBRACE: { (line 19)
+NEWLINE: 
+ (line 19)
+PUBLIC: public (line 20)
+VARIABLE: $propiedad (line 20)
+SET: = (line 20)
+STRING: valor (line 20)
+SEMI: ; (line 20)
+NEWLINE: 
+ (line 20)
+PUBLIC: public (line 21)
+FUNCTION: function (line 21)
+IDENTIFIER: m (line 21)
+IDENTIFIER: todo (line 21)
+LPAREN: ( (line 21)
+VARIABLE: $parametro (line 21)
+RPAREN: ) (line 21)
+LBRACE: { (line 21)
+NEWLINE: 
+ (line 21)
+ECHO: echo (line 22)
+VARIABLE: $parametro (line 22)
+SEMI: ; (line 22)
+NEWLINE: 
+ (line 22)
+RETURN: return (line 23)
+SEMI: ; (line 23)
+NEWLINE: 
+ (line 23)
+RBRACE: } (line 24)
+NEWLINE: 
+ (line 24)
+RBRACE: } (line 25)
+NEWLINE: 
+ (line 25)
+VARIABLE: $instancia (line 26)
+SET: = (line 26)
+NEW: new (line 26)
+IDENTIFIER: Clase (line 26)
+LPAREN: ( (line 26)
+RPAREN: ) (line 26)
+SEMI: ; (line 26)
+NEWLINE: 
+ (line 26)
+ECHO: echo (line 27)
+VARIABLE: $instancia (line 27)
+MINUS: - (line 27)
+GT: > (line 27)
+IDENTIFIER: m (line 27)
+IDENTIFIER: todo (line 27)
+LPAREN: ( (line 27)
+IDENTIFIER: Hola (line 27)
+RPAREN: ) (line 27)
+NEWLINE: 
+ (line 27)
+SEMI: ; (line 28)
+NEWLINE: 
+
+ (line 28)
+NEWLINE: 
+ (line 30)
+VARIABLE: $suma (line 31)
+SET: = (line 31)
+VARIABLE: $entero (line 31)
+PLUS: + (line 31)
+INTEGER: 5 (line 31)
+SEMI: ; (line 31)
+NEWLINE: 
+ (line 31)
+VARIABLE: $resta (line 32)
+SET: = (line 32)
+VARIABLE: $entero (line 32)
+MINUS: - (line 32)
+INTEGER: 3 (line 32)
+SEMI: ; (line 32)
+NEWLINE: 
+ (line 32)
+VARIABLE: $multiplicaci (line 33)
+IDENTIFIER: n (line 33)
+SET: = (line 33)
+VARIABLE: $entero (line 33)
+TIMES: * (line 33)
+INTEGER: 2 (line 33)
+SEMI: ; (line 33)
+NEWLINE: 
+ (line 33)
+VARIABLE: $divisi (line 34)
+IDENTIFIER: n (line 34)
+SET: = (line 34)
+VARIABLE: $entero (line 34)
+DIVIDE: / (line 34)
+INTEGER: 2 (line 34)
+SEMI: ; (line 34)
+NEWLINE: 
+ (line 34)
+VARIABLE: $modulo (line 35)
+SET: = (line 35)
+VARIABLE: $entero (line 35)
+MOD: % (line 35)
+INTEGER: 3 (line 35)
+SEMI: ; (line 35)
+NEWLINE: 
+ (line 35)
+VARIABLE: $entero (line 36)
+PLUS: + (line 36)
+SET: = (line 36)
+INTEGER: 2 (line 36)
+SEMI: ; (line 36)
+NEWLINE: 
+
+ (line 36)
+NEWLINE: 
+ (line 38)
+VARIABLE: $and (line 39)
+SET: = (line 39)
+VARIABLE: $booleano (line 39)
+AND: && (line 39)
+IDENTIFIER: false (line 39)
+SEMI: ; (line 39)
+NEWLINE: 
+ (line 39)
+VARIABLE: $or (line 40)
+SET: = (line 40)
+VARIABLE: $booleano (line 40)
+OR: || (line 40)
+IDENTIFIER: false (line 40)
+SEMI: ; (line 40)
+NEWLINE: 
+ (line 40)
+VARIABLE: $not (line 41)
+SET: = (line 41)
+NOT: ! (line 41)
+VARIABLE: $booleano (line 41)
+SEMI: ; (line 41)
+NEWLINE: 
+
+ (line 41)
+NEWLINE: 
+ (line 43)
+IF: if (line 44)
+LPAREN: ( (line 44)
+VARIABLE: $entero (line 44)
+GE: >= (line 44)
+INTEGER: 10 (line 44)
+RPAREN: ) (line 44)
+LBRACE: { (line 44)
+NEWLINE: 
+ (line 44)
+ECHO: echo (line 45)
+IDENTIFIER: Mayor (line 45)
+IDENTIFIER: que (line 45)
+INTEGER: 10 (line 45)
+NEWLINE: 
+ (line 45)
+SEMI: ; (line 46)
+NEWLINE: 
+ (line 46)
+RBRACE: } (line 47)
+ELSE: else (line 47)
+IF: if (line 47)
+LPAREN: ( (line 47)
+VARIABLE: $entero (line 47)
+LT: < (line 47)
+INTEGER: 5 (line 47)
+RPAREN: ) (line 47)
+LBRACE: { (line 47)
+NEWLINE: 
+ (line 47)
+IDENTIFIER: Echo (line 48)
+IDENTIFIER: Entre (line 48)
+INTEGER: 1 (line 48)
+IDENTIFIER: y (line 48)
+INTEGER: 5 (line 48)
+NEWLINE: 
+ (line 48)
+SEMI: ; (line 49)
+NEWLINE: 
+ (line 49)
+RBRACE: } (line 50)
+ELSE: else (line 50)
+LBRACE: { (line 50)
+NEWLINE: 
+ (line 50)
+ECHO: echo (line 51)
+IDENTIFIER: Entre (line 51)
+INTEGER: 10 (line 51)
+IDENTIFIER: y (line 51)
+INTEGER: 5 (line 51)
+NEWLINE: 
+ (line 51)
+SEMI: ; (line 52)
+NEWLINE: 
+ (line 52)
+RBRACE: } (line 53)
+NEWLINE: 
+
+ (line 53)
+NEWLINE: 
+ (line 55)
+VARIABLE: $i (line 56)
+SET: = (line 56)
+INTEGER: 1 (line 56)
+SEMI: ; (line 56)
+NEWLINE: 
+ (line 56)
+WHILE: while (line 57)
+LPAREN: ( (line 57)
+VARIABLE: $i (line 57)
+LE: <= (line 57)
+INTEGER: 10 (line 57)
+RPAREN: ) (line 57)
+LBRACE: { (line 57)
+NEWLINE: 
+ (line 57)
+ECHO: echo (line 58)
+VARIABLE: $i (line 58)
+PLUS: + (line 58)
+PLUS: + (line 58)
+SEMI: ; (line 58)
+NEWLINE: 
+ (line 58)
+RBRACE: } (line 59)
+NEWLINE: 
+
+ (line 59)
+NEWLINE: 
+ (line 61)
+FUNCTION: function (line 62)
+IDENTIFIER: multiplicaci (line 62)
+IDENTIFIER: n (line 62)
+LPAREN: ( (line 62)
+VARIABLE: $a (line 62)
+COMMA: , (line 62)
+VARIABLE: $b (line 62)
+RPAREN: ) (line 62)
+LBRACE: { (line 62)
+NEWLINE: 
+ (line 62)
+RETURN: return (line 63)
+VARIABLE: $a (line 63)
+TIMES: * (line 63)
+VARIABLE: $b (line 63)
+SEMI: ; (line 63)
+NEWLINE: 
+ (line 63)
+RBRACE: } (line 64)
+NEWLINE: 
+
+ (line 64)
+ECHO: echo (line 66)
+IDENTIFIER: suma (line 66)
+LPAREN: ( (line 66)
+INTEGER: 2 (line 66)
+COMMA: , (line 66)
+INTEGER: 3 (line 66)
+RPAREN: ) (line 66)
+NEWLINE: 
+ (line 66)
+SEMI: ; (line 67)
+NEWLINE: 
+ (line 67)
+PHP_CLOSE: ?> (line 68)
+NEWLINE: 
+ (line 68)

@@ -39,7 +39,8 @@ def p_statement(p):
     
 def p_statements(p):
     '''statements : statement statements
-                | statement'''
+                | statement
+                | empty'''
     
 def p_declaration(p):
     '''declaration : VARIABLE SET value

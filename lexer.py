@@ -7,8 +7,6 @@ from ply.ctokens import t_ARROW
 # Definición de los tokens
 tokens = [
     # inicio - Alejandro Barrera
-    'PHP_OPEN',
-    'PHP_CLOSE',
     'VARIABLE',
     'INTEGER',
     'FLOAT',
@@ -16,15 +14,11 @@ tokens = [
     'MINUS',
     'TIMES',
     'DIVIDE',
-    'MOD',
-    'EXP',
     'STRING',
-    'COMMENT',
     'ARROW',
     'COMMA',
     'IDENTIFIER',
     'SET',
-    'DOLLAR',
     'USE',
     'TYPE',
     # fin - Alejandro Barrera
@@ -32,11 +26,8 @@ tokens = [
     'NEWLINE',
     'AND',
     'OR',
-    'NOT',
     'EQ',
-    'IDENTICAL',
     'NE',
-    'NOT_IDENTICAL',
     'LT',
     'GT',
     'LE',
@@ -45,11 +36,7 @@ tokens = [
     'RPAREN',
     'LBRACE',
     'RBRACE',
-    'LBRACKET',
-    'RBRACKET',
-    'SEMI',
-    'ERROR'
-
+    'SEMI'
     # fin - Pratt Garcia
 ]
 
@@ -61,14 +48,11 @@ reserved = {
     'elseif':'ELSEIF',
     'array' : 'ARRAY',
     'while': 'WHILE', 
-    'for': 'FOR', 
-    'return': 'RETURN', 
     'function': 'FUNCTION',
     'class': 'CLASS', 
     'public': 'PUBLIC',
     'protected': 'PROTECTED', 
     'private': 'PRIVATE', 
-    'static': 'STATIC', 
     'const': 'CONST',
     'define': 'DEFINE',
     'var': 'VAR', 
@@ -89,25 +73,18 @@ tokens += list(reserved.values())
 
 # Inicio - Alejandro Barrera
 t_SET     = r'\='
-t_DOLLAR  = r'\$'
 t_PLUS    = r'\+'
 t_MINUS   = r'-'
 t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
-t_MOD     = r'%'
 t_ARROW   = r'=>'
 t_COMMA   = r','
 
 # Inicio - Pratt Garcia
-t_PHP_OPEN = r'<\?php'
-t_PHP_CLOSE = r'\?>'
 t_AND = r'&&'
 t_OR = r'\|\|'
-t_NOT = r'!'
 t_EQ = r'\=\='
-t_IDENTICAL = r'==='
 t_NE = r'!='
-t_NOT_IDENTICAL = r'!=='
 t_LT = r'<'
 t_GT = r'>'
 t_LE = r'<='
@@ -116,8 +93,6 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
-t_LBRACKET = r'\['
-t_RBRACKET = r'\]'
 t_SEMI = r';'
 t_CONSTRUCT = r'__construct'
 t_USE = r'use'
@@ -128,10 +103,6 @@ t_TRY = r'try'
 t_CATCH = r'catch'
 t_EXCEPTION = r'Exception'
 
-def t_NEWLINE(t):
-    r'\n+'
-    t.lexer.lineno += len(t.value)
-    return t
 
 def t_READLINE(t):
     r'readline\s*\(\s*\)'
@@ -330,14 +301,68 @@ for ($i = 0; $i < 3; $i++) {
 #Inicio - Alejandro Barrera
 AlgoritmoAlejandroBarrera = '''
 <?php
-$a = 3;
-$b = 4;
+// Comentario de una línea --- Algoritmo Alejandro Barrera
 
-function suma($a, $b) {
-    return $a + $b;
+// Comentario de una línea
+
+/*
+ Comentario de múltiples líneas
+ */
+
+// Declaración de variables
+$entero = 32; // Entero
+$flotante = 6.28; // Flotante
+$cadena = "Hola Mundo"; // Cadena de texto
+$booleano = false; // Booleano
+
+// Arreglo
+$arreglo = [7, “i”, [1, 2]];
+
+// Objeto y Clase
+class Clase {
+    public $propiedad = "valor";
+    public function método($parametro) {
+        echo $parametro;
+        return;
+    }
+}
+$instancia = new Clase ();
+echo $instancia -> método(“Hola”). "\n";
+
+// Operadores aritméticos y de asignación
+$suma = $entero + 5;
+$resta = $entero - 3;
+$multiplicación = $entero * 2;
+$división = $entero / 2;
+$modulo = $entero % 3;
+$entero += 2;
+
+// Operadores lógicos
+$and = $booleano && false;
+$or = $booleano || false;
+$not = !$booleano;
+
+// Estructura de control: if
+if ($entero >= 10) {
+    echo "Mayor que 10\n";
+} else if ($entero < 5) {
+    Echo "Entre 1 y 5\n";  
+} else {
+    echo "Entre 10 y 5\n";
 }
 
-echo suma($a, $b);
+// Bucle while
+$i = 1;
+while ($i <= 10) {
+    echo $i++;
+}
+
+// Función
+function multiplicación($a, $b) {
+    return $a * $b;
+}
+
+echo suma (2, 3). "\n";
 ?>
 '''
 #test_lexer(AlgoritmoAlejandroBarrera, "A1ej00")
