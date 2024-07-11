@@ -1,0 +1,7 @@
+IDENTIFIER: define (line 1)
+LPAREN: ( (line 1)
+STRING: "PI" (line 1)
+COMMA: , (line 1)
+FLOAT: 3.14 (line 1)
+RPAREN: ) (line 1)
+SEMI: ; (line 1)

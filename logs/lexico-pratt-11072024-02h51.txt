@@ -1,0 +1,4 @@
+IDENTIFIER: A (line 1)
+PLUS: + (line 1)
+INTEGER: 2 (line 1)
+SEMI: ; (line 1)

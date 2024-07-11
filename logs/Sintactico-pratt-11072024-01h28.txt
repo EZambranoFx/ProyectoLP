@@ -1,0 +1,18 @@
+calc > define("PI",3);
+
+calc > define("PI", 3);
+
+calc > $a="PI" + 2;
+
+calc > $a="PI"+2;
+
+calc > 2+2
+
+calc > 2+2;
+
+calc > $a=PI+2;
+
+calc > $a="PI";
+
+calc > $a="PI"+2;
+

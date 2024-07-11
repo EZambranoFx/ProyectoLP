@@ -160,12 +160,19 @@ def p_comparison_operator(p):
 def p_value(p):
     '''value : VARIABLE
             | INTEGER
+            | constant_use
             | FLOAT'''
     
     if isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]];
     else:
         p[0] = p[1];
+
+    if isinstance(p[1], str) and p[1] in constants:
+        print(p[1])
+        p[0] = constants[p[1]]
+    else:
+        p[0] = p[1]
 
 
 def p_operator(p):
@@ -175,20 +182,39 @@ def p_operator(p):
                 | DIVIDE'''
     
 def p_expression(p):
-    'expression : value operator value'
+    '''expression : value operator value
+                  | value'''
     
     if not isinstance(p[1], str) or p[1] in variables:
         pass
     else:
         print(f"Error semántico: la variable {p[1]} no ha sido inicializada.")
         return
-        
-    if not isinstance(p[3], str) or p[3] in variables:
-        pass
+
+    if len(p) == 4:  # Si la producción tiene tres partes: value operator value
+        if not isinstance(p[1], str) or p[1] in variables:
+            pass
+        else:
+            print(f"Error semántico: la variable {p[1]} no ha sido inicializada.")
+            return
+
+        if not isinstance(p[3], str) or p[3] in variables:
+            pass
+        else:
+            print(f"Error semántico: la variable {p[3]} no ha sido inicializada.")
+            return
+
+        if p[2] == '+':
+            p[0] = p[1] + p[3]
+        elif p[2] == '-':
+            p[0] = p[1] - p[3]
+        elif p[2] == '*':
+            p[0] = p[1] * p[3]
+        elif p[2] == '/':
+            p[0] = p[1] / p[3]
     else:
-        print(f"Error semántico: la variable {p[3]} no ha sido inicializada.")
-        return
-        
+        p[0] = p[1]
+
     #Aporte Alejandro: Revisa que, de usarse una variable en la expresión. Esta haya sido inicializada.
     
 
@@ -234,12 +260,16 @@ def p_constant_declaration(p):
             print(f"Error: Constant '{constant_name}' is already defined.")
         else:
             constants[constant_name] = constant_value
+    print(constants)
 
 def p_constant_use(p):
     '''constant_use : IDENTIFIER'''
     constant_name = p[1]
     if constant_name not in constants:
         print(f"Error: Constant '{constant_name}' is not defined.")
+        p[0] = 0
+    else:
+        p[0] = constants[constant_name]
 
 def p_try_catch(p):
     '''try_catch : TRY LBRACE statements RBRACE catch_list'''
@@ -334,7 +364,10 @@ def p_empty(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in input!")
+    if p:
+        print(f"Syntax error at '{p.value}', line {p.lineno}")
+    else:
+        print("Syntax error at EOF")
 
 
 parser = yacc.yacc()

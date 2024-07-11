@@ -51,7 +51,6 @@ tokens = [
     'SEMI',
     'ERROR',
     'CONSTRUCT',
-    'DEFINE',
     'THROW',
     'TRY',
     'CATCH',
@@ -76,6 +75,7 @@ reserved = {
     'private': 'PRIVATE', 
     'static': 'STATIC', 
     'const': 'CONST',
+    'define': 'DEFINE',
     'var': 'VAR', 
     'new': 'NEW', 
     'echo': 'ECHO'
@@ -172,6 +172,10 @@ def t_COMMENT(t):
 
 def t_STRING(t):
     r'(\"([^\\\n]|(\\.))*?\"|\'([^\\\n]|(\\.))*?\')'
+    if t.value.startswith('"'):
+        t.value = t.value.strip('"')
+    elif t.value.startswith("'"):
+        t.value = t.value.strip("'")
     t.type = 'STRING'
     return t
 # fin - Enrique Zambrano
@@ -206,6 +210,9 @@ def test_lexer(data, username):
 
 
 #Prueba de Lexer con algoritmo de Enrique Zambrano
+
+data2 = 'A+2;'
+test_lexer(data2,"pratt")
 #Inicio - Enrique Zambrano
 data1 = '''
 $var1 = 10;

@@ -1,0 +1,6 @@
+calc > define("PI",3);
+
+calc > define ( "PI" , 3 ) ;
+
+calc > def("pi",3);
+

@@ -1,0 +1,6 @@
+calc > define("A",2);
+
+calc > A+2;
+
+calc > $a=A+2;
+

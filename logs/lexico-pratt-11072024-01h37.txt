@@ -1,0 +1,6 @@
+VARIABLE: $a (line 1)
+SET: = (line 1)
+STRING: "PI" (line 1)
+PLUS: + (line 1)
+INTEGER: 2 (line 1)
+SEMI: ; (line 1)

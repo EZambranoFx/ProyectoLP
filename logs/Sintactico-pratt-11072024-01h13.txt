@@ -1,0 +1,4 @@
+calc > define("PI", 3);
+
+calc > 3
+
