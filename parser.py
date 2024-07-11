@@ -33,6 +33,7 @@ def p_statement(p):
                  | constant_use
                  | try_catch
                  | catch_item
+                 | throw_statement
                  | if'''
     
     
@@ -257,14 +258,14 @@ def p_constant_declaration(p):
         constant_name = p[3]
         constant_value = p[5]
         if constant_name in constants:
-            print(f"Error: Constant '{constant_name}' is already defined.")
+            print(f"Error semantico: La constante '{constant_name}' ya esta definida.")
         else:
             constants[constant_name] = constant_value
     else:
         constant_name = p[2]
         constant_value = p[4]
         if constant_name in constants:
-            print(f"Error: Constant '{constant_name}' is already defined.")
+            print(f"Error semantico: La constante '{constant_name}' ya esta definida.")
         else:
             constants[constant_name] = constant_value
     print(constants)
@@ -273,7 +274,7 @@ def p_constant_use(p):
     '''constant_use : IDENTIFIER'''
     constant_name = p[1]
     if constant_name not in constants:
-        print(f"Error: Constant '{constant_name}' is not defined.")
+        print(f"Error semantico: La constante '{constant_name}'no esta definida.")
         p[0] = 0
     else:
         p[0] = constants[constant_name]
@@ -309,6 +310,11 @@ def p_catch_item(p):
             print(f"Error semántico: No se espera variable para la excepción genérica '{exception_type}'.")
 
     p[0] = ('catch_item', exception_type, exception_variable, p[7])
+
+
+def p_throw_statement(p):
+    '''throw_statement : THROW NEW EXCEPTION LPAREN RPAREN SEMI'''
+    p[0] = ('throw', p[3])
 
 #Fin Pratt Garcia
 

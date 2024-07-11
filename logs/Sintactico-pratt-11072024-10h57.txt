@@ -1,0 +1,20 @@
+calc > define("PI",3.1416);
+
+calc > $suma=PI+2;
+
+calc > const PI=3.1416;
+
+calc > const MAX=4;
+
+calc > PI+MAX
+
+calc > PI+MAX;
+
+calc > $resta=5+MIN;
+
+calc > define("MIN",2);
+
+calc > resta=5+MIN;
+
+calc > $resta=5+MIN;
+
