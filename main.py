@@ -7,10 +7,9 @@ import os
 
 # Lexer code (lexer.py)
 # Definición de los tokens y reglas del lexer
+# Definición de los tokens
 tokens = [
     # inicio - Alejandro Barrera
-    'PHP_OPEN',
-    'PHP_CLOSE',
     'VARIABLE',
     'INTEGER',
     'FLOAT',
@@ -18,15 +17,11 @@ tokens = [
     'MINUS',
     'TIMES',
     'DIVIDE',
-    'MOD',
-    'EXP',
     'STRING',
-    'COMMENT',
     'ARROW',
     'COMMA',
     'IDENTIFIER',
     'SET',
-    'DOLLAR',
     'USE',
     'TYPE',
     # fin - Alejandro Barrera
@@ -34,11 +29,8 @@ tokens = [
     'NEWLINE',
     'AND',
     'OR',
-    'NOT',
     'EQ',
-    'IDENTICAL',
     'NE',
-    'NOT_IDENTICAL',
     'LT',
     'GT',
     'LE',
@@ -47,34 +39,27 @@ tokens = [
     'RPAREN',
     'LBRACE',
     'RBRACE',
-    'LBRACKET',
-    'RBRACKET',
-    'SEMI',
-    'ERROR'
-
+    'SEMI'
     # fin - Pratt Garcia
 ]
 
 # Definición de las palabras reservadas
 reserved = {
     # inicio - Enrique Zambrano
-    'if': 'IF',
+    'if': 'IF', 
     'else': 'ELSE',
     'elseif':'ELSEIF',
     'array' : 'ARRAY',
-    'while': 'WHILE',
-    'for': 'FOR',
-    'return': 'RETURN',
+    'while': 'WHILE', 
     'function': 'FUNCTION',
-    'class': 'CLASS',
+    'class': 'CLASS', 
     'public': 'PUBLIC',
-    'protected': 'PROTECTED',
-    'private': 'PRIVATE',
-    'static': 'STATIC',
+    'protected': 'PROTECTED', 
+    'private': 'PRIVATE', 
     'const': 'CONST',
     'define': 'DEFINE',
-    'var': 'VAR',
-    'new': 'NEW',
+    'var': 'VAR', 
+    'new': 'NEW', 
     'echo': 'ECHO',
     'Exception': 'EXCEPTION',
     'construct': 'CONSTRUCT',
@@ -91,25 +76,18 @@ tokens += list(reserved.values())
 
 # Inicio - Alejandro Barrera
 t_SET     = r'\='
-t_DOLLAR  = r'\$'
 t_PLUS    = r'\+'
 t_MINUS   = r'-'
 t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
-t_MOD     = r'%'
 t_ARROW   = r'=>'
 t_COMMA   = r','
 
 # Inicio - Pratt Garcia
-t_PHP_OPEN = r'<\?php'
-t_PHP_CLOSE = r'\?>'
 t_AND = r'&&'
 t_OR = r'\|\|'
-t_NOT = r'!'
-t_EQ = r'=='
-t_IDENTICAL = r'==='
+t_EQ = r'\=\='
 t_NE = r'!='
-t_NOT_IDENTICAL = r'!=='
 t_LT = r'<'
 t_GT = r'>'
 t_LE = r'<='
@@ -118,8 +96,6 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
-t_LBRACKET = r'\['
-t_RBRACKET = r'\]'
 t_SEMI = r';'
 t_CONSTRUCT = r'__construct'
 t_USE = r'use'
@@ -130,10 +106,6 @@ t_TRY = r'try'
 t_CATCH = r'catch'
 t_EXCEPTION = r'Exception'
 
-def t_NEWLINE(t):
-    r'\n+'
-    t.lexer.lineno += len(t.value)
-    return t
 
 def t_READLINE(t):
     r'readline\s*\(\s*\)'
@@ -197,11 +169,9 @@ def t_error(t):
 
 # Parser code (parser.py)
 # Definición del parser y reglas del parser
-variables = {}
-constants = {}
+variables ={}
+constants={}
 defined_exceptions = ['CustomException', 'AnotherException']
-
-
 def p_statement(p):
     '''statement : print SEMI
                  | print_error
@@ -224,32 +194,29 @@ def p_statement(p):
                  | catch_item
                  | throw_statement
                  | if'''
-
-
+    
+    
 def p_statements(p):
     '''statements : statement statements
-                | statement'''
-
-
+                | statement
+                | empty'''
+    
 def p_declaration(p):
     '''declaration : VARIABLE SET value
                     | VARIABLE SET STRING
                     | VARIABLE SET expression
                     | VARIABLE SET condition'''
-
+    
     variables[p[1]] = p[3]
-
-
+    
 def p_declaration_error(p):
     'declaration_error : VARIABLE SET error'
     print("Syntax error in declaration statement. Bad expression")
     log_file.write("Syntax error in declaration statement. Bad expression")
     log_file.write("\n")
-
-
+    
 def p_function_statement(p):
     '''function_statement : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
-
 
 # Estructura de Control: While
 def p_while(p):
@@ -261,37 +228,36 @@ def p_function_variable(p):
     '''function_variable : FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE'''
 
 
+
 # Impresion
 def p_print(p):
     '''print : ECHO LPAREN value RPAREN
             | ECHO value
             | ECHO LPAREN STRING RPAREN
             | ECHO STRING'''
-
-    if (len(p) == 5):
+        
+    if (len(p) == 5):    
         if not isinstance(p[3], str) or p[3] in variables:
             pass
         else:
             print(f"Error semántico: la variable {p[3]} no ha sido inicializada.")
             return
-
-
+        
 def p_print_error(p):
     'print_error : ECHO error'
     print("Syntax error in print statement. Bad expression")
     log_file.write("Syntax error in print statement. Bad expression")
     log_file.write("\n")
-
+    
+    
 
 # Solicitud de Datos
 def p_input(p):
     'input : VARIABLE SET READLINE LPAREN STRING RPAREN'
-
-
+    
 # Estructura de Datos: Declaracion de objetos
 def p_object_declaration(p):
     'object_declaration : VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI'
-
 
 # Estructura de Datos: Declaración de arreglos
 def p_array_declaration(p):
@@ -310,13 +276,11 @@ def p_if(p):
             | IF LPAREN conditions RPAREN LBRACE statements RBRACE elseif
             | IF LPAREN conditions RPAREN LBRACE statements RBRACE else'''
 
-
 # Definicion del elseif
 def p_elseif(p):
     '''elseif : ELSEIF LPAREN conditions RPAREN LBRACE statements RBRACE
                 | ELSEIF LPAREN conditions RPAREN LBRACE statements RBRACE elseif
                 | ELSEIF LPAREN conditions RPAREN LBRACE statements RBRACE else'''
-
 
 def p_else(p):
     '''else : ELSE LBRACE statements RBRACE'''
@@ -329,28 +293,27 @@ def p_condition(p):
     else:
         print(f"Error semántico: la variable {p[1]} no ha sido inicializada.")
         return
-
+        
     if not isinstance(p[3], str) or p[3] in variables:
         pass
     else:
         print(f"Error semántico: la variable {p[3]} no ha sido inicializada.")
         return
 
-
 def p_conditions(p):
     '''conditions : condition logical_operator conditions
                     | condition '''
-
 
 def p_index(p):
     '''index : INTEGER
             | STRING'''
 
 
-# Función: Funciones de flecha.
+#Función: Funciones de flecha.
 def p_function_arrow(p):
     '''function_arrow : VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
                     | FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow'''
+
 
 
 def p_comparison_operator(p):
@@ -367,7 +330,7 @@ def p_value(p):
             | INTEGER
             | constant_use
             | FLOAT'''
-
+    
     if isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]];
     else:
@@ -385,12 +348,11 @@ def p_operator(p):
                 | MINUS
                 | TIMES
                 | DIVIDE'''
-
-
+    
 def p_expression(p):
     '''expression : value operator value
                   | value'''
-
+    
     if not isinstance(p[1], str) or p[1] in variables:
         pass
     else:
@@ -421,13 +383,13 @@ def p_expression(p):
     else:
         p[0] = p[1]
 
-    # Aporte Alejandro: Revisa que, de usarse una variable en la expresión. Esta haya sido inicializada.
+    #Aporte Alejandro: Revisa que, de usarse una variable en la expresión. Esta haya sido inicializada.
+    
 
 
 def p_expressions(p):
     '''expressions : expression COMMA expressions
                     | expression'''
-
 
 def p_class_declaration(p):
     '''class_declaration : CLASS IDENTIFIER LBRACE class_body RBRACE'''
@@ -448,7 +410,7 @@ def p_class_member(p):
                     | constructor_declaration'''
 
 
-# Inicio Regla semantica Pratt Garcia
+#Inicio Regla semantica Pratt Garcia
 def p_constant_declaration(p):
     '''constant_declaration : DEFINE LPAREN STRING COMMA expression RPAREN SEMI
                             | CONST IDENTIFIER SET expression SEMI'''
@@ -468,7 +430,6 @@ def p_constant_declaration(p):
             constants[constant_name] = constant_value
     print(constants)
 
-
 def p_constant_use(p):
     '''constant_use : IDENTIFIER'''
     constant_name = p[1]
@@ -478,11 +439,9 @@ def p_constant_use(p):
     else:
         p[0] = constants[constant_name]
 
-
 def p_try_catch(p):
     '''try_catch : TRY LBRACE statements RBRACE catch_list'''
     p[0] = ('try_catch', p[3], p[5])
-
 
 def p_catch_list(p):
     '''catch_list : catch_item catch_list
@@ -491,7 +450,6 @@ def p_catch_list(p):
         p[0] = [p[1]] + (p[2] if p[2] else [])
     else:
         p[0] = []
-
 
 def p_catch_item(p):
     '''catch_item : CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE
@@ -518,16 +476,13 @@ def p_throw_statement(p):
     '''throw_statement : THROW NEW EXCEPTION LPAREN RPAREN SEMI'''
     p[0] = ('throw', p[3])
 
-
-# Fin Pratt Garcia
+#Fin Pratt Garcia
 
 def p_property_declaration(p):
     '''property_declaration : visibility VARIABLE'''
 
-
 def p_method_declaration(p):
     '''method_declaration : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
-
 
 def p_constructor_declaration(p):
     '''constructor_declaration : visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE statements RBRACE'''
@@ -569,12 +524,10 @@ def p_logical_operator(p):
     '''logical_operator : AND
                         | OR'''
 
-
 def p_empty(p):
     '''empty :'''
     p[0] = None
     pass
-
 
 # Error rule for syntax errors
 def p_error(p):
