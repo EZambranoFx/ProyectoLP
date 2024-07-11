@@ -49,12 +49,8 @@ tokens = [
     'LBRACKET',
     'RBRACKET',
     'SEMI',
-    'ERROR',
-    'CONSTRUCT',
-    'THROW',
-    'TRY',
-    'CATCH',
-    'EXCEPTION'
+    'ERROR'
+
     # fin - Pratt Garcia
 ]
 
@@ -78,7 +74,14 @@ reserved = {
     'define': 'DEFINE',
     'var': 'VAR', 
     'new': 'NEW', 
-    'echo': 'ECHO'
+    'echo': 'ECHO',
+    'Exception': 'EXCEPTION',
+    'construct': 'CONSTRUCT',
+    'throw': 'THROW',
+    'try': 'TRY',
+    'catch': 'CATCH',
+    'CustomException': 'EXCEPTION',
+    'AnotherException': 'EXCEPTION'
     # fin - Enrique Zambrano
 }
 
@@ -211,7 +214,7 @@ def test_lexer(data, username):
 
 #Prueba de Lexer con algoritmo de Enrique Zambrano
 
-data2 = 'A+2;'
+data2 = '$e="";'
 test_lexer(data2,"pratt")
 #Inicio - Enrique Zambrano
 data1 = '''

@@ -1,0 +1,8 @@
+calc >     // some statements 
+
+calc > } catch (Exception $e) { 
+
+calc >     // handle exception 
+
+calc > }try($a=2;) catch(Exception $e)($a=1)
+

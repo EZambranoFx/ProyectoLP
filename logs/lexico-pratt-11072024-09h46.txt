@@ -1,0 +1,4 @@
+VARIABLE: $e (line 1)
+SET: = (line 1)
+STRING:  (line 1)
+SEMI: ; (line 1)

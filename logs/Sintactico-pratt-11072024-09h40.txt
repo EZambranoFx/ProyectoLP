@@ -1,0 +1,4 @@
+calc > $e="";
+
+calc > try{echo"hola";} catch(CustomException $e){echo"hola";}
+

@@ -1,0 +1,4 @@
+calc > try{echo"hola";} catch(Exception $e){echo"hola";}
+
+calc > try{echo"hola";} catch(Custception $e){echo"hola";}
+

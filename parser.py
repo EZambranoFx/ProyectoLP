@@ -12,7 +12,7 @@ filename = f"Sintactico-{username}-{date}.txt"
 
 variables ={}
 constants={}
-defined_exceptions = ['CustomException', 'AnotherException']
+defined_exceptions = ['CustomException', 'AnotherException','Exception']
 def p_statement(p):
     '''statement : print SEMI
                  | print_error
@@ -295,6 +295,7 @@ def p_catch_item(p):
             print(f"Error semántico: Excepción '{exception_type}' no definida.")
         # Asegurarse de que la variable de excepción se maneje correctamente
         if exception_variable not in variables:
+            print(variables)
             print(f"Error semántico: Variable '{exception_variable}' no definida para capturar la excepción.")
     else:
         # Excepción genérica, no se requiere una variable

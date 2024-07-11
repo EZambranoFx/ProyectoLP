@@ -1,0 +1,6 @@
+calc > $a=2;
+
+calc > a+2;
+
+calc > $a+2;
+
