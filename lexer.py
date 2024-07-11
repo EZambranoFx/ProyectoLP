@@ -27,7 +27,6 @@ tokens = [
     'DOLLAR',
     'USE',
     'TYPE',
-    'READLINE',
     # fin - Alejandro Barrera
     # inicio - Pratt Garcia
     'NEWLINE',
@@ -78,7 +77,8 @@ reserved = {
     'define': 'DEFINE',
     'var': 'VAR', 
     'new': 'NEW', 
-    'echo': 'ECHO'
+    'echo': 'ECHO',
+    'readline': 'READLINE'
     # fin - Enrique Zambrano
 }
 
@@ -146,6 +146,7 @@ def t_FUNCTION(t):
     t.value = 'function'
     return t
 
+# Inicio - Alejandro Barrera
 def t_VARIABLE(t):
     r'\$[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'VARIABLE')
@@ -160,6 +161,8 @@ def t_INTEGER(t):
     r'\d+'
     t.value = int(t.value)    
     return t
+# fin - Alejandro Barrera
+
 # Inicio - Enrique Zabrano
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -212,7 +215,7 @@ def test_lexer(data, username):
 #Prueba de Lexer con algoritmo de Enrique Zambrano
 
 data2 = 'A+2;'
-test_lexer(data2,"pratt")
+#test_lexer(data2,"pratt")
 #Inicio - Enrique Zambrano
 data1 = '''
 $var1 = 10;

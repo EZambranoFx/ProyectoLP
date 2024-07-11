@@ -42,9 +42,9 @@ Rule 16    statement -> constant_use
 Rule 17    statement -> try_catch
 Rule 18    statement -> catch_item
 Rule 19    statement -> if
-Rule 20    statement -> empty
-Rule 21    statements -> statement statements
-Rule 22    statements -> statement
+Rule 20    statements -> statement statements
+Rule 21    statements -> statement
+Rule 22    statements -> empty
 Rule 23    declaration -> VARIABLE SET value
 Rule 24    declaration -> VARIABLE SET STRING
 Rule 25    declaration -> VARIABLE SET expression
@@ -57,7 +57,7 @@ Rule 31    print -> ECHO value
 Rule 32    print -> ECHO LPAREN STRING RPAREN
 Rule 33    print -> ECHO STRING
 Rule 34    print_error -> ECHO error
-Rule 35    input -> VARIABLE SET READLINE LPAREN RPAREN
+Rule 35    input -> VARIABLE SET READLINE LPAREN STRING RPAREN
 Rule 36    object_declaration -> VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
 Rule 37    array_declaration -> VARIABLE SET ARRAY LPAREN arrayArg RPAREN
 Rule 38    array_declaration -> VARIABLE SET ARRAY LPAREN empty RPAREN
@@ -74,7 +74,7 @@ Rule 48    conditions -> LBRACE condition RBRACE logical_operator conditions
 Rule 49    conditions -> LBRACE condition RBRACE
 Rule 50    index -> INTEGER
 Rule 51    index -> STRING
-Rule 52    function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+Rule 52    function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
 Rule 53    function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
 Rule 54    comparison_operator -> LT
 Rule 55    comparison_operator -> GT
@@ -185,16 +185,16 @@ READLINE             : 35
 RETURN               : 
 RPAREN               : 27 28 29 30 32 35 36 37 38 42 43 44 45 52 53 79 85 87 88 98 99 100 101
 SEMI                 : 1 3 4 5 8 9 36 42 43 46 52 79 80
-SET                  : 23 24 25 26 35 36 37 38 80
+SET                  : 23 24 25 26 35 36 37 38 52 80
 STATIC               : 
-STRING               : 24 32 33 51 79
+STRING               : 24 32 33 35 51 79
 THROW                : 
 TIMES                : 66
 TRY                  : 82
 TYPE                 : 96
 USE                  : 101
 VAR                  : 36
-VARIABLE             : 23 24 25 26 29 35 36 37 38 52 53 60 85 86 96 97 102 103
+VARIABLE             : 23 24 25 26 29 35 36 37 38 52 52 53 60 85 86 96 97 102 103
 WHILE                : 28
 error                : 34
 
@@ -217,7 +217,7 @@ constructor_declaration : 78
 declaration          : 3
 else                 : 45 99
 elseif               : 44 98
-empty                : 20 38 84 95
+empty                : 22 38 84 95
 expression           : 5 25 52 70 71 79 80
 expressions          : 70
 function_anonymous   : 12
@@ -236,8 +236,8 @@ parameters           : 27 87 88 92 100
 print                : 1
 print_error          : 2
 property_declaration : 9 76
-statement            : 21 22 0
-statements           : 21 27 28 29 42 43 44 45 46 82 85 87 88 98 99 100
+statement            : 20 21 0
+statements           : 20 27 28 29 42 43 44 45 46 82 85 87 88 98 99 100
 try_catch            : 17
 use_clause_opt       : 100
 value                : 23 30 31 39 40 41 47 47 68 68 69
@@ -269,7 +269,6 @@ state 0
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -279,7 +278,7 @@ state 0
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -290,7 +289,7 @@ state 0
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -302,7 +301,6 @@ state 0
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -311,24 +309,23 @@ state 0
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
-    $end            reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
     statement                      shift and go to state 1
     print                          shift and go to state 2
@@ -350,9 +347,8 @@ state 0
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
 state 1
 
@@ -364,7 +360,7 @@ state 2
 
     (1) statement -> print . SEMI
 
-    SEMI            shift and go to state 41
+    SEMI            shift and go to state 40
 
 
 state 3
@@ -396,21 +392,21 @@ state 4
 
     (3) statement -> declaration . SEMI
 
-    SEMI            shift and go to state 42
+    SEMI            shift and go to state 41
 
 
 state 5
 
     (4) statement -> input . SEMI
 
-    SEMI            shift and go to state 43
+    SEMI            shift and go to state 42
 
 
 state 6
 
     (5) statement -> expression . SEMI
 
-    SEMI            shift and go to state 44
+    SEMI            shift and go to state 43
 
 
 state 7
@@ -467,14 +463,14 @@ state 9
 
     (8) statement -> array_declaration . SEMI
 
-    SEMI            shift and go to state 45
+    SEMI            shift and go to state 44
 
 
 state 10
 
     (9) statement -> property_declaration . SEMI
 
-    SEMI            shift and go to state 46
+    SEMI            shift and go to state 45
 
 
 state 11
@@ -735,31 +731,6 @@ state 20
 
 state 21
 
-    (20) statement -> empty .
-
-    $end            reduce using rule 20 (statement -> empty .)
-    ECHO            reduce using rule 20 (statement -> empty .)
-    VARIABLE        reduce using rule 20 (statement -> empty .)
-    VAR             reduce using rule 20 (statement -> empty .)
-    CLASS           reduce using rule 20 (statement -> empty .)
-    FUNCTION        reduce using rule 20 (statement -> empty .)
-    WHILE           reduce using rule 20 (statement -> empty .)
-    DEFINE          reduce using rule 20 (statement -> empty .)
-    CONST           reduce using rule 20 (statement -> empty .)
-    IDENTIFIER      reduce using rule 20 (statement -> empty .)
-    TRY             reduce using rule 20 (statement -> empty .)
-    CATCH           reduce using rule 20 (statement -> empty .)
-    IF              reduce using rule 20 (statement -> empty .)
-    INTEGER         reduce using rule 20 (statement -> empty .)
-    FLOAT           reduce using rule 20 (statement -> empty .)
-    PUBLIC          reduce using rule 20 (statement -> empty .)
-    PROTECTED       reduce using rule 20 (statement -> empty .)
-    PRIVATE         reduce using rule 20 (statement -> empty .)
-    RBRACE          reduce using rule 20 (statement -> empty .)
-
-
-state 22
-
     (30) print -> ECHO . LPAREN value RPAREN
     (31) print -> ECHO . value
     (32) print -> ECHO . LPAREN STRING RPAREN
@@ -771,18 +742,18 @@ state 22
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    LPAREN          shift and go to state 47
-    STRING          shift and go to state 49
-    error           shift and go to state 50
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    LPAREN          shift and go to state 46
+    STRING          shift and go to state 48
+    error           shift and go to state 49
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    value                          shift and go to state 48
-    constant_use                   shift and go to state 52
+    value                          shift and go to state 47
+    constant_use                   shift and go to state 51
 
-state 23
+state 22
 
     (68) expression -> value . operator value
     (69) expression -> value .
@@ -793,25 +764,26 @@ state 23
 
     SEMI            reduce using rule 69 (expression -> value .)
     RPAREN          reduce using rule 69 (expression -> value .)
-    PLUS            shift and go to state 54
-    MINUS           shift and go to state 55
-    TIMES           shift and go to state 56
-    DIVIDE          shift and go to state 57
+    PLUS            shift and go to state 53
+    MINUS           shift and go to state 54
+    TIMES           shift and go to state 55
+    DIVIDE          shift and go to state 56
 
-    operator                       shift and go to state 53
+    operator                       shift and go to state 52
 
-state 24
+state 23
 
     (23) declaration -> VARIABLE . SET value
     (24) declaration -> VARIABLE . SET STRING
     (25) declaration -> VARIABLE . SET expression
     (26) declaration -> VARIABLE . SET condition
-    (35) input -> VARIABLE . SET READLINE LPAREN RPAREN
+    (35) input -> VARIABLE . SET READLINE LPAREN STRING RPAREN
     (37) array_declaration -> VARIABLE . SET ARRAY LPAREN arrayArg RPAREN
     (38) array_declaration -> VARIABLE . SET ARRAY LPAREN empty RPAREN
+    (52) function_arrow -> VARIABLE . SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (60) value -> VARIABLE .
 
-    SET             shift and go to state 58
+    SET             shift and go to state 57
     PLUS            reduce using rule 60 (value -> VARIABLE .)
     MINUS           reduce using rule 60 (value -> VARIABLE .)
     TIMES           reduce using rule 60 (value -> VARIABLE .)
@@ -819,21 +791,21 @@ state 24
     SEMI            reduce using rule 60 (value -> VARIABLE .)
 
 
-state 25
+state 24
 
     (36) object_declaration -> VAR . VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
 
-    VARIABLE        shift and go to state 59
+    VARIABLE        shift and go to state 58
 
 
-state 26
+state 25
 
     (72) class_declaration -> CLASS . IDENTIFIER LBRACE class_body RBRACE
 
-    IDENTIFIER      shift and go to state 60
+    IDENTIFIER      shift and go to state 59
 
 
-state 27
+state 26
 
     (81) constant_use -> IDENTIFIER .
 
@@ -872,72 +844,71 @@ state 27
     STRING          reduce using rule 81 (constant_use -> IDENTIFIER .)
 
 
-state 28
+state 27
 
     (86) property_declaration -> visibility . VARIABLE
     (27) function_statement -> visibility . FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
 
-    VARIABLE        shift and go to state 61
-    FUNCTION        shift and go to state 62
+    VARIABLE        shift and go to state 60
+    FUNCTION        shift and go to state 61
+
+
+state 28
+
+    (29) function_variable -> FUNCTION . VARIABLE LPAREN RPAREN LBRACE statements RBRACE
+    (100) function_anonymous -> FUNCTION . LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
+    (53) function_arrow -> FUNCTION . LPAREN VARIABLE RPAREN ARROW function_arrow
+
+    VARIABLE        shift and go to state 62
+    LPAREN          shift and go to state 63
 
 
 state 29
 
-    (29) function_variable -> FUNCTION . VARIABLE LPAREN RPAREN LBRACE statements RBRACE
-    (100) function_anonymous -> FUNCTION . LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> FUNCTION . LPAREN VARIABLE RPAREN ARROW expression SEMI
-    (53) function_arrow -> FUNCTION . LPAREN VARIABLE RPAREN ARROW function_arrow
+    (28) while -> WHILE . LPAREN condition RPAREN LBRACE statements RBRACE
 
-    VARIABLE        shift and go to state 63
     LPAREN          shift and go to state 64
 
 
 state 30
 
-    (28) while -> WHILE . LPAREN condition RPAREN LBRACE statements RBRACE
+    (79) constant_declaration -> DEFINE . LPAREN STRING COMMA expression RPAREN SEMI
 
     LPAREN          shift and go to state 65
 
 
 state 31
 
-    (79) constant_declaration -> DEFINE . LPAREN STRING COMMA expression RPAREN SEMI
+    (80) constant_declaration -> CONST . IDENTIFIER SET expression SEMI
 
-    LPAREN          shift and go to state 66
+    IDENTIFIER      shift and go to state 66
 
 
 state 32
 
-    (80) constant_declaration -> CONST . IDENTIFIER SET expression SEMI
+    (82) try_catch -> TRY . LBRACE statements RBRACE catch_list
 
-    IDENTIFIER      shift and go to state 67
+    LBRACE          shift and go to state 67
 
 
 state 33
 
-    (82) try_catch -> TRY . LBRACE statements RBRACE catch_list
+    (85) catch_item -> CATCH . LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 68
+    LPAREN          shift and go to state 68
 
 
 state 34
-
-    (85) catch_item -> CATCH . LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE
-
-    LPAREN          shift and go to state 69
-
-
-state 35
 
     (42) if -> IF . LPAREN condition RPAREN LBRACE statements RBRACE SEMI
     (43) if -> IF . LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> IF . LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> IF . LPAREN condition RPAREN LBRACE statements RBRACE else
 
-    LPAREN          shift and go to state 70
+    LPAREN          shift and go to state 69
 
 
-state 36
+state 35
 
     (61) value -> INTEGER .
 
@@ -959,7 +930,7 @@ state 36
     STRING          reduce using rule 61 (value -> INTEGER .)
 
 
-state 37
+state 36
 
     (63) value -> FLOAT .
 
@@ -981,7 +952,7 @@ state 37
     STRING          reduce using rule 63 (value -> FLOAT .)
 
 
-state 38
+state 37
 
     (89) visibility -> PUBLIC .
 
@@ -989,7 +960,7 @@ state 38
     FUNCTION        reduce using rule 89 (visibility -> PUBLIC .)
 
 
-state 39
+state 38
 
     (90) visibility -> PROTECTED .
 
@@ -997,7 +968,7 @@ state 39
     FUNCTION        reduce using rule 90 (visibility -> PROTECTED .)
 
 
-state 40
+state 39
 
     (91) visibility -> PRIVATE .
 
@@ -1005,7 +976,7 @@ state 40
     FUNCTION        reduce using rule 91 (visibility -> PRIVATE .)
 
 
-state 41
+state 40
 
     (1) statement -> print SEMI .
 
@@ -1030,7 +1001,7 @@ state 41
     RBRACE          reduce using rule 1 (statement -> print SEMI .)
 
 
-state 42
+state 41
 
     (3) statement -> declaration SEMI .
 
@@ -1055,7 +1026,7 @@ state 42
     RBRACE          reduce using rule 3 (statement -> declaration SEMI .)
 
 
-state 43
+state 42
 
     (4) statement -> input SEMI .
 
@@ -1080,7 +1051,7 @@ state 43
     RBRACE          reduce using rule 4 (statement -> input SEMI .)
 
 
-state 44
+state 43
 
     (5) statement -> expression SEMI .
 
@@ -1105,7 +1076,7 @@ state 44
     RBRACE          reduce using rule 5 (statement -> expression SEMI .)
 
 
-state 45
+state 44
 
     (8) statement -> array_declaration SEMI .
 
@@ -1130,7 +1101,7 @@ state 45
     RBRACE          reduce using rule 8 (statement -> array_declaration SEMI .)
 
 
-state 46
+state 45
 
     (9) statement -> property_declaration SEMI .
 
@@ -1155,7 +1126,7 @@ state 46
     RBRACE          reduce using rule 9 (statement -> property_declaration SEMI .)
 
 
-state 47
+state 46
 
     (30) print -> ECHO LPAREN . value RPAREN
     (32) print -> ECHO LPAREN . STRING RPAREN
@@ -1165,30 +1136,30 @@ state 47
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    STRING          shift and go to state 72
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    STRING          shift and go to state 71
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    value                          shift and go to state 71
-    constant_use                   shift and go to state 52
+    value                          shift and go to state 70
+    constant_use                   shift and go to state 51
 
-state 48
+state 47
 
     (31) print -> ECHO value .
 
     SEMI            reduce using rule 31 (print -> ECHO value .)
 
 
-state 49
+state 48
 
     (33) print -> ECHO STRING .
 
     SEMI            reduce using rule 33 (print -> ECHO STRING .)
 
 
-state 50
+state 49
 
     (34) print_error -> ECHO error .
 
@@ -1213,7 +1184,7 @@ state 50
     RBRACE          reduce using rule 34 (print_error -> ECHO error .)
 
 
-state 51
+state 50
 
     (60) value -> VARIABLE .
 
@@ -1235,7 +1206,7 @@ state 51
     STRING          reduce using rule 60 (value -> VARIABLE .)
 
 
-state 52
+state 51
 
     (62) value -> constant_use .
 
@@ -1257,7 +1228,7 @@ state 52
     STRING          reduce using rule 62 (value -> constant_use .)
 
 
-state 53
+state 52
 
     (68) expression -> value operator . value
     (60) value -> . VARIABLE
@@ -1266,15 +1237,15 @@ state 53
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    value                          shift and go to state 73
-    constant_use                   shift and go to state 52
+    value                          shift and go to state 72
+    constant_use                   shift and go to state 51
 
-state 54
+state 53
 
     (64) operator -> PLUS .
 
@@ -1284,7 +1255,7 @@ state 54
     IDENTIFIER      reduce using rule 64 (operator -> PLUS .)
 
 
-state 55
+state 54
 
     (65) operator -> MINUS .
 
@@ -1294,7 +1265,7 @@ state 55
     IDENTIFIER      reduce using rule 65 (operator -> MINUS .)
 
 
-state 56
+state 55
 
     (66) operator -> TIMES .
 
@@ -1304,7 +1275,7 @@ state 56
     IDENTIFIER      reduce using rule 66 (operator -> TIMES .)
 
 
-state 57
+state 56
 
     (67) operator -> DIVIDE .
 
@@ -1314,15 +1285,16 @@ state 57
     IDENTIFIER      reduce using rule 67 (operator -> DIVIDE .)
 
 
-state 58
+state 57
 
     (23) declaration -> VARIABLE SET . value
     (24) declaration -> VARIABLE SET . STRING
     (25) declaration -> VARIABLE SET . expression
     (26) declaration -> VARIABLE SET . condition
-    (35) input -> VARIABLE SET . READLINE LPAREN RPAREN
+    (35) input -> VARIABLE SET . READLINE LPAREN STRING RPAREN
     (37) array_declaration -> VARIABLE SET . ARRAY LPAREN arrayArg RPAREN
     (38) array_declaration -> VARIABLE SET . ARRAY LPAREN empty RPAREN
+    (52) function_arrow -> VARIABLE SET . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -1332,34 +1304,35 @@ state 58
     (47) condition -> . value comparison_operator value
     (81) constant_use -> . IDENTIFIER
 
-    STRING          shift and go to state 75
-    READLINE        shift and go to state 78
-    ARRAY           shift and go to state 79
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    STRING          shift and go to state 74
+    READLINE        shift and go to state 77
+    ARRAY           shift and go to state 78
+    FUNCTION        shift and go to state 79
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    value                          shift and go to state 74
-    expression                     shift and go to state 76
-    condition                      shift and go to state 77
-    constant_use                   shift and go to state 52
+    value                          shift and go to state 73
+    expression                     shift and go to state 75
+    condition                      shift and go to state 76
+    constant_use                   shift and go to state 51
 
-state 59
+state 58
 
     (36) object_declaration -> VAR VARIABLE . SET NEW CLASS LPAREN RPAREN SEMI
 
     SET             shift and go to state 80
 
 
-state 60
+state 59
 
     (72) class_declaration -> CLASS IDENTIFIER . LBRACE class_body RBRACE
 
     LBRACE          shift and go to state 81
 
 
-state 61
+state 60
 
     (86) property_declaration -> visibility VARIABLE .
 
@@ -1370,24 +1343,23 @@ state 61
     RBRACE          reduce using rule 86 (property_declaration -> visibility VARIABLE .)
 
 
-state 62
+state 61
 
     (27) function_statement -> visibility FUNCTION . IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
 
     IDENTIFIER      shift and go to state 82
 
 
-state 63
+state 62
 
     (29) function_variable -> FUNCTION VARIABLE . LPAREN RPAREN LBRACE statements RBRACE
 
     LPAREN          shift and go to state 83
 
 
-state 64
+state 63
 
     (100) function_anonymous -> FUNCTION LPAREN . parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> FUNCTION LPAREN . VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> FUNCTION LPAREN . VARIABLE RPAREN ARROW function_arrow
     (92) parameters -> . parameter COMMA parameters
     (93) parameters -> . parameter
@@ -1406,7 +1378,7 @@ state 64
     parameter                      shift and go to state 86
     empty                          shift and go to state 88
 
-state 65
+state 64
 
     (28) while -> WHILE LPAREN . condition RPAREN LBRACE statements RBRACE
     (47) condition -> . value comparison_operator value
@@ -1416,34 +1388,35 @@ state 65
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
     condition                      shift and go to state 90
     value                          shift and go to state 91
-    constant_use                   shift and go to state 52
+    constant_use                   shift and go to state 51
 
-state 66
+state 65
 
     (79) constant_declaration -> DEFINE LPAREN . STRING COMMA expression RPAREN SEMI
 
     STRING          shift and go to state 92
 
 
-state 67
+state 66
 
     (80) constant_declaration -> CONST IDENTIFIER . SET expression SEMI
 
     SET             shift and go to state 93
 
 
-state 68
+state 67
 
     (82) try_catch -> TRY LBRACE . statements RBRACE catch_list
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -1463,7 +1436,7 @@ state 68
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -1473,7 +1446,7 @@ state 68
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -1484,7 +1457,7 @@ state 68
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -1496,7 +1469,6 @@ state 68
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -1505,62 +1477,28 @@ state 68
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
-
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
     statements                     shift and go to state 94
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -1580,18 +1518,17 @@ state 68
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 69
+state 68
 
     (85) catch_item -> CATCH LPAREN . EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE
 
-    EXCEPTION       shift and go to state 96
+    EXCEPTION       shift and go to state 97
 
 
-state 70
+state 69
 
     (42) if -> IF LPAREN . condition RPAREN LBRACE statements RBRACE SEMI
     (43) if -> IF LPAREN . conditions RPAREN LBRACE statements RBRACE SEMI
@@ -1606,32 +1543,32 @@ state 70
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    LBRACE          shift and go to state 98
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    LBRACE          shift and go to state 99
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    condition                      shift and go to state 97
-    conditions                     shift and go to state 99
+    condition                      shift and go to state 98
+    conditions                     shift and go to state 100
     value                          shift and go to state 91
-    constant_use                   shift and go to state 52
+    constant_use                   shift and go to state 51
 
-state 71
+state 70
 
     (30) print -> ECHO LPAREN value . RPAREN
-
-    RPAREN          shift and go to state 100
-
-
-state 72
-
-    (32) print -> ECHO LPAREN STRING . RPAREN
 
     RPAREN          shift and go to state 101
 
 
-state 73
+state 71
+
+    (32) print -> ECHO LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 102
+
+
+state 72
 
     (68) expression -> value operator value .
 
@@ -1639,7 +1576,7 @@ state 73
     RPAREN          reduce using rule 68 (expression -> value operator value .)
 
 
-state 74
+state 73
 
     (23) declaration -> VARIABLE SET value .
     (68) expression -> value . operator value
@@ -1658,63 +1595,70 @@ state 74
 
   ! reduce/reduce conflict for SEMI resolved using rule 23 (declaration -> VARIABLE SET value .)
     SEMI            reduce using rule 23 (declaration -> VARIABLE SET value .)
-    PLUS            shift and go to state 54
-    MINUS           shift and go to state 55
-    TIMES           shift and go to state 56
-    DIVIDE          shift and go to state 57
-    LT              shift and go to state 103
-    GT              shift and go to state 104
-    LE              shift and go to state 105
-    GE              shift and go to state 106
-    EQ              shift and go to state 107
-    NE              shift and go to state 108
+    PLUS            shift and go to state 53
+    MINUS           shift and go to state 54
+    TIMES           shift and go to state 55
+    DIVIDE          shift and go to state 56
+    LT              shift and go to state 104
+    GT              shift and go to state 105
+    LE              shift and go to state 106
+    GE              shift and go to state 107
+    EQ              shift and go to state 108
+    NE              shift and go to state 109
 
   ! SEMI            [ reduce using rule 69 (expression -> value .) ]
 
-    operator                       shift and go to state 53
-    comparison_operator            shift and go to state 102
+    operator                       shift and go to state 52
+    comparison_operator            shift and go to state 103
 
-state 75
+state 74
 
     (24) declaration -> VARIABLE SET STRING .
 
     SEMI            reduce using rule 24 (declaration -> VARIABLE SET STRING .)
 
 
-state 76
+state 75
 
     (25) declaration -> VARIABLE SET expression .
 
     SEMI            reduce using rule 25 (declaration -> VARIABLE SET expression .)
 
 
-state 77
+state 76
 
     (26) declaration -> VARIABLE SET condition .
 
     SEMI            reduce using rule 26 (declaration -> VARIABLE SET condition .)
 
 
+state 77
+
+    (35) input -> VARIABLE SET READLINE . LPAREN STRING RPAREN
+
+    LPAREN          shift and go to state 110
+
+
 state 78
-
-    (35) input -> VARIABLE SET READLINE . LPAREN RPAREN
-
-    LPAREN          shift and go to state 109
-
-
-state 79
 
     (37) array_declaration -> VARIABLE SET ARRAY . LPAREN arrayArg RPAREN
     (38) array_declaration -> VARIABLE SET ARRAY . LPAREN empty RPAREN
 
-    LPAREN          shift and go to state 110
+    LPAREN          shift and go to state 111
+
+
+state 79
+
+    (52) function_arrow -> VARIABLE SET FUNCTION . LPAREN VARIABLE RPAREN ARROW expression SEMI
+
+    LPAREN          shift and go to state 112
 
 
 state 80
 
     (36) object_declaration -> VAR VARIABLE SET . NEW CLASS LPAREN RPAREN SEMI
 
-    NEW             shift and go to state 111
+    NEW             shift and go to state 113
 
 
 state 81
@@ -1733,47 +1677,46 @@ state 81
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-    class_body                     shift and go to state 112
-    class_member_list              shift and go to state 113
-    class_member                   shift and go to state 114
-    property_declaration           shift and go to state 115
-    method_declaration             shift and go to state 116
-    constructor_declaration        shift and go to state 117
-    visibility                     shift and go to state 118
+    class_body                     shift and go to state 114
+    class_member_list              shift and go to state 115
+    class_member                   shift and go to state 116
+    property_declaration           shift and go to state 117
+    method_declaration             shift and go to state 118
+    constructor_declaration        shift and go to state 119
+    visibility                     shift and go to state 120
 
 state 82
 
     (27) function_statement -> visibility FUNCTION IDENTIFIER . LPAREN parameters RPAREN LBRACE statements RBRACE
 
-    LPAREN          shift and go to state 119
+    LPAREN          shift and go to state 121
 
 
 state 83
 
     (29) function_variable -> FUNCTION VARIABLE LPAREN . RPAREN LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 120
+    RPAREN          shift and go to state 122
 
 
 state 84
 
     (100) function_anonymous -> FUNCTION LPAREN parameters . RPAREN use_clause_opt LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 121
+    RPAREN          shift and go to state 123
 
 
 state 85
 
-    (52) function_arrow -> FUNCTION LPAREN VARIABLE . RPAREN ARROW expression SEMI
     (53) function_arrow -> FUNCTION LPAREN VARIABLE . RPAREN ARROW function_arrow
     (97) parameter -> VARIABLE .
 
   ! shift/reduce conflict for RPAREN resolved as shift
-    RPAREN          shift and go to state 122
+    RPAREN          shift and go to state 124
     COMMA           reduce using rule 97 (parameter -> VARIABLE .)
 
   ! RPAREN          [ reduce using rule 97 (parameter -> VARIABLE .) ]
@@ -1784,7 +1727,7 @@ state 86
     (92) parameters -> parameter . COMMA parameters
     (93) parameters -> parameter .
 
-    COMMA           shift and go to state 123
+    COMMA           shift and go to state 125
     RPAREN          reduce using rule 93 (parameters -> parameter .)
 
 
@@ -1806,14 +1749,14 @@ state 89
 
     (96) parameter -> TYPE . VARIABLE
 
-    VARIABLE        shift and go to state 124
+    VARIABLE        shift and go to state 126
 
 
 state 90
 
     (28) while -> WHILE LPAREN condition . RPAREN LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 125
+    RPAREN          shift and go to state 127
 
 
 state 91
@@ -1826,20 +1769,20 @@ state 91
     (58) comparison_operator -> . EQ
     (59) comparison_operator -> . NE
 
-    LT              shift and go to state 103
-    GT              shift and go to state 104
-    LE              shift and go to state 105
-    GE              shift and go to state 106
-    EQ              shift and go to state 107
-    NE              shift and go to state 108
+    LT              shift and go to state 104
+    GT              shift and go to state 105
+    LE              shift and go to state 106
+    GE              shift and go to state 107
+    EQ              shift and go to state 108
+    NE              shift and go to state 109
 
-    comparison_operator            shift and go to state 102
+    comparison_operator            shift and go to state 103
 
 state 92
 
     (79) constant_declaration -> DEFINE LPAREN STRING . COMMA expression RPAREN SEMI
 
-    COMMA           shift and go to state 126
+    COMMA           shift and go to state 128
 
 
 state 93
@@ -1853,28 +1796,29 @@ state 93
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    expression                     shift and go to state 127
-    value                          shift and go to state 23
-    constant_use                   shift and go to state 52
+    expression                     shift and go to state 129
+    value                          shift and go to state 22
+    constant_use                   shift and go to state 51
 
 state 94
 
     (82) try_catch -> TRY LBRACE statements . RBRACE catch_list
 
-    RBRACE          shift and go to state 128
+    RBRACE          shift and go to state 130
 
 
 state 95
 
-    (21) statements -> statement . statements
-    (22) statements -> statement .
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> statement . statements
+    (21) statements -> statement .
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -1894,7 +1838,7 @@ state 95
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -1904,7 +1848,7 @@ state 95
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -1915,7 +1859,7 @@ state 95
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -1927,7 +1871,6 @@ state 95
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -1936,64 +1879,31 @@ state 95
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! reduce/reduce conflict for RBRACE resolved using rule 22 (statements -> statement .)
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    RBRACE          reduce using rule 22 (statements -> statement .)
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+  ! reduce/reduce conflict for RBRACE resolved using rule 21 (statements -> statement .)
+    RBRACE          reduce using rule 21 (statements -> statement .)
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
   ! RBRACE          [ reduce using rule 106 (empty -> .) ]
 
     statement                      shift and go to state 95
-    statements                     shift and go to state 129
+    statements                     shift and go to state 131
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -2013,27 +1923,33 @@ state 95
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
 state 96
 
-    (85) catch_item -> CATCH LPAREN EXCEPTION . VARIABLE RPAREN LBRACE statements RBRACE
+    (22) statements -> empty .
 
-    VARIABLE        shift and go to state 130
+    RBRACE          reduce using rule 22 (statements -> empty .)
 
 
 state 97
+
+    (85) catch_item -> CATCH LPAREN EXCEPTION . VARIABLE RPAREN LBRACE statements RBRACE
+
+    VARIABLE        shift and go to state 132
+
+
+state 98
 
     (42) if -> IF LPAREN condition . RPAREN LBRACE statements RBRACE SEMI
     (44) if -> IF LPAREN condition . RPAREN LBRACE statements RBRACE elseif
     (45) if -> IF LPAREN condition . RPAREN LBRACE statements RBRACE else
 
-    RPAREN          shift and go to state 131
+    RPAREN          shift and go to state 133
 
 
-state 98
+state 99
 
     (48) conditions -> LBRACE . condition RBRACE logical_operator conditions
     (49) conditions -> LBRACE . condition RBRACE
@@ -2044,37 +1960,37 @@ state 98
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    condition                      shift and go to state 132
+    condition                      shift and go to state 134
     value                          shift and go to state 91
-    constant_use                   shift and go to state 52
+    constant_use                   shift and go to state 51
 
-state 99
+state 100
 
     (43) if -> IF LPAREN conditions . RPAREN LBRACE statements RBRACE SEMI
 
-    RPAREN          shift and go to state 133
+    RPAREN          shift and go to state 135
 
 
-state 100
+state 101
 
     (30) print -> ECHO LPAREN value RPAREN .
 
     SEMI            reduce using rule 30 (print -> ECHO LPAREN value RPAREN .)
 
 
-state 101
+state 102
 
     (32) print -> ECHO LPAREN STRING RPAREN .
 
     SEMI            reduce using rule 32 (print -> ECHO LPAREN STRING RPAREN .)
 
 
-state 102
+state 103
 
     (47) condition -> value comparison_operator . value
     (60) value -> . VARIABLE
@@ -2083,15 +1999,15 @@ state 102
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    value                          shift and go to state 134
-    constant_use                   shift and go to state 52
+    value                          shift and go to state 136
+    constant_use                   shift and go to state 51
 
-state 103
+state 104
 
     (54) comparison_operator -> LT .
 
@@ -2101,7 +2017,7 @@ state 103
     IDENTIFIER      reduce using rule 54 (comparison_operator -> LT .)
 
 
-state 104
+state 105
 
     (55) comparison_operator -> GT .
 
@@ -2111,7 +2027,7 @@ state 104
     IDENTIFIER      reduce using rule 55 (comparison_operator -> GT .)
 
 
-state 105
+state 106
 
     (56) comparison_operator -> LE .
 
@@ -2121,7 +2037,7 @@ state 105
     IDENTIFIER      reduce using rule 56 (comparison_operator -> LE .)
 
 
-state 106
+state 107
 
     (57) comparison_operator -> GE .
 
@@ -2131,7 +2047,7 @@ state 106
     IDENTIFIER      reduce using rule 57 (comparison_operator -> GE .)
 
 
-state 107
+state 108
 
     (58) comparison_operator -> EQ .
 
@@ -2141,7 +2057,7 @@ state 107
     IDENTIFIER      reduce using rule 58 (comparison_operator -> EQ .)
 
 
-state 108
+state 109
 
     (59) comparison_operator -> NE .
 
@@ -2151,14 +2067,14 @@ state 108
     IDENTIFIER      reduce using rule 59 (comparison_operator -> NE .)
 
 
-state 109
-
-    (35) input -> VARIABLE SET READLINE LPAREN . RPAREN
-
-    RPAREN          shift and go to state 135
-
-
 state 110
+
+    (35) input -> VARIABLE SET READLINE LPAREN . STRING RPAREN
+
+    STRING          shift and go to state 137
+
+
+state 111
 
     (37) array_declaration -> VARIABLE SET ARRAY LPAREN . arrayArg RPAREN
     (38) array_declaration -> VARIABLE SET ARRAY LPAREN . empty RPAREN
@@ -2170,35 +2086,42 @@ state 110
     (51) index -> . STRING
 
     RPAREN          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 139
-    STRING          shift and go to state 140
+    INTEGER         shift and go to state 141
+    STRING          shift and go to state 142
 
-    arrayArg                       shift and go to state 136
-    empty                          shift and go to state 137
-    index                          shift and go to state 138
-
-state 111
-
-    (36) object_declaration -> VAR VARIABLE SET NEW . CLASS LPAREN RPAREN SEMI
-
-    CLASS           shift and go to state 141
-
+    arrayArg                       shift and go to state 138
+    empty                          shift and go to state 139
+    index                          shift and go to state 140
 
 state 112
 
-    (72) class_declaration -> CLASS IDENTIFIER LBRACE class_body . RBRACE
+    (52) function_arrow -> VARIABLE SET FUNCTION LPAREN . VARIABLE RPAREN ARROW expression SEMI
 
-    RBRACE          shift and go to state 142
+    VARIABLE        shift and go to state 143
 
 
 state 113
+
+    (36) object_declaration -> VAR VARIABLE SET NEW . CLASS LPAREN RPAREN SEMI
+
+    CLASS           shift and go to state 144
+
+
+state 114
+
+    (72) class_declaration -> CLASS IDENTIFIER LBRACE class_body . RBRACE
+
+    RBRACE          shift and go to state 145
+
+
+state 115
 
     (73) class_body -> class_member_list .
 
     RBRACE          reduce using rule 73 (class_body -> class_member_list .)
 
 
-state 114
+state 116
 
     (74) class_member_list -> class_member . class_member_list
     (75) class_member_list -> class_member .
@@ -2215,18 +2138,18 @@ state 114
     (91) visibility -> . PRIVATE
 
     RBRACE          reduce using rule 75 (class_member_list -> class_member .)
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-    class_member                   shift and go to state 114
-    class_member_list              shift and go to state 143
-    property_declaration           shift and go to state 115
-    method_declaration             shift and go to state 116
-    constructor_declaration        shift and go to state 117
-    visibility                     shift and go to state 118
+    class_member                   shift and go to state 116
+    class_member_list              shift and go to state 146
+    property_declaration           shift and go to state 117
+    method_declaration             shift and go to state 118
+    constructor_declaration        shift and go to state 119
+    visibility                     shift and go to state 120
 
-state 115
+state 117
 
     (76) class_member -> property_declaration .
 
@@ -2236,7 +2159,7 @@ state 115
     RBRACE          reduce using rule 76 (class_member -> property_declaration .)
 
 
-state 116
+state 118
 
     (77) class_member -> method_declaration .
 
@@ -2246,7 +2169,7 @@ state 116
     RBRACE          reduce using rule 77 (class_member -> method_declaration .)
 
 
-state 117
+state 119
 
     (78) class_member -> constructor_declaration .
 
@@ -2256,17 +2179,17 @@ state 117
     RBRACE          reduce using rule 78 (class_member -> constructor_declaration .)
 
 
-state 118
+state 120
 
     (86) property_declaration -> visibility . VARIABLE
     (87) method_declaration -> visibility . FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (88) constructor_declaration -> visibility . FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE statements RBRACE
 
-    VARIABLE        shift and go to state 61
-    FUNCTION        shift and go to state 144
+    VARIABLE        shift and go to state 60
+    FUNCTION        shift and go to state 147
 
 
-state 119
+state 121
 
     (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN . parameters RPAREN LBRACE statements RBRACE
     (92) parameters -> . parameter COMMA parameters
@@ -2279,38 +2202,37 @@ state 119
 
     IDENTIFIER      shift and go to state 87
     TYPE            shift and go to state 89
-    VARIABLE        shift and go to state 146
+    VARIABLE        shift and go to state 149
     RPAREN          reduce using rule 106 (empty -> .)
 
-    parameters                     shift and go to state 145
+    parameters                     shift and go to state 148
     parameter                      shift and go to state 86
     empty                          shift and go to state 88
 
-state 120
+state 122
 
     (29) function_variable -> FUNCTION VARIABLE LPAREN RPAREN . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 147
+    LBRACE          shift and go to state 150
 
 
-state 121
+state 123
 
     (100) function_anonymous -> FUNCTION LPAREN parameters RPAREN . use_clause_opt LBRACE statements RBRACE
     (101) use_clause_opt -> . USE LPAREN variables RPAREN
 
-    USE             shift and go to state 149
+    USE             shift and go to state 152
 
-    use_clause_opt                 shift and go to state 148
+    use_clause_opt                 shift and go to state 151
 
-state 122
+state 124
 
-    (52) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN . ARROW expression SEMI
     (53) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN . ARROW function_arrow
 
-    ARROW           shift and go to state 150
+    ARROW           shift and go to state 153
 
 
-state 123
+state 125
 
     (92) parameters -> parameter COMMA . parameters
     (92) parameters -> . parameter COMMA parameters
@@ -2323,14 +2245,14 @@ state 123
 
     IDENTIFIER      shift and go to state 87
     TYPE            shift and go to state 89
-    VARIABLE        shift and go to state 146
+    VARIABLE        shift and go to state 149
     RPAREN          reduce using rule 106 (empty -> .)
 
     parameter                      shift and go to state 86
-    parameters                     shift and go to state 151
+    parameters                     shift and go to state 154
     empty                          shift and go to state 88
 
-state 124
+state 126
 
     (96) parameter -> TYPE VARIABLE .
 
@@ -2338,14 +2260,14 @@ state 124
     RPAREN          reduce using rule 96 (parameter -> TYPE VARIABLE .)
 
 
-state 125
+state 127
 
     (28) while -> WHILE LPAREN condition RPAREN . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 152
+    LBRACE          shift and go to state 155
 
 
-state 126
+state 128
 
     (79) constant_declaration -> DEFINE LPAREN STRING COMMA . expression RPAREN SEMI
     (68) expression -> . value operator value
@@ -2356,23 +2278,23 @@ state 126
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    expression                     shift and go to state 153
-    value                          shift and go to state 23
-    constant_use                   shift and go to state 52
+    expression                     shift and go to state 156
+    value                          shift and go to state 22
+    constant_use                   shift and go to state 51
 
-state 127
+state 129
 
     (80) constant_declaration -> CONST IDENTIFIER SET expression . SEMI
 
-    SEMI            shift and go to state 154
+    SEMI            shift and go to state 157
 
 
-state 128
+state 130
 
     (82) try_catch -> TRY LBRACE statements RBRACE . catch_list
     (83) catch_list -> . catch_item catch_list
@@ -2381,7 +2303,7 @@ state 128
     (106) empty -> .
 
   ! shift/reduce conflict for CATCH resolved as shift
-    CATCH           shift and go to state 34
+    CATCH           shift and go to state 33
     $end            reduce using rule 106 (empty -> .)
     ECHO            reduce using rule 106 (empty -> .)
     VARIABLE        reduce using rule 106 (empty -> .)
@@ -2403,49 +2325,49 @@ state 128
 
   ! CATCH           [ reduce using rule 106 (empty -> .) ]
 
-    catch_list                     shift and go to state 155
-    catch_item                     shift and go to state 156
-    empty                          shift and go to state 157
+    catch_list                     shift and go to state 158
+    catch_item                     shift and go to state 159
+    empty                          shift and go to state 160
 
-state 129
+state 131
 
-    (21) statements -> statement statements .
+    (20) statements -> statement statements .
 
-    RBRACE          reduce using rule 21 (statements -> statement statements .)
+    RBRACE          reduce using rule 20 (statements -> statement statements .)
 
 
-state 130
+state 132
 
     (85) catch_item -> CATCH LPAREN EXCEPTION VARIABLE . RPAREN LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 158
+    RPAREN          shift and go to state 161
 
 
-state 131
+state 133
 
     (42) if -> IF LPAREN condition RPAREN . LBRACE statements RBRACE SEMI
     (44) if -> IF LPAREN condition RPAREN . LBRACE statements RBRACE elseif
     (45) if -> IF LPAREN condition RPAREN . LBRACE statements RBRACE else
 
-    LBRACE          shift and go to state 159
+    LBRACE          shift and go to state 162
 
 
-state 132
+state 134
 
     (48) conditions -> LBRACE condition . RBRACE logical_operator conditions
     (49) conditions -> LBRACE condition . RBRACE
 
-    RBRACE          shift and go to state 160
+    RBRACE          shift and go to state 163
 
 
-state 133
+state 135
 
     (43) if -> IF LPAREN conditions RPAREN . LBRACE statements RBRACE SEMI
 
-    LBRACE          shift and go to state 161
+    LBRACE          shift and go to state 164
 
 
-state 134
+state 136
 
     (47) condition -> value comparison_operator value .
 
@@ -2454,58 +2376,65 @@ state 134
     RBRACE          reduce using rule 47 (condition -> value comparison_operator value .)
 
 
-state 135
-
-    (35) input -> VARIABLE SET READLINE LPAREN RPAREN .
-
-    SEMI            reduce using rule 35 (input -> VARIABLE SET READLINE LPAREN RPAREN .)
-
-
-state 136
-
-    (37) array_declaration -> VARIABLE SET ARRAY LPAREN arrayArg . RPAREN
-
-    RPAREN          shift and go to state 162
-
-
 state 137
 
-    (38) array_declaration -> VARIABLE SET ARRAY LPAREN empty . RPAREN
+    (35) input -> VARIABLE SET READLINE LPAREN STRING . RPAREN
 
-    RPAREN          shift and go to state 163
+    RPAREN          shift and go to state 165
 
 
 state 138
+
+    (37) array_declaration -> VARIABLE SET ARRAY LPAREN arrayArg . RPAREN
+
+    RPAREN          shift and go to state 166
+
+
+state 139
+
+    (38) array_declaration -> VARIABLE SET ARRAY LPAREN empty . RPAREN
+
+    RPAREN          shift and go to state 167
+
+
+state 140
 
     (39) arrayArg -> index . ARROW value
     (40) arrayArg -> index . ARROW value arrayArg
     (41) arrayArg -> index . ARROW value COMMA arrayArg
 
-    ARROW           shift and go to state 164
+    ARROW           shift and go to state 168
 
 
-state 139
+state 141
 
     (50) index -> INTEGER .
 
     ARROW           reduce using rule 50 (index -> INTEGER .)
 
 
-state 140
+state 142
 
     (51) index -> STRING .
 
     ARROW           reduce using rule 51 (index -> STRING .)
 
 
-state 141
+state 143
+
+    (52) function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE . RPAREN ARROW expression SEMI
+
+    RPAREN          shift and go to state 169
+
+
+state 144
 
     (36) object_declaration -> VAR VARIABLE SET NEW CLASS . LPAREN RPAREN SEMI
 
-    LPAREN          shift and go to state 165
+    LPAREN          shift and go to state 170
 
 
-state 142
+state 145
 
     (72) class_declaration -> CLASS IDENTIFIER LBRACE class_body RBRACE .
 
@@ -2530,30 +2459,30 @@ state 142
     RBRACE          reduce using rule 72 (class_declaration -> CLASS IDENTIFIER LBRACE class_body RBRACE .)
 
 
-state 143
+state 146
 
     (74) class_member_list -> class_member class_member_list .
 
     RBRACE          reduce using rule 74 (class_member_list -> class_member class_member_list .)
 
 
-state 144
+state 147
 
     (87) method_declaration -> visibility FUNCTION . IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (88) constructor_declaration -> visibility FUNCTION . CONSTRUCT LPAREN parameters RPAREN LBRACE statements RBRACE
 
-    IDENTIFIER      shift and go to state 166
-    CONSTRUCT       shift and go to state 167
+    IDENTIFIER      shift and go to state 171
+    CONSTRUCT       shift and go to state 172
 
 
-state 145
+state 148
 
     (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters . RPAREN LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 168
+    RPAREN          shift and go to state 173
 
 
-state 146
+state 149
 
     (97) parameter -> VARIABLE .
 
@@ -2561,11 +2490,12 @@ state 146
     RPAREN          reduce using rule 97 (parameter -> VARIABLE .)
 
 
-state 147
+state 150
 
     (29) function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -2585,7 +2515,7 @@ state 147
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -2595,7 +2525,7 @@ state 147
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -2606,7 +2536,7 @@ state 147
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -2618,7 +2548,6 @@ state 147
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -2627,62 +2556,28 @@ state 147
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 169
+    statements                     shift and go to state 174
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -2702,61 +2597,47 @@ state 147
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 148
+state 151
 
     (100) function_anonymous -> FUNCTION LPAREN parameters RPAREN use_clause_opt . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 170
+    LBRACE          shift and go to state 175
 
 
-state 149
+state 152
 
     (101) use_clause_opt -> USE . LPAREN variables RPAREN
 
-    LPAREN          shift and go to state 171
+    LPAREN          shift and go to state 176
 
 
-state 150
+state 153
 
-    (52) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW . expression SEMI
     (53) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW . function_arrow
-    (68) expression -> . value operator value
-    (69) expression -> . value
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
-    (60) value -> . VARIABLE
-    (61) value -> . INTEGER
-    (62) value -> . constant_use
-    (63) value -> . FLOAT
-    (81) constant_use -> . IDENTIFIER
 
-    FUNCTION        shift and go to state 172
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 178
+    FUNCTION        shift and go to state 177
 
-    expression                     shift and go to state 173
-    function_arrow                 shift and go to state 174
-    value                          shift and go to state 23
-    constant_use                   shift and go to state 52
+    function_arrow                 shift and go to state 179
 
-state 151
+state 154
 
     (92) parameters -> parameter COMMA parameters .
 
     RPAREN          reduce using rule 92 (parameters -> parameter COMMA parameters .)
 
 
-state 152
+state 155
 
     (28) while -> WHILE LPAREN condition RPAREN LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -2776,7 +2657,7 @@ state 152
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -2786,7 +2667,7 @@ state 152
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -2797,7 +2678,7 @@ state 152
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -2809,7 +2690,6 @@ state 152
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -2818,62 +2698,28 @@ state 152
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 175
+    statements                     shift and go to state 180
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -2893,18 +2739,17 @@ state 152
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 153
+state 156
 
     (79) constant_declaration -> DEFINE LPAREN STRING COMMA expression . RPAREN SEMI
 
-    RPAREN          shift and go to state 176
+    RPAREN          shift and go to state 181
 
 
-state 154
+state 157
 
     (80) constant_declaration -> CONST IDENTIFIER SET expression SEMI .
 
@@ -2929,7 +2774,7 @@ state 154
     RBRACE          reduce using rule 80 (constant_declaration -> CONST IDENTIFIER SET expression SEMI .)
 
 
-state 155
+state 158
 
     (82) try_catch -> TRY LBRACE statements RBRACE catch_list .
 
@@ -2954,7 +2799,7 @@ state 155
     RBRACE          reduce using rule 82 (try_catch -> TRY LBRACE statements RBRACE catch_list .)
 
 
-state 156
+state 159
 
     (83) catch_list -> catch_item . catch_list
     (83) catch_list -> . catch_item catch_list
@@ -2963,7 +2808,7 @@ state 156
     (106) empty -> .
 
   ! shift/reduce conflict for CATCH resolved as shift
-    CATCH           shift and go to state 34
+    CATCH           shift and go to state 33
     $end            reduce using rule 106 (empty -> .)
     ECHO            reduce using rule 106 (empty -> .)
     VARIABLE        reduce using rule 106 (empty -> .)
@@ -2985,11 +2830,11 @@ state 156
 
   ! CATCH           [ reduce using rule 106 (empty -> .) ]
 
-    catch_item                     shift and go to state 156
-    catch_list                     shift and go to state 177
-    empty                          shift and go to state 157
+    catch_item                     shift and go to state 159
+    catch_list                     shift and go to state 182
+    empty                          shift and go to state 160
 
-state 157
+state 160
 
     (84) catch_list -> empty .
 
@@ -3014,20 +2859,21 @@ state 157
     RBRACE          reduce using rule 84 (catch_list -> empty .)
 
 
-state 158
+state 161
 
     (85) catch_item -> CATCH LPAREN EXCEPTION VARIABLE RPAREN . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 178
+    LBRACE          shift and go to state 183
 
 
-state 159
+state 162
 
     (42) if -> IF LPAREN condition RPAREN LBRACE . statements RBRACE SEMI
     (44) if -> IF LPAREN condition RPAREN LBRACE . statements RBRACE elseif
     (45) if -> IF LPAREN condition RPAREN LBRACE . statements RBRACE else
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -3047,7 +2893,7 @@ state 159
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -3057,7 +2903,7 @@ state 159
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -3068,7 +2914,7 @@ state 159
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -3080,7 +2926,6 @@ state 159
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -3089,62 +2934,28 @@ state 159
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 179
+    statements                     shift and go to state 184
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -3164,11 +2975,10 @@ state 159
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 160
+state 163
 
     (48) conditions -> LBRACE condition RBRACE . logical_operator conditions
     (49) conditions -> LBRACE condition RBRACE .
@@ -3176,16 +2986,17 @@ state 160
     (105) logical_operator -> . OR
 
     RPAREN          reduce using rule 49 (conditions -> LBRACE condition RBRACE .)
-    AND             shift and go to state 181
-    OR              shift and go to state 182
+    AND             shift and go to state 186
+    OR              shift and go to state 187
 
-    logical_operator               shift and go to state 180
+    logical_operator               shift and go to state 185
 
-state 161
+state 164
 
     (43) if -> IF LPAREN conditions RPAREN LBRACE . statements RBRACE SEMI
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -3205,7 +3016,7 @@ state 161
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -3215,7 +3026,7 @@ state 161
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -3226,7 +3037,7 @@ state 161
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -3238,7 +3049,6 @@ state 161
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -3247,62 +3057,28 @@ state 161
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 183
+    statements                     shift and go to state 188
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -3322,25 +3098,31 @@ state 161
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 162
+state 165
+
+    (35) input -> VARIABLE SET READLINE LPAREN STRING RPAREN .
+
+    SEMI            reduce using rule 35 (input -> VARIABLE SET READLINE LPAREN STRING RPAREN .)
+
+
+state 166
 
     (37) array_declaration -> VARIABLE SET ARRAY LPAREN arrayArg RPAREN .
 
     SEMI            reduce using rule 37 (array_declaration -> VARIABLE SET ARRAY LPAREN arrayArg RPAREN .)
 
 
-state 163
+state 167
 
     (38) array_declaration -> VARIABLE SET ARRAY LPAREN empty RPAREN .
 
     SEMI            reduce using rule 38 (array_declaration -> VARIABLE SET ARRAY LPAREN empty RPAREN .)
 
 
-state 164
+state 168
 
     (39) arrayArg -> index ARROW . value
     (40) arrayArg -> index ARROW . value arrayArg
@@ -3351,54 +3133,62 @@ state 164
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    value                          shift and go to state 184
-    constant_use                   shift and go to state 52
-
-state 165
-
-    (36) object_declaration -> VAR VARIABLE SET NEW CLASS LPAREN . RPAREN SEMI
-
-    RPAREN          shift and go to state 185
-
-
-state 166
-
-    (87) method_declaration -> visibility FUNCTION IDENTIFIER . LPAREN parameters RPAREN LBRACE statements RBRACE
-
-    LPAREN          shift and go to state 186
-
-
-state 167
-
-    (88) constructor_declaration -> visibility FUNCTION CONSTRUCT . LPAREN parameters RPAREN LBRACE statements RBRACE
-
-    LPAREN          shift and go to state 187
-
-
-state 168
-
-    (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN . LBRACE statements RBRACE
-
-    LBRACE          shift and go to state 188
-
+    value                          shift and go to state 189
+    constant_use                   shift and go to state 51
 
 state 169
 
-    (29) function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements . RBRACE
+    (52) function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN . ARROW expression SEMI
 
-    RBRACE          shift and go to state 189
+    ARROW           shift and go to state 190
 
 
 state 170
 
+    (36) object_declaration -> VAR VARIABLE SET NEW CLASS LPAREN . RPAREN SEMI
+
+    RPAREN          shift and go to state 191
+
+
+state 171
+
+    (87) method_declaration -> visibility FUNCTION IDENTIFIER . LPAREN parameters RPAREN LBRACE statements RBRACE
+
+    LPAREN          shift and go to state 192
+
+
+state 172
+
+    (88) constructor_declaration -> visibility FUNCTION CONSTRUCT . LPAREN parameters RPAREN LBRACE statements RBRACE
+
+    LPAREN          shift and go to state 193
+
+
+state 173
+
+    (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN . LBRACE statements RBRACE
+
+    LBRACE          shift and go to state 194
+
+
+state 174
+
+    (29) function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements . RBRACE
+
+    RBRACE          shift and go to state 195
+
+
+state 175
+
     (100) function_anonymous -> FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -3418,7 +3208,7 @@ state 170
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -3428,7 +3218,7 @@ state 170
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -3439,7 +3229,7 @@ state 170
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -3451,7 +3241,6 @@ state 170
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -3460,62 +3249,28 @@ state 170
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 190
+    statements                     shift and go to state 196
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -3535,36 +3290,34 @@ state 170
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 171
+state 176
 
     (101) use_clause_opt -> USE LPAREN . variables RPAREN
     (102) variables -> . VARIABLE COMMA variables
     (103) variables -> . VARIABLE
 
-    VARIABLE        shift and go to state 192
+    VARIABLE        shift and go to state 198
 
-    variables                      shift and go to state 191
+    variables                      shift and go to state 197
 
-state 172
+state 177
 
-    (52) function_arrow -> FUNCTION . LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> FUNCTION . LPAREN VARIABLE RPAREN ARROW function_arrow
 
-    LPAREN          shift and go to state 193
+    LPAREN          shift and go to state 199
 
 
-state 173
+state 178
 
-    (52) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression . SEMI
+    (52) function_arrow -> VARIABLE . SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
 
-    SEMI            shift and go to state 194
+    SET             shift and go to state 200
 
 
-state 174
+state 179
 
     (53) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow .
 
@@ -3589,21 +3342,21 @@ state 174
     RBRACE          reduce using rule 53 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow .)
 
 
-state 175
+state 180
 
     (28) while -> WHILE LPAREN condition RPAREN LBRACE statements . RBRACE
 
-    RBRACE          shift and go to state 195
+    RBRACE          shift and go to state 201
 
 
-state 176
+state 181
 
     (79) constant_declaration -> DEFINE LPAREN STRING COMMA expression RPAREN . SEMI
 
-    SEMI            shift and go to state 196
+    SEMI            shift and go to state 202
 
 
-state 177
+state 182
 
     (83) catch_list -> catch_item catch_list .
 
@@ -3628,11 +3381,12 @@ state 177
     RBRACE          reduce using rule 83 (catch_list -> catch_item catch_list .)
 
 
-state 178
+state 183
 
     (85) catch_item -> CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -3652,7 +3406,7 @@ state 178
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -3662,7 +3416,7 @@ state 178
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -3673,7 +3427,7 @@ state 178
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -3685,7 +3439,6 @@ state 178
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -3694,62 +3447,28 @@ state 178
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 197
+    statements                     shift and go to state 203
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -3769,51 +3488,50 @@ state 178
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 179
+state 184
 
     (42) if -> IF LPAREN condition RPAREN LBRACE statements . RBRACE SEMI
     (44) if -> IF LPAREN condition RPAREN LBRACE statements . RBRACE elseif
     (45) if -> IF LPAREN condition RPAREN LBRACE statements . RBRACE else
 
-    RBRACE          shift and go to state 198
+    RBRACE          shift and go to state 204
 
 
-state 180
+state 185
 
     (48) conditions -> LBRACE condition RBRACE logical_operator . conditions
     (48) conditions -> . LBRACE condition RBRACE logical_operator conditions
     (49) conditions -> . LBRACE condition RBRACE
 
-    LBRACE          shift and go to state 98
+    LBRACE          shift and go to state 99
 
-    conditions                     shift and go to state 199
+    conditions                     shift and go to state 205
 
-state 181
+state 186
 
     (104) logical_operator -> AND .
 
     LBRACE          reduce using rule 104 (logical_operator -> AND .)
 
 
-state 182
+state 187
 
     (105) logical_operator -> OR .
 
     LBRACE          reduce using rule 105 (logical_operator -> OR .)
 
 
-state 183
+state 188
 
     (43) if -> IF LPAREN conditions RPAREN LBRACE statements . RBRACE SEMI
 
-    RBRACE          shift and go to state 200
+    RBRACE          shift and go to state 206
 
 
-state 184
+state 189
 
     (39) arrayArg -> index ARROW value .
     (40) arrayArg -> index ARROW value . arrayArg
@@ -3825,21 +3543,41 @@ state 184
     (51) index -> . STRING
 
     RPAREN          reduce using rule 39 (arrayArg -> index ARROW value .)
-    COMMA           shift and go to state 202
-    INTEGER         shift and go to state 139
-    STRING          shift and go to state 140
+    COMMA           shift and go to state 208
+    INTEGER         shift and go to state 141
+    STRING          shift and go to state 142
 
-    index                          shift and go to state 138
-    arrayArg                       shift and go to state 201
+    index                          shift and go to state 140
+    arrayArg                       shift and go to state 207
 
-state 185
+state 190
+
+    (52) function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW . expression SEMI
+    (68) expression -> . value operator value
+    (69) expression -> . value
+    (60) value -> . VARIABLE
+    (61) value -> . INTEGER
+    (62) value -> . constant_use
+    (63) value -> . FLOAT
+    (81) constant_use -> . IDENTIFIER
+
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
+
+    expression                     shift and go to state 209
+    value                          shift and go to state 22
+    constant_use                   shift and go to state 51
+
+state 191
 
     (36) object_declaration -> VAR VARIABLE SET NEW CLASS LPAREN RPAREN . SEMI
 
-    SEMI            shift and go to state 203
+    SEMI            shift and go to state 210
 
 
-state 186
+state 192
 
     (87) method_declaration -> visibility FUNCTION IDENTIFIER LPAREN . parameters RPAREN LBRACE statements RBRACE
     (92) parameters -> . parameter COMMA parameters
@@ -3852,14 +3590,14 @@ state 186
 
     IDENTIFIER      shift and go to state 87
     TYPE            shift and go to state 89
-    VARIABLE        shift and go to state 146
+    VARIABLE        shift and go to state 149
     RPAREN          reduce using rule 106 (empty -> .)
 
-    parameters                     shift and go to state 204
+    parameters                     shift and go to state 211
     parameter                      shift and go to state 86
     empty                          shift and go to state 88
 
-state 187
+state 193
 
     (88) constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN . parameters RPAREN LBRACE statements RBRACE
     (92) parameters -> . parameter COMMA parameters
@@ -3872,18 +3610,19 @@ state 187
 
     IDENTIFIER      shift and go to state 87
     TYPE            shift and go to state 89
-    VARIABLE        shift and go to state 146
+    VARIABLE        shift and go to state 149
     RPAREN          reduce using rule 106 (empty -> .)
 
-    parameters                     shift and go to state 205
+    parameters                     shift and go to state 212
     parameter                      shift and go to state 86
     empty                          shift and go to state 88
 
-state 188
+state 194
 
     (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -3903,7 +3642,7 @@ state 188
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -3913,7 +3652,7 @@ state 188
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -3924,7 +3663,7 @@ state 188
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -3936,7 +3675,6 @@ state 188
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -3945,63 +3683,29 @@ state 188
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    visibility                     shift and go to state 28
-    statements                     shift and go to state 206
+    visibility                     shift and go to state 27
+    statements                     shift and go to state 213
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -4021,10 +3725,9 @@ state 188
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
+    value                          shift and go to state 22
 
-state 189
+state 195
 
     (29) function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE .
 
@@ -4049,63 +3752,44 @@ state 189
     RBRACE          reduce using rule 29 (function_variable -> FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE .)
 
 
-state 190
+state 196
 
     (100) function_anonymous -> FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements . RBRACE
 
-    RBRACE          shift and go to state 207
+    RBRACE          shift and go to state 214
 
 
-state 191
+state 197
 
     (101) use_clause_opt -> USE LPAREN variables . RPAREN
 
-    RPAREN          shift and go to state 208
+    RPAREN          shift and go to state 215
 
 
-state 192
+state 198
 
     (102) variables -> VARIABLE . COMMA variables
     (103) variables -> VARIABLE .
 
-    COMMA           shift and go to state 209
+    COMMA           shift and go to state 216
     RPAREN          reduce using rule 103 (variables -> VARIABLE .)
 
 
-state 193
+state 199
 
-    (52) function_arrow -> FUNCTION LPAREN . VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> FUNCTION LPAREN . VARIABLE RPAREN ARROW function_arrow
 
-    VARIABLE        shift and go to state 210
+    VARIABLE        shift and go to state 217
 
 
-state 194
+state 200
 
-    (52) function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .
+    (52) function_arrow -> VARIABLE SET . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
 
-    $end            reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    ECHO            reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    VARIABLE        reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    VAR             reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    CLASS           reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    FUNCTION        reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    WHILE           reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    DEFINE          reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    CONST           reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    IDENTIFIER      reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    TRY             reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    CATCH           reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    IF              reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    INTEGER         reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    FLOAT           reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    PUBLIC          reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    PROTECTED       reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    PRIVATE         reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
-    RBRACE          reduce using rule 52 (function_arrow -> FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    FUNCTION        shift and go to state 79
 
 
-state 195
+state 201
 
     (28) while -> WHILE LPAREN condition RPAREN LBRACE statements RBRACE .
 
@@ -4130,7 +3814,7 @@ state 195
     RBRACE          reduce using rule 28 (while -> WHILE LPAREN condition RPAREN LBRACE statements RBRACE .)
 
 
-state 196
+state 202
 
     (79) constant_declaration -> DEFINE LPAREN STRING COMMA expression RPAREN SEMI .
 
@@ -4155,14 +3839,14 @@ state 196
     RBRACE          reduce using rule 79 (constant_declaration -> DEFINE LPAREN STRING COMMA expression RPAREN SEMI .)
 
 
-state 197
+state 203
 
     (85) catch_item -> CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements . RBRACE
 
-    RBRACE          shift and go to state 211
+    RBRACE          shift and go to state 218
 
 
-state 198
+state 204
 
     (42) if -> IF LPAREN condition RPAREN LBRACE statements RBRACE . SEMI
     (44) if -> IF LPAREN condition RPAREN LBRACE statements RBRACE . elseif
@@ -4171,35 +3855,35 @@ state 198
     (99) elseif -> . ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE else
     (46) else -> . ELSE LBRACE statements RBRACE SEMI
 
-    SEMI            shift and go to state 212
-    ELSEIF          shift and go to state 215
-    ELSE            shift and go to state 216
+    SEMI            shift and go to state 219
+    ELSEIF          shift and go to state 222
+    ELSE            shift and go to state 223
 
-    elseif                         shift and go to state 213
-    else                           shift and go to state 214
+    elseif                         shift and go to state 220
+    else                           shift and go to state 221
 
-state 199
+state 205
 
     (48) conditions -> LBRACE condition RBRACE logical_operator conditions .
 
     RPAREN          reduce using rule 48 (conditions -> LBRACE condition RBRACE logical_operator conditions .)
 
 
-state 200
+state 206
 
     (43) if -> IF LPAREN conditions RPAREN LBRACE statements RBRACE . SEMI
 
-    SEMI            shift and go to state 217
+    SEMI            shift and go to state 224
 
 
-state 201
+state 207
 
     (40) arrayArg -> index ARROW value arrayArg .
 
     RPAREN          reduce using rule 40 (arrayArg -> index ARROW value arrayArg .)
 
 
-state 202
+state 208
 
     (41) arrayArg -> index ARROW value COMMA . arrayArg
     (39) arrayArg -> . index ARROW value
@@ -4208,13 +3892,20 @@ state 202
     (50) index -> . INTEGER
     (51) index -> . STRING
 
-    INTEGER         shift and go to state 139
-    STRING          shift and go to state 140
+    INTEGER         shift and go to state 141
+    STRING          shift and go to state 142
 
-    index                          shift and go to state 138
-    arrayArg                       shift and go to state 218
+    index                          shift and go to state 140
+    arrayArg                       shift and go to state 225
 
-state 203
+state 209
+
+    (52) function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression . SEMI
+
+    SEMI            shift and go to state 226
+
+
+state 210
 
     (36) object_declaration -> VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI .
 
@@ -4239,28 +3930,28 @@ state 203
     RBRACE          reduce using rule 36 (object_declaration -> VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI .)
 
 
-state 204
+state 211
 
     (87) method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameters . RPAREN LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 219
+    RPAREN          shift and go to state 227
 
 
-state 205
+state 212
 
     (88) constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameters . RPAREN LBRACE statements RBRACE
 
-    RPAREN          shift and go to state 220
+    RPAREN          shift and go to state 228
 
 
-state 206
+state 213
 
     (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements . RBRACE
 
-    RBRACE          shift and go to state 221
+    RBRACE          shift and go to state 229
 
 
-state 207
+state 214
 
     (100) function_anonymous -> FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE .
 
@@ -4285,32 +3976,31 @@ state 207
     RBRACE          reduce using rule 100 (function_anonymous -> FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE .)
 
 
-state 208
+state 215
 
     (101) use_clause_opt -> USE LPAREN variables RPAREN .
 
     LBRACE          reduce using rule 101 (use_clause_opt -> USE LPAREN variables RPAREN .)
 
 
-state 209
+state 216
 
     (102) variables -> VARIABLE COMMA . variables
     (102) variables -> . VARIABLE COMMA variables
     (103) variables -> . VARIABLE
 
-    VARIABLE        shift and go to state 192
+    VARIABLE        shift and go to state 198
 
-    variables                      shift and go to state 222
+    variables                      shift and go to state 230
 
-state 210
+state 217
 
-    (52) function_arrow -> FUNCTION LPAREN VARIABLE . RPAREN ARROW expression SEMI
     (53) function_arrow -> FUNCTION LPAREN VARIABLE . RPAREN ARROW function_arrow
 
-    RPAREN          shift and go to state 122
+    RPAREN          shift and go to state 124
 
 
-state 211
+state 218
 
     (85) catch_item -> CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE .
 
@@ -4335,7 +4025,7 @@ state 211
     RBRACE          reduce using rule 85 (catch_item -> CATCH LPAREN EXCEPTION VARIABLE RPAREN LBRACE statements RBRACE .)
 
 
-state 212
+state 219
 
     (42) if -> IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI .
 
@@ -4360,7 +4050,7 @@ state 212
     RBRACE          reduce using rule 42 (if -> IF LPAREN condition RPAREN LBRACE statements RBRACE SEMI .)
 
 
-state 213
+state 220
 
     (44) if -> IF LPAREN condition RPAREN LBRACE statements RBRACE elseif .
 
@@ -4385,7 +4075,7 @@ state 213
     RBRACE          reduce using rule 44 (if -> IF LPAREN condition RPAREN LBRACE statements RBRACE elseif .)
 
 
-state 214
+state 221
 
     (45) if -> IF LPAREN condition RPAREN LBRACE statements RBRACE else .
 
@@ -4410,22 +4100,22 @@ state 214
     RBRACE          reduce using rule 45 (if -> IF LPAREN condition RPAREN LBRACE statements RBRACE else .)
 
 
-state 215
+state 222
 
     (98) elseif -> ELSEIF . LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (99) elseif -> ELSEIF . LPAREN condition RPAREN LBRACE statements RBRACE else
 
-    LPAREN          shift and go to state 223
+    LPAREN          shift and go to state 231
 
 
-state 216
+state 223
 
     (46) else -> ELSE . LBRACE statements RBRACE SEMI
 
-    LBRACE          shift and go to state 224
+    LBRACE          shift and go to state 232
 
 
-state 217
+state 224
 
     (43) if -> IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI .
 
@@ -4450,28 +4140,53 @@ state 217
     RBRACE          reduce using rule 43 (if -> IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI .)
 
 
-state 218
+state 225
 
     (41) arrayArg -> index ARROW value COMMA arrayArg .
 
     RPAREN          reduce using rule 41 (arrayArg -> index ARROW value COMMA arrayArg .)
 
 
-state 219
+state 226
+
+    (52) function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .
+
+    $end            reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    ECHO            reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    VARIABLE        reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    VAR             reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    CLASS           reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    FUNCTION        reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    WHILE           reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    DEFINE          reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    CONST           reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    IDENTIFIER      reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    TRY             reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    CATCH           reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    IF              reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    INTEGER         reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    FLOAT           reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    PUBLIC          reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    PROTECTED       reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    PRIVATE         reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+    RBRACE          reduce using rule 52 (function_arrow -> VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI .)
+
+
+state 227
 
     (87) method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 225
+    LBRACE          shift and go to state 233
 
 
-state 220
+state 228
 
     (88) constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 226
+    LBRACE          shift and go to state 234
 
 
-state 221
+state 229
 
     (27) function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE .
 
@@ -4496,14 +4211,14 @@ state 221
     RBRACE          reduce using rule 27 (function_statement -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE .)
 
 
-state 222
+state 230
 
     (102) variables -> VARIABLE COMMA variables .
 
     RPAREN          reduce using rule 102 (variables -> VARIABLE COMMA variables .)
 
 
-state 223
+state 231
 
     (98) elseif -> ELSEIF LPAREN . condition RPAREN LBRACE statements RBRACE elseif
     (99) elseif -> ELSEIF LPAREN . condition RPAREN LBRACE statements RBRACE else
@@ -4514,20 +4229,21 @@ state 223
     (63) value -> . FLOAT
     (81) constant_use -> . IDENTIFIER
 
-    VARIABLE        shift and go to state 51
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    IDENTIFIER      shift and go to state 27
+    VARIABLE        shift and go to state 50
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    IDENTIFIER      shift and go to state 26
 
-    condition                      shift and go to state 227
+    condition                      shift and go to state 235
     value                          shift and go to state 91
-    constant_use                   shift and go to state 52
+    constant_use                   shift and go to state 51
 
-state 224
+state 232
 
     (46) else -> ELSE LBRACE . statements RBRACE SEMI
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -4547,7 +4263,7 @@ state 224
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -4557,7 +4273,7 @@ state 224
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -4568,7 +4284,7 @@ state 224
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -4580,7 +4296,6 @@ state 224
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -4589,62 +4304,28 @@ state 224
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 228
+    statements                     shift and go to state 236
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -4664,15 +4345,15 @@ state 224
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 225
+state 233
 
     (87) method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -4692,7 +4373,7 @@ state 225
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -4702,7 +4383,7 @@ state 225
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -4713,7 +4394,7 @@ state 225
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -4725,7 +4406,6 @@ state 225
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -4734,63 +4414,29 @@ state 225
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    visibility                     shift and go to state 28
-    statements                     shift and go to state 229
+    visibility                     shift and go to state 27
+    statements                     shift and go to state 237
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -4810,14 +4456,14 @@ state 225
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
+    value                          shift and go to state 22
 
-state 226
+state 234
 
     (88) constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE . statements RBRACE
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -4837,7 +4483,7 @@ state 226
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -4847,7 +4493,7 @@ state 226
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -4858,7 +4504,7 @@ state 226
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -4870,7 +4516,6 @@ state 226
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -4879,63 +4524,29 @@ state 226
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    visibility                     shift and go to state 28
-    statements                     shift and go to state 230
+    visibility                     shift and go to state 27
+    statements                     shift and go to state 238
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -4955,54 +4566,53 @@ state 226
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
+    value                          shift and go to state 22
 
-state 227
+state 235
 
     (98) elseif -> ELSEIF LPAREN condition . RPAREN LBRACE statements RBRACE elseif
     (99) elseif -> ELSEIF LPAREN condition . RPAREN LBRACE statements RBRACE else
 
-    RPAREN          shift and go to state 231
+    RPAREN          shift and go to state 239
 
 
-state 228
+state 236
 
     (46) else -> ELSE LBRACE statements . RBRACE SEMI
 
-    RBRACE          shift and go to state 232
+    RBRACE          shift and go to state 240
 
 
-state 229
+state 237
 
     (87) method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements . RBRACE
 
-    RBRACE          shift and go to state 233
+    RBRACE          shift and go to state 241
 
 
-state 230
+state 238
 
     (88) constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE statements . RBRACE
 
-    RBRACE          shift and go to state 234
+    RBRACE          shift and go to state 242
 
 
-state 231
+state 239
 
     (98) elseif -> ELSEIF LPAREN condition RPAREN . LBRACE statements RBRACE elseif
     (99) elseif -> ELSEIF LPAREN condition RPAREN . LBRACE statements RBRACE else
 
-    LBRACE          shift and go to state 235
+    LBRACE          shift and go to state 243
 
 
-state 232
+state 240
 
     (46) else -> ELSE LBRACE statements RBRACE . SEMI
 
-    SEMI            shift and go to state 236
+    SEMI            shift and go to state 244
 
 
-state 233
+state 241
 
     (87) method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE .
 
@@ -5012,7 +4622,7 @@ state 233
     RBRACE          reduce using rule 87 (method_declaration -> visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE .)
 
 
-state 234
+state 242
 
     (88) constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE statements RBRACE .
 
@@ -5022,12 +4632,13 @@ state 234
     RBRACE          reduce using rule 88 (constructor_declaration -> visibility FUNCTION CONSTRUCT LPAREN parameters RPAREN LBRACE statements RBRACE .)
 
 
-state 235
+state 243
 
     (98) elseif -> ELSEIF LPAREN condition RPAREN LBRACE . statements RBRACE elseif
     (99) elseif -> ELSEIF LPAREN condition RPAREN LBRACE . statements RBRACE else
-    (21) statements -> . statement statements
-    (22) statements -> . statement
+    (20) statements -> . statement statements
+    (21) statements -> . statement
+    (22) statements -> . empty
     (1) statement -> . print SEMI
     (2) statement -> . print_error
     (3) statement -> . declaration SEMI
@@ -5047,7 +4658,7 @@ state 235
     (17) statement -> . try_catch
     (18) statement -> . catch_item
     (19) statement -> . if
-    (20) statement -> . empty
+    (106) empty -> .
     (30) print -> . ECHO LPAREN value RPAREN
     (31) print -> . ECHO value
     (32) print -> . ECHO LPAREN STRING RPAREN
@@ -5057,7 +4668,7 @@ state 235
     (24) declaration -> . VARIABLE SET STRING
     (25) declaration -> . VARIABLE SET expression
     (26) declaration -> . VARIABLE SET condition
-    (35) input -> . VARIABLE SET READLINE LPAREN RPAREN
+    (35) input -> . VARIABLE SET READLINE LPAREN STRING RPAREN
     (68) expression -> . value operator value
     (69) expression -> . value
     (36) object_declaration -> . VAR VARIABLE SET NEW CLASS LPAREN RPAREN SEMI
@@ -5068,7 +4679,7 @@ state 235
     (27) function_statement -> . visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     (29) function_variable -> . FUNCTION VARIABLE LPAREN RPAREN LBRACE statements RBRACE
     (100) function_anonymous -> . FUNCTION LPAREN parameters RPAREN use_clause_opt LBRACE statements RBRACE
-    (52) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    (52) function_arrow -> . VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
     (53) function_arrow -> . FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow
     (28) while -> . WHILE LPAREN condition RPAREN LBRACE statements RBRACE
     (79) constant_declaration -> . DEFINE LPAREN STRING COMMA expression RPAREN SEMI
@@ -5080,7 +4691,6 @@ state 235
     (43) if -> . IF LPAREN conditions RPAREN LBRACE statements RBRACE SEMI
     (44) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
     (45) if -> . IF LPAREN condition RPAREN LBRACE statements RBRACE else
-    (106) empty -> .
     (60) value -> . VARIABLE
     (61) value -> . INTEGER
     (62) value -> . constant_use
@@ -5089,62 +4699,28 @@ state 235
     (90) visibility -> . PROTECTED
     (91) visibility -> . PRIVATE
 
-  ! shift/reduce conflict for ECHO resolved as shift
-  ! shift/reduce conflict for VARIABLE resolved as shift
-  ! shift/reduce conflict for VAR resolved as shift
-  ! shift/reduce conflict for CLASS resolved as shift
-  ! shift/reduce conflict for FUNCTION resolved as shift
-  ! shift/reduce conflict for WHILE resolved as shift
-  ! shift/reduce conflict for DEFINE resolved as shift
-  ! shift/reduce conflict for CONST resolved as shift
-  ! shift/reduce conflict for IDENTIFIER resolved as shift
-  ! shift/reduce conflict for TRY resolved as shift
-  ! shift/reduce conflict for CATCH resolved as shift
-  ! shift/reduce conflict for IF resolved as shift
-  ! shift/reduce conflict for INTEGER resolved as shift
-  ! shift/reduce conflict for FLOAT resolved as shift
-  ! shift/reduce conflict for PUBLIC resolved as shift
-  ! shift/reduce conflict for PROTECTED resolved as shift
-  ! shift/reduce conflict for PRIVATE resolved as shift
-    ECHO            shift and go to state 22
-    VARIABLE        shift and go to state 24
-    VAR             shift and go to state 25
-    CLASS           shift and go to state 26
-    FUNCTION        shift and go to state 29
-    WHILE           shift and go to state 30
-    DEFINE          shift and go to state 31
-    CONST           shift and go to state 32
-    IDENTIFIER      shift and go to state 27
-    TRY             shift and go to state 33
-    CATCH           shift and go to state 34
-    IF              shift and go to state 35
     RBRACE          reduce using rule 106 (empty -> .)
-    INTEGER         shift and go to state 36
-    FLOAT           shift and go to state 37
-    PUBLIC          shift and go to state 38
-    PROTECTED       shift and go to state 39
-    PRIVATE         shift and go to state 40
+    ECHO            shift and go to state 21
+    VARIABLE        shift and go to state 23
+    VAR             shift and go to state 24
+    CLASS           shift and go to state 25
+    FUNCTION        shift and go to state 28
+    WHILE           shift and go to state 29
+    DEFINE          shift and go to state 30
+    CONST           shift and go to state 31
+    IDENTIFIER      shift and go to state 26
+    TRY             shift and go to state 32
+    CATCH           shift and go to state 33
+    IF              shift and go to state 34
+    INTEGER         shift and go to state 35
+    FLOAT           shift and go to state 36
+    PUBLIC          shift and go to state 37
+    PROTECTED       shift and go to state 38
+    PRIVATE         shift and go to state 39
 
-  ! ECHO            [ reduce using rule 106 (empty -> .) ]
-  ! VARIABLE        [ reduce using rule 106 (empty -> .) ]
-  ! VAR             [ reduce using rule 106 (empty -> .) ]
-  ! CLASS           [ reduce using rule 106 (empty -> .) ]
-  ! FUNCTION        [ reduce using rule 106 (empty -> .) ]
-  ! WHILE           [ reduce using rule 106 (empty -> .) ]
-  ! DEFINE          [ reduce using rule 106 (empty -> .) ]
-  ! CONST           [ reduce using rule 106 (empty -> .) ]
-  ! IDENTIFIER      [ reduce using rule 106 (empty -> .) ]
-  ! TRY             [ reduce using rule 106 (empty -> .) ]
-  ! CATCH           [ reduce using rule 106 (empty -> .) ]
-  ! IF              [ reduce using rule 106 (empty -> .) ]
-  ! INTEGER         [ reduce using rule 106 (empty -> .) ]
-  ! FLOAT           [ reduce using rule 106 (empty -> .) ]
-  ! PUBLIC          [ reduce using rule 106 (empty -> .) ]
-  ! PROTECTED       [ reduce using rule 106 (empty -> .) ]
-  ! PRIVATE         [ reduce using rule 106 (empty -> .) ]
-
-    statements                     shift and go to state 237
+    statements                     shift and go to state 245
     statement                      shift and go to state 95
+    empty                          shift and go to state 96
     print                          shift and go to state 2
     print_error                    shift and go to state 3
     declaration                    shift and go to state 4
@@ -5164,11 +4740,10 @@ state 235
     try_catch                      shift and go to state 18
     catch_item                     shift and go to state 19
     if                             shift and go to state 20
-    empty                          shift and go to state 21
-    value                          shift and go to state 23
-    visibility                     shift and go to state 28
+    value                          shift and go to state 22
+    visibility                     shift and go to state 27
 
-state 236
+state 244
 
     (46) else -> ELSE LBRACE statements RBRACE SEMI .
 
@@ -5193,15 +4768,15 @@ state 236
     RBRACE          reduce using rule 46 (else -> ELSE LBRACE statements RBRACE SEMI .)
 
 
-state 237
+state 245
 
     (98) elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements . RBRACE elseif
     (99) elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements . RBRACE else
 
-    RBRACE          shift and go to state 238
+    RBRACE          shift and go to state 246
 
 
-state 238
+state 246
 
     (98) elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE . elseif
     (99) elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE . else
@@ -5209,13 +4784,13 @@ state 238
     (99) elseif -> . ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE else
     (46) else -> . ELSE LBRACE statements RBRACE SEMI
 
-    ELSEIF          shift and go to state 215
-    ELSE            shift and go to state 216
+    ELSEIF          shift and go to state 222
+    ELSE            shift and go to state 223
 
-    elseif                         shift and go to state 239
-    else                           shift and go to state 240
+    elseif                         shift and go to state 247
+    else                           shift and go to state 248
 
-state 239
+state 247
 
     (98) elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE elseif .
 
@@ -5240,7 +4815,7 @@ state 239
     RBRACE          reduce using rule 98 (elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE elseif .)
 
 
-state 240
+state 248
 
     (99) elseif -> ELSEIF LPAREN condition RPAREN LBRACE statements RBRACE else .
 
@@ -5267,231 +4842,10 @@ state 240
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for ECHO in state 68 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 68 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 68 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 68 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 68 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 68 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 68 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 68 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 68 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 68 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 68 resolved as shift
-WARNING: shift/reduce conflict for IF in state 68 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 68 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 68 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 68 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 68 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 68 resolved as shift
 WARNING: shift/reduce conflict for RPAREN in state 85 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 95 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 95 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 95 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 95 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 95 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 95 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 95 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 95 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 95 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 95 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 95 resolved as shift
-WARNING: shift/reduce conflict for IF in state 95 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 95 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 95 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 95 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 95 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 95 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 128 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 147 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 147 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 147 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 147 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 147 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 147 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 147 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 147 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 147 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 147 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 147 resolved as shift
-WARNING: shift/reduce conflict for IF in state 147 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 147 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 147 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 147 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 147 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 147 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 152 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 152 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 152 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 152 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 152 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 152 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 152 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 152 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 152 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 152 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 152 resolved as shift
-WARNING: shift/reduce conflict for IF in state 152 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 152 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 152 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 152 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 152 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 152 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 156 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 159 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 159 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 159 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 159 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 159 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 159 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 159 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 159 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 159 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 159 resolved as shift
+WARNING: shift/reduce conflict for CATCH in state 130 resolved as shift
 WARNING: shift/reduce conflict for CATCH in state 159 resolved as shift
-WARNING: shift/reduce conflict for IF in state 159 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 159 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 159 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 159 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 159 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 159 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 161 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 161 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 161 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 161 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 161 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 161 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 161 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 161 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 161 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 161 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 161 resolved as shift
-WARNING: shift/reduce conflict for IF in state 161 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 161 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 161 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 161 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 161 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 161 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 170 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 170 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 170 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 170 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 170 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 170 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 170 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 170 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 170 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 170 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 170 resolved as shift
-WARNING: shift/reduce conflict for IF in state 170 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 170 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 170 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 170 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 170 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 170 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 178 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 178 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 178 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 178 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 178 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 178 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 178 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 178 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 178 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 178 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 178 resolved as shift
-WARNING: shift/reduce conflict for IF in state 178 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 178 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 178 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 178 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 178 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 178 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 188 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 188 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 188 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 188 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 188 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 188 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 188 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 188 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 188 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 188 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 188 resolved as shift
-WARNING: shift/reduce conflict for IF in state 188 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 188 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 188 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 188 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 188 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 188 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 224 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 224 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 224 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 224 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 224 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 224 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 224 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 224 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 224 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 224 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 224 resolved as shift
-WARNING: shift/reduce conflict for IF in state 224 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 224 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 224 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 224 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 224 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 224 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 225 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 225 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 225 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 225 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 225 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 225 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 225 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 225 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 225 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 225 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 225 resolved as shift
-WARNING: shift/reduce conflict for IF in state 225 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 225 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 225 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 225 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 225 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 225 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 226 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 226 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 226 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 226 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 226 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 226 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 226 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 226 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 226 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 226 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 226 resolved as shift
-WARNING: shift/reduce conflict for IF in state 226 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 226 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 226 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 226 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 226 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 226 resolved as shift
-WARNING: shift/reduce conflict for ECHO in state 235 resolved as shift
-WARNING: shift/reduce conflict for VARIABLE in state 235 resolved as shift
-WARNING: shift/reduce conflict for VAR in state 235 resolved as shift
-WARNING: shift/reduce conflict for CLASS in state 235 resolved as shift
-WARNING: shift/reduce conflict for FUNCTION in state 235 resolved as shift
-WARNING: shift/reduce conflict for WHILE in state 235 resolved as shift
-WARNING: shift/reduce conflict for DEFINE in state 235 resolved as shift
-WARNING: shift/reduce conflict for CONST in state 235 resolved as shift
-WARNING: shift/reduce conflict for IDENTIFIER in state 235 resolved as shift
-WARNING: shift/reduce conflict for TRY in state 235 resolved as shift
-WARNING: shift/reduce conflict for CATCH in state 235 resolved as shift
-WARNING: shift/reduce conflict for IF in state 235 resolved as shift
-WARNING: shift/reduce conflict for INTEGER in state 235 resolved as shift
-WARNING: shift/reduce conflict for FLOAT in state 235 resolved as shift
-WARNING: shift/reduce conflict for PUBLIC in state 235 resolved as shift
-WARNING: shift/reduce conflict for PROTECTED in state 235 resolved as shift
-WARNING: shift/reduce conflict for PRIVATE in state 235 resolved as shift
-WARNING: reduce/reduce conflict in state 74 resolved using rule (declaration -> VARIABLE SET value)
-WARNING: rejected rule (expression -> value) in state 74
+WARNING: reduce/reduce conflict in state 73 resolved using rule (declaration -> VARIABLE SET value)
+WARNING: rejected rule (expression -> value) in state 73
 WARNING: reduce/reduce conflict in state 95 resolved using rule (statements -> statement)
 WARNING: rejected rule (empty -> <empty>) in state 95

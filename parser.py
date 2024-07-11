@@ -32,19 +32,21 @@ def p_statement(p):
                  | constant_use
                  | try_catch
                  | catch_item
-                 | if
-                 | empty'''
+                 | if'''
     
     
 def p_statements(p):
     '''statements : statement statements
-                | statement'''
+                | statement
+                | empty'''
     
 def p_declaration(p):
     '''declaration : VARIABLE SET value
                     | VARIABLE SET STRING
                     | VARIABLE SET expression
                     | VARIABLE SET condition'''
+    
+    variables[p[1]] = p[3]
     
 def p_function_statement(p):
     '''function_statement : visibility FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE'''
@@ -84,7 +86,7 @@ def p_print_error(p):
 
 # Solicitud de Datos
 def p_input(p):
-    'input : VARIABLE SET READLINE LPAREN RPAREN'
+    'input : VARIABLE SET READLINE LPAREN STRING RPAREN'
     
 # Estructura de Datos: Declaracion de objetos
 def p_object_declaration(p):
@@ -109,7 +111,7 @@ def p_if(p):
             | IF LPAREN condition RPAREN LBRACE statements RBRACE elseif
             | IF LPAREN condition RPAREN LBRACE statements RBRACE else'''
     
-    if p[3] == null:
+    if p[3] == NULL:
         print(f"Error semántico: Falta poner una condición.")
         return
 
@@ -143,7 +145,7 @@ def p_index(p):
 
 #Función: Funciones de flecha.
 def p_function_arrow(p):
-    '''function_arrow : FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
+    '''function_arrow : VARIABLE SET FUNCTION LPAREN VARIABLE RPAREN ARROW expression SEMI
                     | FUNCTION LPAREN VARIABLE RPAREN ARROW function_arrow'''
 
 
